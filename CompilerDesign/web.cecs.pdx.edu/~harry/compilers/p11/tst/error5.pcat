@@ -1,0 +1,15 @@
+(* This program tests the "Count-not-positive" error. *)
+
+program is
+
+  type A is array of integer;
+  var p: A := nil;
+      i: integer := 0;
+
+begin
+
+  write ("Should cause an Count-not-positive message...");
+  p := A {{ i of 0 }};
+
+end;
+

@@ -1,0 +1,7 @@
+rm -f tst/itof.s
+rm -f tst/itof
+java Main < tst/itof.pcat 1> tst/itof.s
+Assembling...
+Beginning execution...
+Should print 123...123
+Should print -321...-321

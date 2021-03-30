@@ -1,0 +1,11 @@
+program is
+  var x := 38;
+  procedure f() is begin write (x); end;
+  procedure g() is
+    var x := 101;
+    begin f(); write(x);
+    end;
+  begin
+   g();
+  end;
+ 

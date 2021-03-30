@@ -1,0 +1,13 @@
+program is
+   var a,b : integer := 0;
+   procedure f (c : integer; d : integer) is
+     var e,f : integer := 4;
+     var g : integer := 5;
+     begin
+       write(a, b, c, d, e, f, g);
+     end;
+   begin
+     write (a,b);
+     f(2,3);
+   end;
+

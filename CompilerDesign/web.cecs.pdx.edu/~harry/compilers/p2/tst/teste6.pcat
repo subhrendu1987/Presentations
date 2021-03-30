@@ -1,0 +1,5 @@
+(* a bad character (bell) *)
+
+
+xx(* an ok comment with an embedded	tab 
+and cr *)yy

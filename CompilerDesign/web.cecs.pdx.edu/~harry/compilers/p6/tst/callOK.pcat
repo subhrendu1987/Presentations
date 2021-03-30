@@ -1,0 +1,32 @@
+(* Test procedure and function invocation.
+**
+** This program contains no errors.
+*)
+
+program is
+  type ARR is array of ArrayOfInt;
+       ArrayOfInt is array of integer;
+  var i: integer := 0;
+  var f: real := 0.0;
+  procedure f1 () : integer
+      is begin return 0; end;
+  procedure f2 ()
+      is begin return; end;
+  procedure f3 (x,y,z: real; i,j,k: integer)
+      is begin return; end;
+  procedure f4 (x,y,z: real; i,j,k: integer) : real
+      is begin return 0.0; end;
+  procedure f5 (x: real; i: integer; b: boolean; a: ARR; c: real)
+      is begin return; end;
+  procedure f6 (x: real; i: integer; b: boolean; a: ARR; c: real) : real
+      is begin return 0.0; end;
+
+begin
+  i := f1 ();
+  f := f1 ();                       (* Must insert coercion here *)
+  f2 ();
+  f3 (1.1, 2.2, 3.3, 4, 5, 6);
+  f := f4 (1.1, 2.2, 3.3, 4, 5, 6);
+  f5 (1.1, 2, true, nil, 1);        (* Must insert coercion on last arg *)
+  f := f6 (1.1, 2, true, nil, 1);   (* Must insert coercion on last arg *)
+end;

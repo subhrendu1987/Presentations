@@ -1,0 +1,6 @@
+(*** Build a body node ***)
+
+program
+  is
+    begin
+    end;

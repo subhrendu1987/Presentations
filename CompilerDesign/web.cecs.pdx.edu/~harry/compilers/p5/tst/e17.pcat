@@ -1,0 +1,8 @@
+(*** This program tests that we have a type name in an RECORD_CONSTRUCTOR ***)
+(*** It should detect 1 error ***)
+
+program is
+  var x, y := 1;
+begin
+  x := y { f1:=0 };       (* Expecting a type name *)
+end;

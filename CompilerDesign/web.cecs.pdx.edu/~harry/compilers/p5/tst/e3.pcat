@@ -1,0 +1,10 @@
+(*** Check proc declarations - should be 3 "Identifier is already defined" errors ***)
+
+program is
+  procedure foo1 () is begin end;
+            foo2 () is begin end;
+            foo1 () is begin end;
+  procedure foo4 () is begin end;
+            foo2 () is begin end;
+            foo1 () is begin end;
+  begin end;

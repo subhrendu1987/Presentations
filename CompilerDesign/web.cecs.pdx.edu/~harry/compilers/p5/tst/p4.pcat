@@ -1,0 +1,10 @@
+(*** Check formal declarations - should be no errors ***)
+
+program is
+  var x: integer := 1;
+      a: real := 3.5;
+  procedure foo1 (x: integer; a:real) is
+      procedure foo2 (x: integer; a:real) is begin end;
+      procedure foo3 (x: integer; a:real) is begin end;
+    begin end;
+  begin end;

@@ -1,0 +1,17 @@
+(* Test FOR statement checking 
+**
+** It contains no errors.
+*)
+
+program is
+  var i: integer := 0;
+  var a: real := 0.0;
+  var b: boolean := false;
+begin
+  for i := 1 to 10 by 2 do
+    write ("hello");
+  end;
+  for i := 1 to 10 do
+    write ("hello");
+  end;
+end;

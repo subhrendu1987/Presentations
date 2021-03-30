@@ -1,0 +1,5 @@
+(***  should print: expecting '(' after id in procedure definition   ***)
+program is
+procedure foo )
+begin
+end;

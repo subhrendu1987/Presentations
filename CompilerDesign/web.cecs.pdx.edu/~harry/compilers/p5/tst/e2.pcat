@@ -1,0 +1,9 @@
+(*** Check type declarations - should be 2 "Identifier is already defined" errors ***)
+
+program is
+  type t1 is array of integer;
+       t2 is array of integer;
+       t1 is array of integer;
+  type t3 is array of integer;
+  type t3 is array of integer;
+  begin end;

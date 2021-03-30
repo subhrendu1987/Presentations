@@ -1,0 +1,4 @@
+(***   should print: expecting ; after program body   ***)
+program is
+begin
+end

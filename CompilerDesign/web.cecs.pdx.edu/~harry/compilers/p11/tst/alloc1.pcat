@@ -1,0 +1,16 @@
+(* This program tests IRallocate, IRloadIndirect, and IRstore. *)
+
+program is
+
+  type R is record f: integer; end;
+  var p: R := nil;
+
+begin
+
+  write ("Testing IRallocate, IRstore...");
+  p := R {f := 123};
+  write ("Testing IRloadIndirect...");
+  write ("Should print 123...", p.f);
+
+end;
+

@@ -1,0 +1,9 @@
+(*** Check variable usage - should be no errors ***)
+
+program is
+  var x, y, z: integer := 1;
+      a: real := 1.5;
+begin
+  x := y;
+  a := z;
+end;

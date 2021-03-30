@@ -1,0 +1,15 @@
+(* This program tests basic array allocation. *)
+
+program is
+
+  type A is array of integer;
+  var a: A := nil;
+
+begin
+
+  a := A {{ 111, 222, 333 }};
+  write ("Should print 111...", a[0]);
+  write ("Should print 222...", a[1]);
+  write ("Should print 333...", a[2]);
+
+end;

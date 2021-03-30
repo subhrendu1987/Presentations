@@ -1,0 +1,3 @@
+(* The next line contains a bad character (\x7f == \0177 == 127)... *)
+
+Good bye!

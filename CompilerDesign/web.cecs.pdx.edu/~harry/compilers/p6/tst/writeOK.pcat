@@ -1,0 +1,28 @@
+(* Test WRITE statements.
+**
+** This program has no errors.
+*)
+
+program is
+
+  var i: integer := 0;
+      f: real := 0.0;
+      b: boolean := false;
+      r: MyRec := nil;
+      a: MyArr1 := nil;
+  type MyArr1 is array of MyArr2;
+       MyArr2 is array of integer;
+       MyRec is record f: integer; end;
+
+begin
+
+  write ("Hello");
+  write (i);
+  write (f);
+  write (b);
+  write (r.f);
+  write (a [2] [3]);
+
+  write ("Hello", i, f, b, r.f, a [2] [3]);
+
+end;

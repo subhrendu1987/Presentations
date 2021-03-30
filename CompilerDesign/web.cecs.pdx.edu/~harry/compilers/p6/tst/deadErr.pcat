@@ -1,0 +1,89 @@
+(* This program tests dead code detection.
+**
+** It contains 14 errors.
+*)
+program is
+  var i := 0;
+  procedure foo2 () : integer is
+    begin
+      write ("hello");         (* Error: missing RETURN *)
+    end;
+  procedure foo3 () is
+    begin
+      write ("hello");         (* Error: missing RETURN *)
+    end;
+  procedure foo () is
+    begin
+      for i := 1 to 10 do      (* Error: will never get to bottom of loop *)
+        exit;
+      end;
+      for i := 1 to 10 do      (* Error: will never get to bottom of loop *)
+        return;
+      end;
+      write ("hello");
+      loop
+        return;
+        write ("hello");       (* Error: will never get to this stmt *)
+        exit;
+        write ("hello");       (* Error: will never get to this stmt *)
+      end;
+      write ("hello");
+      loop
+        write ("hello");
+        exit;                  (* Error: will never get to bottom of loop *)
+      end;
+      loop
+        write ("hello");
+        return;                (* Error: will never get to bottom of loop *)
+      end;
+      loop                     (* Error: will never get to bottom of loop *)
+        while i>1 do
+          if (i<10) then return; end;
+          if (i<10) then exit; end;
+          i := i + 1;
+        end;
+        loop
+          if (i<10) then return; end;
+          if (i<10) then exit; end;
+        end;
+        for i:= 1 to 10 do
+          if (i<10) then return; end;
+          if (i<10) then exit; end;
+        end;
+      end;
+      write ("hello");         (* Error: will never get to this stmt *)
+      if i=1 then
+        return;
+      else
+        return;
+      end;
+      write ("hello");         (* Error: will never get to this stmt *)
+      loop
+        if i=1 then
+          exit;
+        else
+          exit;
+        end;
+        write ("hello");       (* Error: will never get to this stmt *)
+        if i=1 then
+          exit;
+        elseif i=2 then
+          if i=4 then
+            return;
+          else
+            exit;
+          end;
+        else
+          return;
+        end;
+        write ("hello");       (* Error: will never get to this stmt *)
+      end;
+      loop
+        write ("hello");
+      end;
+      write ("hello");       (* Error: will never get to this stmt *)
+      return;
+    end;
+
+begin
+end;

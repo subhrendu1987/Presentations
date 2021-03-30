@@ -1,0 +1,24 @@
+program is
+  procedure f() is
+    procedure g() is
+      procedure f() is
+        begin
+	  write(3);
+        end;
+      begin
+	write(4);
+	f();
+	write(5);
+      end;
+    begin
+      write(6);
+      g();
+      write(7);
+    end;
+  begin
+    write(1);
+    f();
+    write(2);
+  end;
+
+      

@@ -1,0 +1,26 @@
+(* Test basic type checking.
+**
+** It contains 5 errors involving...
+**    Unary operator with argument of wrong type
+**    Binary operator with argument of wrong type
+*)
+
+program is
+
+type MyBoolArrType is array of boolean;
+     MyRecType is record f: integer; end;
+
+var x := 0.0;
+var a1 : MyBoolArrType := nil;
+var a2 : MyBoolArrType := nil;
+var r1 : MyRecType := nil;
+var r2 : MyRecType := nil;
+var b: boolean := false;
+
+begin
+  x := not 123;      (* error *)
+  x := - b;          (* error *)
+  x := a1 + 3;       (* error *)
+  x := a1 + a2;      (* error *)
+  x := r1 + r2;      (* error *)
+end;

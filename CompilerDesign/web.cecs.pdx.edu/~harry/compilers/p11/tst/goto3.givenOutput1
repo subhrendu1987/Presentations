@@ -1,0 +1,28 @@
+rm -f tst/goto3.s
+rm -f tst/goto3
+java Main < tst/goto3.pcat 1> tst/goto3.s
+Assembling...
+Beginning execution...
+SHOULD PRINT ALL OKS AFTER EACH TEST:
+TESTING =...
+   OK
+   OK
+TESTING <>...
+   OK
+   OK
+TESTING <...
+   OK
+   OK
+   OK
+TESTING >...
+   OK
+   OK
+   OK
+TESTING <=...
+   OK
+   OK
+   OK
+TESTING >=...
+   OK
+   OK
+   OK

@@ -1,0 +1,11 @@
+(*** Check record constructors - should be 2 "Identifier is not defined" errors ***)
+
+program is
+  type t1 is record
+               f: integer;
+               g: integer;
+             end;
+  var x := t1XXX { f:=1; g:=2 };
+begin
+  x := t1YYY { f:=1; g:=2 };
+end;

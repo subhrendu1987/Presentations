@@ -1,0 +1,6 @@
+(***   should print: Expecting ID after VAR   ***)
+program is
+  var
+begin
+  x := 123;
+end;

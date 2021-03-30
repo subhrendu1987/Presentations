@@ -1,0 +1,15 @@
+(* This program tests the "Pointer is NIL" error. *)
+
+program is
+
+  type R is record f: integer; end;
+  var p: R := nil;
+      i: integer := 0;
+
+begin
+
+  write ("Should cause a pointer-is-nil message...");
+  i := p.f;
+
+end;
+

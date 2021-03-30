@@ -1,0 +1,26 @@
+(*** Check function call and call statements - should be 8 "Identifier is not defined" errors ***)
+
+program is
+  var x: integer := 0;
+  procedure foo1 () is
+    begin
+    end; (* foo1 *)
+  procedure foo2 () is
+    procedure foo3 () is
+      procedure foo4 () is
+        begin
+        end; (* foo4 *)
+      begin
+        fooXXX ();           (* error here *)
+        x := fooXXX();           (* error here *)
+      end; (* foo3 *)
+    begin
+      foo4();           (* error here *)
+      x := foo4();           (* error here *)
+    end; (* foo2 *)
+begin
+fooXXX ();           (* error here *)
+x := fooXXX();           (* error here *)
+foo3();           (* error here *)
+x := foo3();           (* error here *)
+end;

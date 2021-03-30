@@ -1,0 +1,34 @@
+(* This program tests array allocation. *)
+
+program is
+
+  type A is array of integer;
+  var a: A := nil;
+      c1, c2, c3, v1, v2, v3: integer := 0;
+
+begin
+
+  a := A {{ 3 of 111, 2 of 222, 4 of 333 }};
+  if a[0] <> 111 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[1] <> 111 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[2] <> 111 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[3] <> 222 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[4] <> 222 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[5] <> 333 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[6] <> 333 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[7] <> 333 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[8] <> 333 then write ("***** ERROR *****"); else write ("OK"); end;
+
+  c1 := 3; c2 := 2; c3 := 4;
+  v1 := 111; v2 := 222; v3 := 333;
+  a := A {{ c1 of v1, c2 of v2, c3 of v3 }};
+  if a[0] <> 111 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[1] <> 111 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[2] <> 111 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[3] <> 222 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[4] <> 222 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[5] <> 333 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[6] <> 333 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[7] <> 333 then write ("***** ERROR *****"); else write ("OK"); end;
+  if a[8] <> 333 then write ("***** ERROR *****"); else write ("OK"); end;
+end;

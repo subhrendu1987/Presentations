@@ -1,0 +1,83 @@
+(* quicksort
+**
+** This program sorts an array and prints the result using the
+** quicksort algorithm.  For a lucid description of the algorithm,
+** see "Algorithms," by Robert Sedgewick, (2ed., p.115).
+**
+** The input array is read in from the input.
+*)
+
+program is
+
+  type A is array of integer;
+  var a: A := nil;
+
+  procedure readArray () is
+    var i: integer := 0;
+    begin
+      write ("Enter 9 integers (between -9998 and +9998):");
+      for i := 1 to 9 do
+        loop
+          read (a[i]);
+          if (a[i] >= -9998) and (a[i] <= 9998) then exit; end;
+          write ("Input values must be between -9998 and +9998; try again...");
+        end;
+      end;
+      return;
+    end;
+
+  procedure printArray () is
+    var i: integer := 0;
+    begin
+      write ("The sorted array is:");
+      for i := 1 to 9 do
+        write (a[i]);
+      end;
+      return;
+    end;
+
+  procedure partition (l, r: integer) : integer is
+    var i, j, v, t: integer := 0;
+    begin
+      v := a[r];
+      i := l-1;
+      j := r;
+      loop
+        i := i+1;
+        while a[i]<v do
+          i := i+1;
+        end;
+        j := j-1;
+        while a[j]>v do
+          j := j-1;
+        end;
+        t := a[i];
+        a[i] := a[j];
+        a[j] := t;
+        if j<=i then exit; end;
+      end;
+      a[j] := a[i];
+      a[i] := a[r];
+      a[r] := t;
+      return i;
+    end;
+
+  procedure quicksort (m, n: integer) is
+    var i: integer := 0;
+    begin
+      if n>m then
+        i := partition (m, n);
+        quicksort (m, i-1);
+        quicksort (i+1, n);
+      end;
+      return;
+    end;
+
+begin
+  a := A [< 11 of 0 >];
+  a [0] := -9999;
+  a [10] := 9999;
+  readArray ();
+  quicksort (1,9);
+  printArray ();
+end;

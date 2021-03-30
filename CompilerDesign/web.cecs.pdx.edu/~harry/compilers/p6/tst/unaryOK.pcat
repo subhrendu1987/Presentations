@@ -1,0 +1,42 @@
+(*  Test unary operators.
+**
+**  There should be no errors in this file.
+*)
+
+program is
+
+var i: integer := 0;
+    f: real := 0.0;
+    b: boolean := false;
+    a: MyArr := nil;
+    r: MyRec := nil;
+
+type MyArr is array of integer;
+     MyRec is record f1: integer; end;
+
+begin
+
+(* Test combinations involving unary minus *)
+  i := - i;
+  i := - 123;
+
+  f := - f;
+  f := - 123.456;
+  f := - i;
+  f := - 123;
+
+(* Test combinations involving unary plus *)
+  i := + i;
+  i := + 123;
+
+  f := + f;
+  f := + 123.456;
+  f := + i;
+  f := + 123;
+
+(* Test combinations involving unary NOT *)
+  b := not b;
+  b := not false;
+  b := not true;
+
+end;

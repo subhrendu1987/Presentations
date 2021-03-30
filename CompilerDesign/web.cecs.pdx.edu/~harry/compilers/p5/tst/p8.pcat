@@ -1,0 +1,16 @@
+(*** Check record constructors - should be no errors ***)
+
+program is
+  type t1 is record
+               f: integer;
+               g: integer;
+             end;
+  var x := t1 { f:=1; g:=2 };
+  var y := t2 { f:=1; g:=2 };
+  type t2 is record
+               f: integer;
+               g: integer;
+             end;
+begin
+  x := t1 { f:=1; g:=2 };
+end;

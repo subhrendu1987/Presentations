@@ -1,0 +1,8 @@
+(***   should print: expecting ';' after type   ***)
+program is
+  type T is record
+              f: real,
+              g: integer;
+            end;
+begin
+end;

@@ -1,0 +1,14 @@
+program is
+   var x : integer := 10;  
+   procedure echo (q:integer) : integer is
+    begin
+      write(q);
+      return q;
+    end;
+   begin
+     write (x, " ", +x, " ", -x, " ", x + x, " ", x - x, " ",x * x, 
+	    " ", x div x, " ", x mod x);
+     write (10 * x * x - 20 * x + 30);
+     write ((echo(1)+ echo(2)) + (echo(3) + echo(4))); (* ok regardless *)
+   end;
+

@@ -1,0 +1,2109 @@
+(* YAPP - Yet Another PCAT Parser - An SLR parser generator
+**
+** Harry Porter - 10/30/98
+**
+** Overview
+**
+** This program reads from the input two things.  First it reads in a
+** context-free grammar, then it reads in an input string.  From the
+** grammar it builds LR parsing tables and then it uses those parsing tables
+** to parse the string.  It uses the SLR algorithm to construct the tables.
+**
+** Input
+**
+** The form of the input is somewhat encoded, due to PCAT's lack of ability
+** to handle string and character data.  The input consists of a series of
+** integer numbers.  Each grammar symbol (terminals and non-terminals) is
+** assigned a number (from 1,2,3,...).  Consider the following assignment:
+**
+**    1  E
+**    2  T
+**    3  F
+**    4  (
+**    5  )
+**    6  +
+**    7  *
+**    8  id
+**    9  EOF
+**
+** The non-terminals do not have to follow the terminals, although they
+** happen to in this example.
+**
+** The first number in the input is the number of the EOF symbol.
+**
+** After that the rules are listed.  Each rule is given as the lefthand-side
+** symbol, followed by zero or more righthand-sied symbols, followed by a
+** zero to mark the end of the rule.
+**
+** For example, the rule:
+**     F --> ( E )
+** would be encoded as:
+**     3 4 1 5 0
+**
+** The rule:
+**     F --> <epsilon>
+** would be encoded as:
+**     3 0
+**
+** Finally, to mark the end of the grammar, there is an additional 0.
+** Normally, each rule would be on a different line, but this is only
+** to make the grammar more readable by humans.
+** 
+** Any symbol that appears on the lefthad-side (LHS) of any rule is assumed
+** to be a non-terminal; all other symbols are assumed to be terminals.
+** 
+** Next comes the input string to be parsed.  It may contain embedded
+** negative numbers, which will be ignored during the parse.  These negative
+** numbers are considered "line numbers" and will be printed out if a syntax
+** error occurs.  The last symbol should be the EOF symbol.
+**
+** For example, the following input (in human readable form):
+**
+**     EOF = 9
+**
+**     E --> E + T
+**     E --> T
+**     T --> T * F
+**     T --> F
+**     F --> ( E )
+**     F --> id
+**
+**     1:    ( id +
+**     2:    (id * id + id * id) *
+**     3:    (id + id * id) +
+**     4:    id )
+**
+** would be encoded as:
+**
+**     9
+**     1 1 6 2 0
+**     1 2 0
+**     2 2 7 3 0
+**     2 3 0
+**     3 4 1 5 0
+**     3 8 0
+**     0
+**     -1 4 8 6
+**     -2 4 8 7 8 6 8 7 8 5 7
+**     -3 4 8 6 8 7 8 5 6
+**     -4 8 5 
+**     9
+**
+** Of course, all these numbers could be placed on a single line.  This would
+** be acceptable, but even harder for humans to read.
+**
+** To make life easier, there is a C program called "pre" which takes input
+** in human readable form and, using a lexical analyser, produces a file
+** in the PCAT-readable form shown above.  The "pre" program expects its
+** input to look like this:
+**
+**     E = E + T
+**     E = T
+**     T = T * F
+**     T = F
+**     F = ( E )
+**     F = id
+**
+**     ( x +
+**     (x * x + x * x) *
+**     (x + x * x) +
+**     x )
+**    
+** Note that the equals sign is used in grammar rules; that there is at least
+** one blank line between the grammar rules and the input; and that the EOF
+** value is inserted automatically.
+**
+** PCAT has a minimal ability to deal with character data.  In particular,
+** it always adds a new-line after every WRITE statement.  To avoid this
+** problem, the output from this program is passed through a post-processor
+** called "post".  This C program eliminates all new-line characters and
+** replaces all dollar characters ($) with a new-line.  Thus, when the PCAT
+** program executes the following, it will all appear on one line after being
+** run through "post".
+**
+**     WRITE ("i = ", i, "...");
+**     WRITE ("x = ", x, "...");
+**     WRITE ("$");
+**
+** There is a shell script called "go" which may be used to run the YAPP
+** program.  It can be run with the command line:
+**
+**     go grammar-file source-file
+**
+** "Go" concatenates the grammar-file and the source-file and then feeds them
+** first to "pre", then to "yapp".  Note that the grammar file must include
+** a blank line at its end.  "Go" then runs the output through "post".
+**
+** There are several constants that may need to be changed when larger
+** grammars are processed.  They are:
+**
+**    MaxRuleListIndex      199    Max # rules is this + 1
+**    MAXSYMBOL             299    Legal symbols are 0 .. MAXSYMBOL
+**    MaxStackIndex        9999 
+**    MaxBufferIndex         99    Index ranges 0..MaxBufferIndex
+**    MaxColumns             10    Max number of table columns to print out.
+**
+** The maximum number of rules that can be accomodated in the input
+** grammar is governed by MaxRuleListIndex.  The maximum symbol value is
+** governed by MAXSYMBOL.  The size of the stack used during the parsing
+** phase is determined by MaxStackIndex.  The maximum number of symbols
+** that may appear on the righthand-side of any rule is governed by
+** MaxBufferIndex.  The values given are big enough to handle a grammar
+** for the PCAT language (except for MaxColumns).
+**
+** Symbols
+**
+** Within this program, all symbols are named with numbers.  As the grammar
+** is read in, these numbers are encountered.  These numbers may be anything
+** as long as they fall within 0..MAXSYMBOL.  However, to make the printing
+** of symbols clearer, there is a link between the "pre" program and "YAPP".
+** In the printSymbol2() routine, each number is printed using a different
+** string of characters.  The "pre" program recognizes a number of identifiers
+** as keywords and prints the corresponfing number.  These numerical values
+** are given in "lexer.h".
+**
+** Output
+**
+** YAPP contains a number of different output routines.  In general, it will
+** begin by reading in the grammar, echoing as it is read in.  Then, it will
+** print a listing of all symbols that were encountered in the grammar.
+** Then, it will print out the grammar rules, as they have been stored.
+** Then, it will compute the parse tables, printing out a trace of the
+** DFA to recognize valid prefixes.  Finally, it will process the input
+** source and attempt to parse it using the tables, printing a trace of the
+** shifts and reduces as it goes.
+**
+** If any errors arise, a message will be printed.  Unfortunately, it is
+** not possible to execute an "abort" within PCAT; therefore YAPP will
+** continue running after many errors arise.  For certain errors, YAPP may
+** subsequently become confused (i.e., after printing out an error message).
+**
+** Shift/Reduce and Reduce/Reduce Errors.
+**
+** For some grammars, the SLR algorithm is not powerful enough to construct
+** a parsing table (although perhaps the general LR(1) algorithm would have
+** found one).  In such cases, a conflict arises when filling in entries of
+** the table and an error is printed.
+**
+** Parsing Output
+**
+** During the parsing phase, a trace is produced showing the sequence of shifts
+** and reduces.  For reduces, the rule used is printed.  These rules form
+** a rightmost derivation, in reverse order.  The parsing terminates with
+** either a message reporting success of reporting a syntax error.  In the
+** case of a syntax error, the line number is also reported.
+*)
+program is
+
+type IntArray is array of integer;
+     ItemArray is array of Item;
+     SymbolSetArray is array of SymbolSet;
+     EntryArray is array of Entry;
+     EntryArrayArray is array of EntryArray;
+     ItemSetArray is array of ItemSet;
+
+type Item is
+  record
+    ruleNumber: integer;
+    lhs: integer;
+    rhsSize: integer;
+    rhs: IntArray;
+    dotPos: integer;
+  end;
+
+type ItemSet is
+  record
+    size: integer;
+    firstItem: ItemSetRecord;
+    hashValue: integer;
+  end;
+
+type ItemSetRecord is
+  record
+    item: Item;
+    next: ItemSetRecord;
+  end;
+
+type SymbolSet is
+  record
+    firstSymbol: SymbolSetRecord;
+  end;
+
+type SymbolSetRecord is
+  record
+    symbol: integer;
+    next: SymbolSetRecord;
+  end;
+
+var ruleList: ItemArray := nil;       (* These are the grammar rules *)
+    nextRuleListIndex: integer := 0;  (* This is also = number of rules *)
+    MaxRuleListIndex: integer := 199; (* Max # rules is this + 1 *)
+
+    MAXSYMBOL: integer := 299;        (* Legal symbols are 0 .. MAXSYMBOL *)
+                                      (* Symbol 0 is the dummy start symbol *)
+    MaxSymbol: integer := -1;         (* Largest symbol actually used *)
+    symbolStatus: IntArray := nil;    (* 1=term, 2=nonterm, 0=not a symbol *)
+
+    EOFSYMBOL: integer := 0;          (* initialized from input *)
+
+    symbolSetsChanged: boolean := false;
+    firstSets: SymbolSetArray := nil;
+    followSets: SymbolSetArray := nil;
+    actionTable: EntryArrayArray := nil;
+    MaxState: integer := 599;         (* States are numbered 0..MaxState *)
+    collection: ItemSetArray := nil;  (* Canonical collection of LR items *)
+    nextState: integer := -1;         (* next element to use in collection *)
+    eofEncountered: boolean := false; (* Used only in getToken *)
+    currentLine: integer := 0;
+
+type Entry is                (* Each element of the action table is an Entry *)
+  record
+    typ: integer;
+    number: integer;
+  end;
+
+var SHIFT  := 1;             (* These are the values for the "typ" field *)
+    REDUCE := 2;
+    ACCEPT := 3;
+    BLANK  := 4;
+    GOTO   := 5;
+
+(* We need to buffer input tokens when reading in the RHS of a rule. *)
+var MaxBufferIndex := 99;    (* The index ranges from 0..MaxBufferIndex. *)
+    nextBufferIndex: integer := 0;
+    buffer: IntArray := IntArray [< MaxBufferIndex+1 of 0 >];
+
+(* This stack will be used by the LR algorithm when we parse the input. *)
+var stack: IntArray := nil;
+    stackTop: integer := 0;
+    MaxStackIndex: integer := 9999;
+
+var MaxColumns: integer := 13;
+
+
+
+(* printSymbol (sym)
+**
+** This routine is passed a symbol; it prints the corresponding string.
+*)
+procedure printSymbol (sym: integer) is
+  var t: integer := 0;
+  begin
+    t := printSymbol2 (sym);
+    return;
+  end;
+
+
+
+(* printSymbol2 (sym)
+**
+** This routine prints the symbol in human readable form and returns the
+** number of characters printed.
+*)
+procedure printSymbol2 (sym: integer) : integer is
+  begin
+    if sym = 0 then
+      write ("S'");
+      return 2;
+    elseif sym = 1 then
+      write ("E");
+      return 1;
+    elseif sym = 2 then
+      write ("T");
+      return 1;
+    elseif sym = 3 then
+      write ("F");
+      return 1;
+    elseif sym = 4 then
+      write ("(");
+      return 1;
+    elseif sym = 5 then
+      write (")");
+      return 1;
+    elseif sym = 6 then
+      write ("+");
+      return 1;
+    elseif sym = 7 then
+      write ("*");
+      return 1;
+    elseif sym = 8 then
+      write ("id");
+      return 2;
+    elseif sym = 9 then
+      write ("EOF");
+      return 3;
+    elseif sym = 10 then
+      write ("E'");
+      return 2;
+    elseif sym = 11 then
+      write ("T'");
+      return 2;
+    elseif sym = 12 then
+      write ("stmt");
+      return 4;
+    elseif sym = 13 then
+      write ("varDecl");
+      return 7;
+    elseif sym = 14 then
+      write ("typeDecl");
+      return 8;
+    elseif sym = 15 then
+      write ("procDecl");
+      return 8;
+    elseif sym = 16 then
+      write ("idList");
+      return 6;
+    elseif sym = 17 then
+      write ("optionalType");
+      return 12;
+    elseif sym = 18 then
+      write ("expr");
+      return 4;
+    elseif sym = 19 then
+      write ("type");
+      return 4;
+    elseif sym = 20 then
+      write ("components");
+      return 10;
+    elseif sym = 21 then
+      write ("component");
+      return 9;
+    elseif sym = 22 then
+      write ("formalParams");
+      return 12;
+    elseif sym = 23 then
+      write ("fpSections");
+      return 10;
+    elseif sym = 24 then
+      write ("fpSection");
+      return 9;
+    elseif sym = 25 then
+      write ("lValues");
+      return 7;
+    elseif sym = 26 then
+      write ("lValue");
+      return 6;
+    elseif sym = 27 then
+      write ("actualParams");
+      return 12;
+    elseif sym = 28 then
+      write ("actuals");
+      return 7;
+    elseif sym = 29 then
+      write ("writeParams");
+      return 11;
+    elseif sym = 30 then
+      write ("writeExprs");
+      return 10;
+    elseif sym = 31 then
+      write ("writeExpr");
+      return 9;
+    elseif sym = 32 then
+      write ("elseIfs");
+      return 7;
+    elseif sym = 33 then
+      write ("optionalElse");
+      return 12;
+    elseif sym = 34 then
+      write ("optionalBy");
+      return 10;
+    elseif sym = 35 then
+      write ("optionalExpr");
+      return 12;
+    elseif sym = 36 then
+      write ("unaryOp");
+      return 7;
+    elseif sym = 37 then
+      write ("binaryOp2");
+      return 9;
+    elseif sym = 38 then
+      write ("compValues");
+      return 10;
+    elseif sym = 39 then
+      write ("moreCompValues");
+      return 14;
+
+    elseif sym = 97 then
+      write ("arrayValues");
+      return 11;
+    elseif sym = 98 then
+      write ("moreArrayValues");
+      return 15;
+    elseif sym = 99 then
+      write ("optionalExpr");
+      return 12;
+    elseif sym = 100 then
+      write ("moreExpr2");
+      return 9;
+    elseif sym = 101 then
+      write ("moreExpr3");
+      return 9;
+    elseif sym = 102 then
+      write ("moreExpr4");
+      return 9;
+    elseif sym = 103 then
+      write ("binaryOp3");
+      return 9;
+    elseif sym = 104 then
+      write ("binaryOp4");
+      return 9;
+    elseif sym = 105 then
+      write ("expr2");
+      return 5;
+    elseif sym = 106 then
+      write ("expr3");
+      return 5;
+    elseif sym = 107 then
+      write ("expr4");
+      return 5;
+    elseif sym = 108 then
+      write ("expr5");
+      return 5;
+    elseif sym = 109 then
+      write ("prog");
+      return 7;
+    elseif sym = 110 then
+      write ("body");
+      return 4;
+    elseif sym = 111 then
+      write ("decls");
+      return 5;
+    elseif sym = 112 then
+      write ("stmts");
+      return 5;
+    elseif sym = 113 then
+      write ("varDecls");
+      return 8;
+    elseif sym = 114 then
+      write ("typeDecls");
+      return 9;
+    elseif sym = 115 then
+      write ("procDecls");
+      return 9;
+    elseif sym = 116 then
+      write ("decl");
+      return 4;
+    elseif sym = 117 then
+      write ("bexpr");
+      return 5;
+    elseif sym = 118 then
+      write ("bterm");
+      return 5;
+    elseif sym = 119 then
+      write ("bfactr");
+      return 6;
+    elseif sym = 120 then
+      write ("true");
+      return 4;
+    elseif sym = 121 then
+      write ("false");
+      return 5;
+    elseif sym = 65 then
+      write ("A");
+      return 1;
+    elseif sym = 66 then
+      write ("a");
+      return 1;
+    elseif sym = 67 then
+      write ("b");
+      return 1;
+    elseif sym = 68 then
+      write ("S");
+      return 1;
+
+    elseif sym = 43 then
+      write ("+");
+      return 1;
+    elseif sym = 45 then
+      write ("-");
+      return 1;
+    elseif sym = 42 then
+      write ("*");
+      return 1;
+    elseif sym = 47 then
+      write ("/");
+      return 1;
+    elseif sym = 60 then
+      write ("<");
+      return 1;
+    elseif sym = 62 then
+      write (">");
+      return 1;
+    elseif sym = 61 then
+      write ("=");
+      return 1;
+    elseif sym = 58 then
+      write (":");
+      return 1;
+    elseif sym = 59 then
+      write (";");
+      return 1;
+    elseif sym = 44 then
+      write (",");
+      return 1;
+    elseif sym = 46 then
+      write (".");
+      return 1;
+    elseif sym = 40 then
+      write ("(");
+      return 1;
+    elseif sym = 41 then
+      write (")");
+      return 1;
+    elseif sym = 91 then
+      write ("[");
+      return 1;
+    elseif sym = 93 then
+      write ("]");
+      return 1;
+    elseif sym = 123 then
+      write ("{");
+      return 1;
+    elseif sym = 125 then
+      write ("}");
+      return 1;
+
+    elseif sym = 257 then
+      write ("ID");
+      return 2;
+    elseif sym = 258 then
+      write ("INTEGER");
+      return 7;
+    elseif sym = 259 then
+      write ("REAL");
+      return 4;
+    elseif sym = 260 then
+      write ("STRING");
+      return 6;
+    elseif sym = 261 then
+      write (":=");
+      return 2;
+    elseif sym = 262 then
+      write ("<=");
+      return 2;
+    elseif sym = 263 then
+      write (">=");
+      return 2;
+    elseif sym = 264 then
+      write ("<>");
+      return 2;
+    elseif sym = 265 then
+      write ("[<");
+      return 2;
+    elseif sym = 266 then
+      write (">]");
+      return 2;
+    elseif sym = 267 then
+      write ("AND");
+      return 3;
+    elseif sym = 268 then
+      write ("ARRAY");
+      return 5;
+    elseif sym = 269 then
+      write ("BEGIN");
+      return 5;
+    elseif sym = 270 then
+      write ("BY");
+      return 2;
+    elseif sym = 271 then
+      write ("DIV");
+      return 3;
+    elseif sym = 272 then
+      write ("DO");
+      return 2;
+    elseif sym = 273 then
+      write ("ELSE");
+      return 4;
+    elseif sym = 274 then
+      write ("ELSIF");
+      return 5;
+    elseif sym = 275 then
+      write ("END");
+      return 3;
+    elseif sym = 276 then
+      write ("EXIT");
+      return 4;
+    elseif sym = 277 then
+      write ("FOR");
+      return 3;
+    elseif sym = 278 then
+      write ("IF");
+      return 2;
+    elseif sym = 279 then
+      write ("IS");
+      return 2;
+    elseif sym = 280 then
+      write ("LOOP");
+      return 4;
+    elseif sym = 281 then
+      write ("MOD");
+      return 3;
+    elseif sym = 282 then
+      write ("NOT");
+      return 3;
+    elseif sym = 283 then
+      write ("OF");
+      return 2;
+    elseif sym = 284 then
+      write ("OR");
+      return 2;
+    elseif sym = 285 then
+      write ("PROCEDURE");
+      return 9;
+    elseif sym = 286 then
+      write ("PROGRAM");
+      return 7;
+    elseif sym = 287 then
+      write ("READ");
+      return 4;
+    elseif sym = 288 then
+      write ("RECORD");
+      return 6;
+    elseif sym = 289 then
+      write ("RETURN");
+      return 6;
+    elseif sym = 290 then
+      write ("THEN");
+      return 4;
+    elseif sym = 291 then
+      write ("TO");
+      return 2;
+    elseif sym = 292 then
+      write ("TYPE");
+      return 4;
+    elseif sym = 293 then
+      write ("VAR");
+      return 3;
+    elseif sym = 294 then
+      write ("WHILE");
+      return 5;
+    elseif sym = 295 then
+      write ("WRITE");
+      return 5;
+
+    elseif sym = 296 then
+      write ("EOF");
+      return 3;
+    else
+      write ("???");
+      return 3;
+    end;
+  end;
+
+
+
+(* printSymbolPaddingTo (sym, len)
+**
+** Prints the symbol followed by as many spaces as necessary to print a
+** total of len characters.  If len is 0, no blanks are printed.
+*)
+printSymbolPaddingTo (sym, len: integer) is
+  var i: integer := len;
+  begin
+    len := len - printSymbol2 (sym);
+    for i := 1 to len do
+      write (" ");
+    end;
+    return;
+  end;
+
+
+
+(* isTerminal (sym)
+**
+** Returns TRUE if this symbol is a terminal.
+*)
+procedure isTerminal (sym: integer) : boolean is
+  begin
+    return symbolStatus [sym] = 1;
+  end;
+
+
+
+(* isNonTerminal (sym)
+**
+** Returns TRUE if this symbol is a non-terminal.
+*)
+procedure isNonTerminal (sym: integer) : boolean is
+  begin
+    return symbolStatus [sym] = 2;
+  end;
+
+
+
+(* isSymbol (sym)
+**
+** Returns TRUE if this symbol is a terminal or a non-terminal.
+*)
+procedure isSymbol (sym: integer) : boolean is
+  begin
+    return symbolStatus [sym] > 0;
+  end;
+
+
+ 
+(* printAllSymbols ()
+**
+** This routine prints a list of all terminals and non-terminals.
+*)
+procedure printAllSymbols () is
+  var i: integer := 0;
+  begin
+    write ("MaxSymbol = ", MaxSymbol, "$");
+    write ("Symbol   Terminals:    Non-Terminals:$");
+    for i := 0 to MaxSymbol do
+      if isNonTerminal (i) then
+        write ("  ");
+        printNumberPaddingTo (i, 21);
+        printSymbol (i);
+        write ("$");
+      elseif isTerminal (i) then
+        write ("  ");
+        printNumberPaddingTo (i, 7);
+        printSymbol (i);
+        write ("$");
+      else
+        (*  WRITE ("  ", i, "$");  *)
+      end;
+    end;
+    return;
+  end;
+
+
+
+(* copyItem (item)
+**
+** This routine makes a new item exactly like the argument and returns it.
+*)
+procedure copyItem (item: Item) : Item is
+  begin
+    return Item { ruleNumber := item.ruleNumber;
+                  lhs := item.lhs;
+                  rhsSize := item.rhsSize;
+                  rhs := item.rhs;
+                  dotPos := item.dotPos } ;
+  end;
+
+
+
+(* printItem (item)
+**
+** This routine is passed an item, which it prints, followed by newline.
+*)
+procedure printItem (item: Item) is
+  var i: integer := 0;
+      printedDot: boolean := false;
+begin
+  write (item.ruleNumber, ":  ");
+  printSymbolPaddingTo (item.lhs, 0);
+  write (" --> ");
+  if item.dotPos = 0 then
+    printedDot := true;
+    write (". ");
+  end;
+  for i := 0 to item.rhsSize-1 do
+    printSymbolPaddingTo (item.rhs[i], 0);
+    write (" ");
+    if item.dotPos = i+1 then
+      printedDot := true;
+      write (". ");
+    end;
+  end;
+  write ("$");
+  if not ((item.dotPos = -1) or printedDot) then
+    write ("$*****  Error: dotPos = ", item.dotPos, "  *****$$");
+  end;
+  return;
+end;
+
+
+
+(* itemsEqual (item1, item2)
+**
+** Returns TRUE iff these two items are equivalent.  Two items are
+** equivalent if the use the same rules and the dot is in the same position.
+*)
+procedure itemsEqual (item1, item2: Item) : boolean is
+  begin
+    if (item1.ruleNumber = item2.ruleNumber) and
+       (item1.dotPos = item2.dotPos) then
+      return true;
+    else
+      return false;
+    end;
+  end;
+
+
+
+(* clearBuffer ()
+**
+** This routine resets nextBufferIndex to effectively empty the buffer.
+*)
+procedure clearBuffer () is
+  begin
+    nextBufferIndex := 0;
+    return;
+  end;
+
+
+
+(* addToBuffer (i)
+**
+** This routine adds i to the buffer, printing a message if overflow.
+*)
+procedure addToBuffer (i: integer) is
+  begin
+    if nextBufferIndex > MaxBufferIndex then
+      write ("$*****  MaxBufferIndex exceeded  ******$$");
+    else
+      buffer [ nextBufferIndex ] := i;
+      nextBufferIndex := nextBufferIndex + 1;
+    end;
+    return;
+  end;
+
+
+
+(* bufferSize ()
+**
+** This routine returns the number of symbols in the buffer.
+*)
+procedure bufferSize () : integer is
+  begin
+    return nextBufferIndex;
+  end;
+
+
+
+(* newSymbolSet ()
+**
+** This routine returns a new empty set of symbols.
+*)
+procedure newSymbolSet () : SymbolSet is
+  begin
+    return SymbolSet { firstSymbol := nil };
+  end;
+
+
+
+(* addToSymbolSet (symbolSet, symbol)
+**
+** This routine adds an symbol to the symbol set.
+*)
+procedure addToSymbolSet (symbolSet: SymbolSet; symbol: integer) is
+  var r: SymbolSetRecord := nil;
+  begin
+    if not symbolSetContains (symbolSet, symbol) then
+      r := SymbolSetRecord { symbol := symbol;
+                             next := symbolSet.firstSymbol };
+      symbolSet.firstSymbol := r;
+      symbolSetsChanged := true;
+    end;
+    return;
+  end;
+
+
+
+(* addAllSymbolsToSet (set1, set2)
+**
+** This routine add symbols in set1 to set2.
+*)
+procedure addAllSymbolsToSet (set1, set2: SymbolSet) is
+  var next: SymbolSetRecord := nil;
+  begin
+    next := set1.firstSymbol;
+    while next <> nil do
+      addToSymbolSet (set2, next.symbol);
+      next := next.next;
+    end;
+    return;
+  end;
+
+
+
+(* addAllSymbolsButEofToSet (set1, set2)
+**
+** This routine add all non-EOF symbols in set1 to set.
+*)
+procedure addAllSymbolsButEofToSet (set1, set2: SymbolSet) is
+  var next: SymbolSetRecord := nil;
+  begin
+    next := set1.firstSymbol;
+    while next <> nil do
+      if next.symbol <> EOFSYMBOL then
+        addToSymbolSet (set2, next.symbol);
+      end;
+      next := next.next;
+    end;
+    return;
+  end;
+
+
+
+(* symbolSetContains (symbolSet, symbol)
+**
+** This routine returns TRUE iff this set contains the given symbol.
+*)
+procedure symbolSetContains (symbolSet: SymbolSet; symbol: integer) : boolean is
+  var r: SymbolSetRecord := nil;
+  begin
+    r := symbolSet.firstSymbol;
+    while r <> nil do
+      if r.symbol = symbol then
+        return true;
+      end;
+      r := r.next;
+    end;
+    return false;
+  end;
+
+
+
+(* printSymbolSet (symbolSet)
+**
+** This routine prints all the symbols in this set, followed by a newline.
+*)
+procedure printSymbolSet (symbolSet: SymbolSet) is
+  var r: SymbolSetRecord := nil;
+  begin
+    write ("{ ");
+    r := symbolSet.firstSymbol;
+    while r <> nil do
+      printSymbol (r.symbol);
+      write (" ");
+      r := r.next;
+    end;
+    write ("}$");
+    return;
+  end;
+
+
+
+(* initializeFirstSets ()
+**
+** This routine initializes the FIRST sets for all terminal and non-terminal
+** symbols.
+*)
+procedure initializeFirstSets () is
+  var i, j: integer := 0;
+      rule: Item := nil;
+      firstKNotContainingEpsilon: integer := 0;
+  begin
+    firstSets := SymbolSetArray [< MaxSymbol + 1 of nil >];
+    for i := 0 to MaxSymbol do
+      firstSets [i] := newSymbolSet ();
+      if isTerminal (i) then
+        addToSymbolSet (firstSets [i], i);
+      end;
+    end;
+    symbolSetsChanged := true;
+    while symbolSetsChanged do
+      symbolSetsChanged := false;
+      for i := 0 to nextRuleListIndex - 1 do
+        rule := ruleList [i];
+        (*  WRITE ("Looking at rule ");  *)
+        (*  printItem (rule);  *)
+        if rule.rhsSize = 0 then
+          addToSymbolSet ( firstSets [rule.lhs], EOFSYMBOL);
+        else
+          firstKNotContainingEpsilon := -1;
+          for j := 0 to rule.rhsSize - 1 do
+            (*  WRITE ("  Examining firstSets [ ");  *)
+            (*  printSymbol (rule.rhs [j]);  *)
+            (*  WRITE (" ] = ");  *)
+            (*  printSymbolSet (firstSets [rule.rhs [j]]);  *)
+            if symbolSetContains (firstSets [rule.rhs [j]], EOFSYMBOL) then
+              (*  WRITE ("    contains epsilon$");  *)
+            else
+              (*  WRITE ("    does not contain epsilon$");  *)
+              firstKNotContainingEpsilon := j;
+              exit;
+            end;
+          end;
+          (*  WRITE ("firstKNotContainingEpsilon = ",  *)
+          (*          firstKNotContainingEpsilon, "$");  *)
+          for j := 0 to rule.rhsSize - 1 do
+            if firstKNotContainingEpsilon >= j then
+              addAllSymbolsButEofToSet ( firstSets [rule.rhs [j]],
+                                         firstSets [rule.lhs]);
+            else
+              exit;
+            end;
+          end;
+          if firstKNotContainingEpsilon = -1 then
+            addToSymbolSet ( firstSets [rule.lhs], EOFSYMBOL);
+          end;
+        end;
+      end;
+    end;
+    return;
+  end;
+
+
+
+(* initializeFollowSets ()
+**
+** This routine initializes the FOLLOW sets for all non-terminal
+** symbols.
+*)
+procedure initializeFollowSets () is
+  var i, j, k: integer := 0;
+      A, B, C: integer := 0;
+      rule: Item := nil;
+      firstOfBeta: SymbolSet := nil;
+      saveSymbolSetsChanged: boolean := false;
+      oneHadNoEpsilon: boolean := false;
+  begin
+    followSets := SymbolSetArray [< MaxSymbol + 1 of nil >];
+    for i := 0 to MaxSymbol do
+      if isNonTerminal (i) then
+        followSets [i] := newSymbolSet ();
+      end;
+    end;
+    addToSymbolSet (followSets [0], EOFSYMBOL);
+    symbolSetsChanged := true;
+    while symbolSetsChanged do
+      symbolSetsChanged := false;
+      for i := 0 to nextRuleListIndex - 1 do
+        rule := ruleList [i];
+        A := rule.lhs;
+        (*  WRITE ("Looking at rule ");  *)
+        (*  printItem (rule);  *)
+        (*  WRITE ("  A = "); printSymbol (A); WRITE ("$");  *)
+        if (rule.rhsSize > 0) and
+           isNonTerminal (rule.rhs [rule.rhsSize-1]) then
+          B := rule.rhs [rule.rhsSize-1];
+          (*  WRITE ("  Last symbol is nonterminal, B = ");  *)
+          (*  printSymbol (B); WRITE ("$");  *)
+          (*  WRITE ("  FOLLOW("); printSymbol (A);  *)
+          (*  WRITE (") = ");  printSymbolSet (followSets [A]);  *)
+          (*  WRITE ("  FOLLOW("); printSymbol (B);  *)
+          (*  WRITE (") = ");  printSymbolSet (followSets [B]);  *)
+          (*  WRITE ("  Adding all symbols in FOLLOW("); printSymbol (A);  *)
+          (*  WRITE (") to FOLLOW("); printSymbol (B); WRITE (")...$");  *)
+          addAllSymbolsToSet (followSets [A], followSets [B]);
+          (*  WRITE ("  FOLLOW("); printSymbol (A);  *)
+          (*  WRITE (") = ");  printSymbolSet (followSets [A]);  *)
+          (*  WRITE ("  FOLLOW("); printSymbol (B);  *)
+          (*  WRITE (") = ");  printSymbolSet (followSets [B]);  *)
+        end;
+        for j := 0 to rule.rhsSize - 1 do
+          B := rule.rhs [j];
+          if isNonTerminal (B) then
+            (*  WRITE ("Considering nonterminal B = ");  *)
+            (*  printSymbol (B); WRITE ("$");  *)
+            (* Now compute FIRST(beta); don't alter symbolSetsChanged. *)
+            saveSymbolSetsChanged := symbolSetsChanged;
+            (*  WRITE ("About to compute firstOfBeta...$");  *)
+            firstOfBeta := newSymbolSet ();
+            oneHadNoEpsilon := false;
+            for k := j + 1 to rule.rhsSize - 1 do
+              C := rule.rhs[k];
+              (*  WRITE ("Considering symbol ");  *)
+              (*  printSymbol (C); WRITE ("$");  *)
+              (*  WRITE ("  FIRST("); printSymbol (C);  *)
+              (*  WRITE (") = ");  printSymbolSet (firstSets [C]);  *)
+              (*  WRITE ("  Adding all symbols but EOF from FIRST(");  *)
+              (*  printSymbol (C);  *)
+              (*  WRITE (") to firstOfBeta...$");  *)
+              addAllSymbolsButEofToSet (firstSets [C], firstOfBeta);
+              if not symbolSetContains (firstSets [C], EOFSYMBOL) then
+                oneHadNoEpsilon := true;
+                (*  WRITE ("This FIRST set had no epsilon; exiting loop$");  *)
+                exit;
+              end;
+            end;
+            if not oneHadNoEpsilon then
+            (*  WRITE ("  All contained eps; adding EOF to firstOfBeta$");  *)
+              addToSymbolSet (firstOfBeta, EOFSYMBOL);
+            end;
+            (*  WRITE ("Done computing firstOfBeta = ");  *)
+            (*  printSymbolSet (firstOfBeta);  *)
+            symbolSetsChanged := saveSymbolSetsChanged;
+            addAllSymbolsButEofToSet (firstOfBeta, followSets [B]);
+            if symbolSetContains (firstOfBeta, EOFSYMBOL) then
+              (*  WRITE ("FIRST(beta) contains EOF...$");  *)
+              (*  WRITE ("  FOLLOW("); printSymbol (A);  *)
+              (*  WRITE (") = ");  printSymbolSet (followSets [A]);  *)
+              (*  WRITE ("  FOLLOW("); printSymbol (B);  *)
+              (*  WRITE (") = ");  printSymbolSet (followSets [B]);  *)
+              (*  WRITE ("  Adding all symbols in FOLLOW("); printSymbol (A); *)
+              (*  WRITE (") to FOLLOW("); printSymbol (B); WRITE (")...$");  *)
+              addAllSymbolsToSet (followSets [A], followSets [B]);
+              (*  WRITE ("  FOLLOW("); printSymbol (A);  *)
+              (*  WRITE (") = ");  printSymbolSet (followSets [A]);  *)
+              (*  WRITE ("  FOLLOW("); printSymbol (B);  *)
+              (*  WRITE (") = ");  printSymbolSet (followSets [B]);  *)
+            end;
+          end;
+        end;
+      end;
+    end;
+    return;
+  end;
+
+
+
+(* newItemSet ()
+**
+** This routine returns a new empty item set.
+*)
+procedure newItemSet () : ItemSet is
+  begin
+    return ItemSet { size := 0;
+                     firstItem := nil;
+                     hashValue := -1 };
+  end;
+
+
+
+(* addToItemSet (itemSet, item)
+**
+** This routine adds an item to the item set.
+*)
+procedure addToItemSet (itemSet: ItemSet; item: Item) is
+  var r: ItemSetRecord := nil;
+  begin
+    if not itemSetContains (itemSet, item) then
+      itemSet.size := itemSet.size + 1;
+      itemSet.hashValue := -1;
+      r := ItemSetRecord { item := item;
+                           next := itemSet.firstItem };
+      itemSet.firstItem := r;
+    end;
+    return;
+  end;
+
+
+
+(* itemSetContains (itemSet, item)
+**
+** This routine returns TRUE iff this set contains the given item.
+*)
+procedure itemSetContains (itemSet: ItemSet; item: Item) : boolean is
+  var r: ItemSetRecord := nil;
+  begin
+    r := itemSet.firstItem;
+    while r <> nil do
+      if itemsEqual ( r.item, item) then
+        return true;
+      end;
+      r := r.next;
+    end;
+    return false;
+  end;
+
+
+
+(* printItemSet (itemSet)
+**
+** This routine prints all the items in this set, followed by newline.
+*)
+procedure printItemSet (itemSet: ItemSet) is
+  var r: ItemSetRecord := nil;
+  begin
+    r := itemSet.firstItem;
+    while r <> nil do
+      write ("  ");
+      printItem (r.item);
+      r := r.next;
+    end;
+    return;
+  end;
+
+
+
+(* copyItemSet (itemSet)
+**
+** This routine makes a new set of items and initializes it by putting
+** all the items in "itemSet" into it.  It returns the new set.
+*)
+procedure copyItemSet (itemSet: ItemSet) : ItemSet is
+  var resultSet: ItemSet := nil;
+      next, prevRecord, nextRecord: ItemSetRecord := nil;
+  begin
+    resultSet := ItemSet {
+                     size := itemSet.size;
+                     firstItem := nil;
+                     hashValue := itemSet.hashValue };
+    next := itemSet.firstItem;
+    while next <> nil do
+      nextRecord := ItemSetRecord {
+                            item := next.item;
+                            next := prevRecord };
+      prevRecord := nextRecord;
+      next := next.next;
+    end;
+    resultSet.firstItem := prevRecord;
+    return resultSet;
+  end;
+
+
+
+(* itemSetsEqual (set1, set2)
+**
+** This routine returns TRUE iff both sets contain equal items.  This routine
+** assumes that no sets contain duplicate items.
+*)
+procedure itemSetsEqual (set1, set2: ItemSet) : boolean is
+  var p1, p2: ItemSetRecord := nil;
+      found: boolean := false;
+  begin
+    if set1.hashValue < 0 then
+      set1.hashValue := itemSetHash (set1);
+    end;
+    if set2.hashValue < 0 then
+      set2.hashValue := itemSetHash (set2);
+    end;
+    if set1.hashValue <> set2.hashValue then
+      return false;
+    end;
+    p1 := set1.firstItem;
+    while p1 <> nil do
+      found := false;
+      p2 := set2.firstItem;
+      while p2 <> nil do
+        if itemsEqual (p1.item, p2.item) then
+          found := true;
+          exit;
+        end;
+        p2 := p2.next;
+      end;
+      if not found then
+        return false;
+      end;
+      p1 := p1.next;
+    end;
+    return true;
+  end;
+
+
+
+(* itemSetHash (itemSet)
+**
+** This function computes and returns the itemSet's hash value.
+*)
+procedure itemSetHash (itemSet: ItemSet) : integer is
+  var h: integer := 0;
+      next: ItemSetRecord := nil;
+  begin
+    next := itemSet.firstItem;
+    while next <> nil do
+      h := (h + next.item.ruleNumber) mod 10000000;
+      h := (h + next.item.dotPos) mod 10000000;
+      next := next.next;
+    end;
+    return h;
+  end;
+
+
+
+(* getToken ()
+**
+** This routine reads the next input symbol from the input and returns it.
+** It checks it for legality and only returns legal terminal symbols.  It
+** adjust currentLine when non-positive numbers are encountered.  If called
+** after EOF has been reached, it prints an error message.
+*)
+procedure getToken () : integer is
+  var tok: integer := 0;
+  begin
+    if eofEncountered then
+      write ("$*****  Error: getToken called after EOF  *****$$");
+      return EOFSYMBOL;
+    end;
+    loop
+      read (tok);
+      if tok <= 0 then
+        currentLine := -tok;
+      elseif tok > MaxSymbol then
+        write ("$*****  Error: Token ");
+        printSymbol (tok);
+        write (" (", tok, ") exceeds MaxSymbol (", MaxSymbol,
+               ") in input on line ", currentLine, "  *****$$");
+      elseif isNonTerminal (tok) then
+        write ("$*****  Error: Nonterminal '");
+        printSymbol (tok);
+        write ("' (", tok, ") appeared in input on line ",
+                                               currentLine, "  *****$$");
+      elseif not isSymbol (tok) then
+        write ("$*****  Error: Unknown symbol '");
+        printSymbol (tok);
+        write ("' (", tok, ") appeared in input on line ",
+                                               currentLine, "  *****$$");
+      elseif tok = EOFSYMBOL then
+        eofEncountered := true;
+        return tok;
+      else
+        return tok;
+      end;
+    end;
+  end;
+
+
+
+(* parseInput ()
+**
+** This routine parses the remainder of the input tokens, using the LR
+** parsing algorithm with the action table previously computed.
+*)
+procedure parseInput () is
+  var tok: integer := 0;
+      state: integer := 0;
+      entry: Entry := nil;
+      i: integer := 0;
+      rule: Item := nil;
+  begin
+    write ("Parsing input string...$");
+    initializeStack ();
+    push (0);
+    tok := getToken ();
+    loop
+      state := top ();
+      entry := actionTable [state] [tok];
+      if entry.typ = SHIFT then
+        write ("Shifting ");
+        printSymbolPaddingTo (tok, 30);
+        write ("$");
+        push (tok);
+        tok := getToken ();
+        push (entry.number);
+      elseif entry.typ = REDUCE then
+        rule := ruleList [entry.number];
+        write ("Reducing using rule ");
+        printItem (rule);
+        for i := 1 to rule.rhsSize do
+          pop ();
+          pop ();
+        end;
+        state := top ();
+        push (rule.lhs);
+        entry := actionTable [state] [rule.lhs];
+        if entry.typ <> GOTO then
+          write ("$*****  Error: expecting typ=goto in parseInput  *****$$");
+        end;
+        push (entry.number);
+      elseif entry.typ = ACCEPT then
+        write ("Accepting: The input is syntactically correct.$");
+        exit;
+      elseif entry.typ = BLANK then
+        write ("$Syntax Error Detected!!!   (on line ", currentLine, ")$");
+        exit;
+      else
+        write ("$*****  Error: unexpected typ in parseInput  *****$$");
+      end;
+    end;
+    write ("$");
+    return;
+  end;
+
+
+
+(* initializeGrammar ()
+**
+** This routine reads in the grammar and initializes the data structures.
+*)
+procedure initializeGrammar () is
+  var tok: integer := 0;
+    item: Item := nil;
+    i: integer := 0;
+  begin
+    read (EOFSYMBOL);
+    if EOFSYMBOL > MAXSYMBOL then
+      write ("$*****  Error: EOFSYMBOL exceeds MAXSYMBOL  *****$$");
+    end;
+    MaxSymbol := EOFSYMBOL;
+    write ("EOF Symbol = ", EOFSYMBOL, "$");
+    write ("Reading in grammar...$");
+    ruleList := ItemArray [< MaxRuleListIndex + 1 of nil >];
+    nextRuleListIndex := 1;  (* Zero is for dummy start rule *)
+    symbolStatus := IntArray [< MAXSYMBOL+1 of 0 >];
+    symbolStatus [0] := 2;
+    symbolStatus [EOFSYMBOL] := 1;
+    loop
+      read (tok);
+      if tok <= 0 then
+        exit;
+      elseif tok > MAXSYMBOL then
+        write ("$*****  Error: MAXSYMBOL exceeded  *****$$");
+        tok := 1;
+      end;
+      if tok > MaxSymbol then
+        MaxSymbol := tok;
+      end;
+      write ("  ", nextRuleListIndex, ": ");
+      printSymbolPaddingTo (tok, 5);
+      symbolStatus [tok] := 2;
+      item := Item {
+                 ruleNumber := nextRuleListIndex;
+                 lhs := tok;
+                 rhsSize := 0;
+                 rhs := nil;
+		 dotPos := -1 };
+      clearBuffer ();
+      write (" --> ");
+      loop
+        read (tok);
+        if tok <= 0 then
+	  exit;
+        elseif tok > MAXSYMBOL then
+          write ("$*****  Error: MAXSYMBOL exceeded  *****$$");
+          tok := 1;
+        end;
+        if tok > MaxSymbol then
+          MaxSymbol := tok;
+        end;
+        if symbolStatus [tok] = 0 then
+          symbolStatus [tok] := 1;
+        end;
+        addToBuffer (tok);
+        printSymbol (tok);
+        write (" ");
+      end;
+      write ("$");
+      item.rhsSize := bufferSize ();
+      item.rhs := IntArray [< item.rhsSize + 1 of 0 >];
+      for i := 0 to nextBufferIndex - 1 do
+        item.rhs [i] := buffer [i];
+      end;
+      (*  printItem (item);  *)
+      if nextRuleListIndex > MaxRuleListIndex then
+        write ("$*****  MaxRuleListIndex exceeded  *****$$");
+      else
+        ruleList [ nextRuleListIndex ] := item;
+        nextRuleListIndex := nextRuleListIndex + 1;
+      end;
+    end;
+    item := Item {
+                 ruleNumber := 0;
+	         lhs := 0;
+	         rhsSize := 1;
+	         rhs := IntArray [< 1 of ruleList [1].lhs >];
+	         dotPos := -1 };
+    ruleList [0] := item;
+    return;
+  end;
+
+
+
+(* closure (itemSet)
+** This routine is passed a set of items.  It computes the closure of that
+** set and returns it.
+*)
+procedure closure (itemSet: ItemSet) : ItemSet is
+  var resultSet: ItemSet := nil;
+      changed: boolean := false;
+      item, rule, newItem: Item := nil;
+      next: ItemSetRecord := nil;
+      nonTerminal, oldSize: integer := 0;
+      restartFromBeginning: boolean := false;
+  begin
+    resultSet := copyItemSet (itemSet);
+    (*  WRITE ("Here is result so far...$");  *)
+    (*  printItemSet (resultSet);  *)
+    loop
+      changed := false;
+        next := resultSet.firstItem;
+        while next <> nil do
+          (*  WRITE ("=====Considering this item from resultSet=====$");  *)
+          (*  printItem (item);  *)
+          item := next.item;
+          (* IF dot is before B in item... *)
+          if (item.dotPos >= 0) and
+             (item.dotPos < item.rhsSize) and
+             (isNonTerminal (item.rhs [item.dotPos] )) then
+            (* ...THEN find all B rules and add to result set... *)
+            nonTerminal := item.rhs [item.dotPos];
+            (*  WRITE ("Dot is before nonterminal ");  *)
+            (*  printSymbol (nonTerminal);  *)
+            (*  WRITE ("$");  *)
+            for i := 0 to nextRuleListIndex - 1 do
+              rule := ruleList [i];
+              (* WRITE ("Considering this rule...$");  *)
+              (* printItem (rule);  *)
+              if rule.lhs = nonTerminal then
+                newItem := copyItem (rule);
+                newItem.dotPos := 0;
+                (*  WRITE ("Adding this item to resultSet...$");  *)
+                (* printItem (newItem);  *)
+                oldSize := resultSet.size;
+                addToItemSet (resultSet, newItem);
+                if resultSet.size > oldSize then
+                  changed := true;
+                  restartFromBeginning := true;
+                end;
+                (*  WRITE ("Here is result so far...$");  *)
+                (*  printItemSet (resultSet);  *)
+              end;
+            end;
+            (*  WRITE ("Done looking through rules$");  *)
+          end;
+          (*  WRITE ("Moving to next item in resultSet$");  *)
+          if restartFromBeginning then
+            next := resultSet.firstItem;
+            restartFromBeginning := false;
+          else
+            next := next.next;
+          end;
+        end;
+      if not (changed) then
+        exit;
+      end;
+    end;
+    return resultSet;
+  end;
+
+
+
+(* initializeActionTable ()
+**
+** This routine initializes the actionTable to all BLANK entries.
+*)
+procedure initializeActionTable () is
+  var state, symbol: integer := 0;
+      entry: Entry := nil;
+  begin
+    actionTable := EntryArrayArray [< MaxState+1 of nil >];
+    for state := 0 to MaxState do
+      actionTable [state] := EntryArray [< MaxSymbol+1 of nil >];
+      for symbol := 0 to MaxSymbol do
+        entry := Entry { typ := BLANK;
+                         number := 0 };
+        actionTable [state] [symbol] := entry;
+      end;
+    end;
+    return;
+  end;
+
+
+
+(* setAction (row, col, typ, number)
+**
+** This routine simply sets the selected entry in the action table to
+** the desired type of action.
+*)
+procedure setAction (row, col, typ, number: integer) is
+  var entry: Entry := nil;
+  begin
+    if (row < 0) or
+       (row > MaxState) or
+       (col < 0) or
+       (col > MaxSymbol) then
+      write ("$*****  Error: invalid args in setAction  *****$$");
+      write ("row=", row, " col=", col, "$");
+    else
+      entry := actionTable [row] [col];
+      if entry.typ <> BLANK then
+        if (entry.typ = REDUCE) and
+           (typ = REDUCE) then
+          write ("$*****  Reduce-reduce conflict");
+        elseif (entry.typ = REDUCE) and
+              (typ = SHIFT) then
+          write ("$*****  Shift-reduce conflict");
+        elseif (entry.typ = SHIFT) and
+              (typ = REDUCE) then
+          write ("$*****  Shift-reduce conflict");
+        else
+          write ("$*****  Unexpected conflict");
+        end;
+        write (" (symbol = ");
+        printSymbol (col);
+        write (", state = ", row, ") *****$$");
+      else
+        entry.typ := typ;
+        entry.number := number;
+        if entry.typ = SHIFT then
+          write ("row=", row, " col=");
+          printSymbol (col);
+          write (" - SHIFT ", number, "$");
+        elseif entry.typ = REDUCE then
+          write ("row=", row, " col=");
+          printSymbol (col);
+          write (" - REDUCE ", number, "$");
+        elseif entry.typ = GOTO then
+          write ("row=", row, " col=");
+          printSymbol (col);
+          write (" - GOTO ", number, "$");
+        elseif entry.typ = ACCEPT then
+          write ("row=", row, " col=");
+          printSymbol (col);
+          write (" - ACCEPT$");
+        end;
+      end;
+    end;
+    return;
+  end;
+
+
+
+(* printNumberPaddingTo (i, width)
+**
+** This routine prints the number i followed by enough blanks to result
+** in a total of width characters being printed.
+*)
+procedure printNumberPaddingTo (i, width: integer) is
+  var j,n: integer := 0;
+  begin
+    if i >= 0 then
+      if i <= 9 then
+        n := 1;
+      elseif i <= 99 then
+        n := 2;
+      elseif i <= 999 then
+        n := 3;
+      elseif i <= 9999 then
+        n := 4;
+      elseif i <= 99999 then
+        n := 5;
+      else
+        write ("$*****  Number out of range in printNumberPaddingTo  *****$$");
+      end;
+    else
+      if i >= -9 then
+        n := 2;
+      elseif i >= -99 then
+        n := 3;
+      elseif i >= -999 then
+        n := 4;
+      elseif i >= -9999 then
+        n := 5;
+      elseif i >= -99999 then
+        n := 6;
+      else
+        write ("$*****  Number out of range in printNumberPaddingTo  *****$$");
+      end;
+    end;
+    write (i);
+    for j := 1 to width - n do
+      write (" ");
+    end;
+    return;
+  end;
+
+
+
+(* printFirstAndFollowSets ()
+**
+** This routine displays the FIRST and FOLLOW sets.
+*)
+procedure printFirstAndFollowSets () is
+  var i: integer := 0;
+  begin
+    initializeFirstSets ();
+    for i := 0 to MaxSymbol do
+      if isSymbol (i) then
+        write ("FIRST ( ");
+        printSymbol (i);
+        write (" ) = ");
+        printSymbolSet (firstSets [i]);
+      end;
+    end;
+    initializeFollowSets ();
+    for i := 0 to MaxSymbol do
+      if isNonTerminal (i) then
+        write ("FOLLOW ( ");
+        printSymbol (i);
+        write (" ) = ");
+        printSymbolSet (followSets [i]);
+      end;
+    end;
+    return;
+  end;
+
+
+
+(* printActionTable ()
+**
+** This routine displays the actionTable.
+*)
+procedure printActionTable () is
+  var state, symbol: integer := 0;
+      entry: Entry := nil;
+      nextCol: integer := 1;
+  begin
+    (* Print the upper-left corner of the action table, only *)
+(*
+    IF nextState > 20 THEN
+      WRITE ("Too many rows in printTable; table display cancelled.$");
+      RETURN;
+    END;
+*)
+    write ("      ");
+    nextCol := 1;
+    for symbol := 1 to MaxSymbol do
+      if isSymbol (symbol) and
+         (nextCol <= MaxColumns) then
+        nextCol := nextCol + 1;
+        printSymbolPaddingTo (symbol, 6);
+      end;
+    end;
+    write ("$");
+    write ("    ");
+    nextCol := 1;
+    for symbol := 1 to MaxSymbol do
+      if isSymbol (symbol) and
+         (nextCol <= MaxColumns) then
+        nextCol := nextCol + 1;
+        write ("------");
+      end;
+    end;
+    write ("-$");
+    for state := 0 to nextState do
+      printNumberPaddingTo (state, 4);
+      write ("| ");
+      nextCol := 1;
+      for symbol := 1 to MaxSymbol do
+        if isSymbol (symbol) and
+           (nextCol <= MaxColumns) then
+          nextCol := nextCol + 1;
+          entry := actionTable [state] [symbol];
+          if entry.typ = SHIFT then
+            write ("S");
+            printNumberPaddingTo (entry.number, 3);
+          elseif entry.typ = REDUCE then
+            write ("R");
+            printNumberPaddingTo (entry.number, 3);
+          elseif entry.typ = ACCEPT then
+            write ("Acc ");
+          elseif entry.typ = BLANK then
+            write ("    ");
+          elseif entry.typ = GOTO then
+            write ("G");
+            printNumberPaddingTo (entry.number, 3);
+          else
+            write ("$*****  Error: bad typ in actionTable  *****$$");
+          end;
+          write ("| ");
+        end;
+      end;
+      write ("$");
+    end;
+    write ("    ");
+    nextCol := 1;
+    for symbol := 1 to MaxSymbol do
+      if isSymbol (symbol) and
+         (nextCol <= MaxColumns) then
+        nextCol := nextCol + 1;
+        write ("------");
+      end;
+    end;
+    write ("-$");
+    return;
+  end;
+
+
+
+(* initializeStack ()
+**
+** This routine initializes the stack to be empty.
+*)
+procedure initializeStack () is
+  begin
+    stack := IntArray [< MaxStackIndex + 1 of 0 >];
+    stackTop := -1;
+    return;
+  end;
+
+
+
+(* top ()
+**
+** This routine returns the integer on the top of the stack.
+*)
+procedure top () : integer is
+  begin
+    if (stackTop < 0) or (stackTop > MaxStackIndex) then
+      write ("$*****  Error: stackIndex out of bounds in top()  *****$$");
+      return 0;
+    else
+      return stack [stackTop];
+    end;
+  end;
+
+
+
+(* push (i)
+**
+** This routine pushes the integer i onto the stack.
+*)
+procedure push (i: integer) is
+  begin
+    if stackTop >= MaxStackIndex then
+      write ("$*****  Error: stack overflow in push()  *****$$");
+    else
+      stackTop := stackTop + 1;
+      stack [stackTop] := i;
+    end;
+    return;
+  end;
+
+
+
+(* pop ()
+**
+** This routine pops the integer on the stack top.  It does NOT return it.
+*)
+procedure pop () is
+  begin
+    if stackTop < 0 then
+      write ("$*****  Error: stack underflow in pop()  *****$$");
+    else
+      stackTop := stackTop - 1;
+    end;
+    return;
+  end;
+
+
+
+(* initializeCollection ()
+**
+** This routine initializes the collection of ItemSets.
+*)
+procedure initializeCollection () is
+  begin
+    collection := ItemSetArray [< MaxState + 1 of nil >];
+    nextState := 0;
+    return;
+  end;
+
+
+
+(* printCollection ()
+**
+** This routine prints the collection of ItemSets, followed by newline.
+*)
+procedure printCollection () is
+  var i: integer := 0;
+  begin
+    for i := 0 to nextState - 1 do
+      write ("State ", i, ":$");
+      printItemSet (collection [i]);
+    end;
+    return;
+  end;
+
+
+
+(* addToCollection (itemSet)
+**
+** This routine is passed an itemSet.  It adds it unconditionally to the
+** collection of itemSets.
+*)
+procedure addToCollection (itemSet: ItemSet) is
+  begin
+    if nextState > MaxState then
+      write ("$*****  Error: MaxState exceeded when adding itemSet  *****$$");
+    else
+      collection [nextState] := itemSet;
+      nextState := nextState + 1;
+    end;
+    return;
+  end;
+
+
+
+(* findInCollection (itemSet)
+**
+** This routine determines whether the collection contains the given
+** itemSet.  If is, it returns the index into collection[]; otherwise
+** it returns -1.
+*)
+procedure findInCollection (itemSet: ItemSet) : integer is
+  var i: integer := 0;
+  begin
+    for i := 0 to nextState - 1 do
+      if itemSetsEqual (itemSet, collection [i]) then
+        return i;
+      end;
+    end;
+    return -1;
+  end;
+
+
+
+(* computeTable ()
+**
+** This routine computes and fills in the action table.
+*)
+procedure computeTable () is
+  var itemSet0, anotherItemSet: ItemSet := nil;
+      item0, item1, item: Item := nil;
+      i, j: integer := 0;
+      symbolSet: SymbolSet := nil;
+      X: integer := 0;
+      next: SymbolSetRecord := nil;
+      nextItem: ItemSetRecord := nil;
+  begin
+    initializeFirstSets ();
+    initializeFollowSets ();
+    initializeActionTable ();
+    initializeCollection ();
+    itemSet0 := newItemSet ();
+    item0 := copyItem (ruleList [0]);
+    item0.dotPos := 0;
+    item1 := copyItem (ruleList [0]);
+    item1.dotPos := 1;
+    addToItemSet (itemSet0, item0);
+    addToCollection (closure (itemSet0));
+    i := 0;
+    while i < nextState do
+      (*  WRITE ("Considering state ", i, "...$");  *)
+      (*  printItemSet (collection [i]);  *)
+      symbolSet := symbolsAfterDot (collection [i]);
+      (*  WRITE ("Symbols after the dot = ");  *)
+      (*  printSymbolSet (symbolSet);  *)
+      (*  WRITE ("$");  *)
+      next := symbolSet.firstSymbol;
+      while next <> nil do
+        X := next.symbol;
+        (*  WRITE ("Calling goto for symbol ");  *)
+        (*  printSymbol (X);  *)
+        (*  WRITE ("...$");  *)
+        anotherItemSet := goto ( collection [i], X); 
+        j := findInCollection (anotherItemSet);
+        if j < 0 then
+          j := nextState;
+          (*  WRITE ("Creating state ", nextState, " with these items:$");  *)
+          (*  printItemSet (anotherItemSet);  *)
+          addToCollection (anotherItemSet);
+        end;
+        write ("State ", i, " =====");
+        printSymbol (X);
+        write ("=====> State ", j, "$");
+        if isTerminal (X) then
+          setAction (i, X, SHIFT, j);
+        elseif isNonTerminal (X) then
+          setAction (i, X, GOTO, j);
+        end;
+        next := next.next;
+      end;
+      if itemSetContains (collection [i], item1) then
+        setAction (i, EOFSYMBOL, ACCEPT, 0);
+      end;
+      nextItem := collection [i].firstItem;
+      while nextItem <> nil do
+        item := nextItem.item;
+        if (item.lhs <> 0) and
+           (item.dotPos >= item.rhsSize) then
+          (*  WRITE ("====  Found a candidate rule: "); printItem (item);  *)
+          next := followSets [item.lhs].firstSymbol;
+          while next <> nil do
+            X := next.symbol;
+            setAction (i, X, REDUCE, item.ruleNumber);
+            next := next.next;
+          end;
+        end;
+        nextItem := nextItem.next;
+      end;
+      i := i + 1;
+    end;
+    (*  WRITE ("Here is the collection of itemSets...$");  *)
+    (*  printCollection ();  *)
+    return;
+  end;
+
+
+
+(* symbolsAfterDot (itemSet)
+**
+** This routine returns the set of symbols (possibly empty) appearing after
+** the dot in any of the items in this itemSet.
+*)
+procedure symbolsAfterDot (itemSet: ItemSet) : SymbolSet is
+  var result: SymbolSet := newSymbolSet ();
+      next: ItemSetRecord := nil;
+      item: Item := nil;
+  begin
+    next := itemSet.firstItem;
+    while next <> nil do
+      item := next.item;
+      if item.dotPos < item.rhsSize then
+        addToSymbolSet (result, item.rhs [item.dotPos]);
+      end;
+      next := next.next;
+    end;
+    return result;
+  end;
+
+
+
+(* goto (I, X)
+**
+** This routine is passed a set of items I and a grammar symbol X (either a
+** terminal or non-terminal).  It returns a set of items.
+*)
+procedure goto (I: ItemSet; X: integer) : ItemSet is
+  var star: ItemSet := nil;
+      next: ItemSetRecord := nil;
+      item: Item := nil;
+  begin
+    (*  WRITE ("===== GOTO called =====$I =$");  *)
+    (*  printItemSet (I);  *)
+    (*  WRITE ("X = "); printSymbol (X); WRITE ("$");  *)
+    star := newItemSet ();
+    next := I.firstItem;
+    while next <> nil do
+      item := next.item;
+      (*  WRITE ("Considering item: ");  printItem (item);  *)
+      if (item.dotPos < item.rhsSize) and
+         (item.rhs [item.dotPos] = X) then
+        (*  WRITE ("The dot is before X$");  *)
+        item := copyItem (item);
+        item.dotPos := item.dotPos + 1;
+        (*  WRITE ("Adding this item to star: "); printItem (item);  *)
+        addToItemSet (star, item);
+        (*  WRITE ("star = $");  printItemSet (star);  *)
+      end;
+      next := next.next;
+    end;
+    star := closure (star);
+    (*  WRITE ("star = $");  printItemSet (star);  *)
+    return star;
+  end;
+
+
+
+(* printStates ()
+**
+** This routine prints all the states; that is, it prints all the items
+** in each of the sets in the canonical collection of sets of LR(0) items.
+*)
+procedure printStates () is
+  var i: integer := 0;
+  begin
+    i := 0;
+    while i < nextState do
+      write ("=====  State ", i, "  =====$");
+      printItemSet (collection [i]);
+      i := i + 1;
+    end;
+    return;
+  end;
+
+
+
+(* Mainline  *)
+
+var i0, i1, i2, i3: Item := nil;
+  set1, set2, set3: ItemSet := nil;
+  i: integer := 0;
+  s1, s2: SymbolSet := nil;
+
+begin
+
+  initializeGrammar ();
+  printAllSymbols ();
+
+  write ("Here are the rules...$");
+  for i := 0 to nextRuleListIndex - 1 do
+    write ("  ");
+    printItem (ruleList [i]);
+  end;
+
+  printFirstAndFollowSets ();
+  computeTable ();
+  printStates ();
+  printActionTable ();
+  parseInput ();
+
+end;

@@ -1,0 +1,5 @@
+program is
+var x : integer := 2;
+begin
+  write ("2 + 2 = ", x + x);
+end;

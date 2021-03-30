@@ -1,0 +1,115 @@
+(* A Context-free Grammar for PCAT
+**
+** Harry Porter - 11/4/98
+*)
+
+prog = program is body ;
+body = decls begin stmts end
+decls = decls decl
+decls =
+decl = var varDecls
+decl = type typeDecls
+decl = procedure procDecls
+varDecls = varDecls varDecl
+varDecls =
+varDecl = idList optionalType := expr ;
+idList = idList , ID
+idList = ID
+optionalType = : type2
+optionalType =
+typeDecls = typeDecls typeDecl
+typeDecls =
+typeDecl = ID is type2 ;
+procDecls = procDecls procDecl
+procDecls =
+procDecl = ID formalParams optionalType is body ;
+type2 = ID
+type2 = array of type2
+type2 = record components end
+components = components component
+components = component
+component = ID : type2 ;
+formalParams = ( )
+formalParams = ( fpSections )
+fpSections = fpSections ; fpSection
+fpSections = fpSection
+fpSection = idList : type2
+stmts = stmts stmt
+stmts =
+stmt = lValue := expr ;
+stmt = ID actualParams ;
+stmt = read ( lValue lValues ) ;
+stmt = write writeParams ;
+stmt = if expr then stmts elseIfs optionalElse end ;
+stmt = while expr do stmts end ;
+stmt = loop stmts end ;
+stmt = for ID := expr to expr optionalBy do stmts end ;
+stmt = exit ;
+stmt = return optionalExpr ;
+writeParams = ( )
+writeParams = ( writeExprs )
+writeExprs = writeExprs , writeExpr
+writeExprs = writeExpr
+writeExpr = "any string"
+writeExpr = expr
+optionalElse = else stmts
+optionalElse =
+elseIfs = elseif expr then stmts elseIfs
+elseIfs =
+optionalBy = by expr
+optionalBy =
+optionalExpr = expr
+optionalExpr =
+expr = expr2 moreExpr2
+moreExpr2 = moreExpr2 binaryOp2 expr2
+moreExpr2 =
+expr2 = expr3 moreExpr3
+moreExpr3 = moreExpr3 binaryOp3 expr3
+moreExpr3 =
+expr3 = expr4 moreExpr4
+moreExpr4 = moreExpr4 binaryOp4 expr4
+moreExpr4 =
+expr4 = unaryOp expr4
+expr4 = expr5
+expr5 = 123
+expr5 = 123.321
+expr5 = lValue
+expr5 = ( expr )
+expr5 = ID actualParams
+expr5 = ID compValues
+expr5 = ID arrayValues
+lValues = , lValue lValues
+lValues =
+lValue = ID
+lValue = lValue [ expr ]
+lValue = lValue . ID
+actualParams = ( )
+actualParams = ( actuals )
+actuals = actuals , expr
+actuals = expr
+compValues = { ID := expr moreCompValues }
+moreCompValues = moreCompValues ; ID := expr
+moreCompValues =
+arrayValues = [< arrayValue moreArrayValues >]
+moreArrayValues = moreArrayValues , arrayValue
+moreArrayValues =
+arrayValue = expr
+arrayValue = expr of expr
+unaryOp = +
+unaryOp = -
+unaryOp = not
+binaryOp2 = >
+binaryOp2 = <
+binaryOp2 = =
+binaryOp2 = >=
+binaryOp2 = <=
+binaryOp2 = <>
+binaryOp3 = +
+binaryOp3 = -
+binaryOp3 = or
+binaryOp4 = *
+binaryOp4 = /
+binaryOp4 = div
+binaryOp4 = mod
+binaryOp4 = and
+

@@ -1,0 +1,17 @@
+(* This program tests DIV and REM. *)
+
+program is
+
+begin
+
+  write ("17 DIV 5 = ", 17 div 5);
+  write ("17 DIV -5 = ", 17 div -5);
+  write ("-17 DIV 5 = ", -17 div 5);
+  write ("-17 DIV -5 = ", -17 div -5);
+
+  write ("17 MOD 5 = ", 17 mod 5);
+  write ("17 MOD -5 = ", 17 mod -5);
+  write ("-17 MOD 5 = ", -17 mod 5);
+  write ("-17 MOD -5 = ", -17 mod -5);
+
+end;

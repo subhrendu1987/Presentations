@@ -1,0 +1,16 @@
+rm -f tst/fact.s
+rm -f tst/fact
+java Main < tst/fact.pcat 1> tst/fact.s
+Assembling...
+Beginning execution...
+The first factorial numbers are:
+1
+2
+6
+24
+120
+720
+5040
+40320
+362880
+3628800

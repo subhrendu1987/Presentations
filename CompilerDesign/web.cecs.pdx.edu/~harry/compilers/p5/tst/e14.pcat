@@ -1,0 +1,11 @@
+(*** Check that statement lists and nested expressions are checked. ***)
+(*** Should produce 4 "Identifier is not defined" errors. ***)
+
+program is
+  var x: integer := 1;
+
+begin
+      x := x1;
+      x := x2;
+      x := x3 + x4;
+end;

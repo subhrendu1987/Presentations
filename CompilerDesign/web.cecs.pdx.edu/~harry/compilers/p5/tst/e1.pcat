@@ -1,0 +1,8 @@
+(*** Check var declarations - should be 2 "Identifier is already defined" errors ***)
+
+program is
+  var x,y,x: integer := 1;
+      a: real := 1.5;
+      a: integer := 2;
+  begin
+  end;

@@ -1,0 +1,8 @@
+(*** Test to see whether VAR DECLS are processed in the right order. ***)
+(*** Should generate 2 errors.  ***)
+program is
+  var x := y + 1;    (* Identifier is not defined *)
+  var y := 1;
+  var z := y+1;
+  var w := w;        (* Identifier is not defined *)
+begin end;

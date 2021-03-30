@@ -1,0 +1,8 @@
+rm -f tst/array1.s
+rm -f tst/array1
+java Main < tst/array1.pcat 1> tst/array1.s
+Assembling...
+Beginning execution...
+Should print 111...111
+Should print 222...222
+Should print 333...333

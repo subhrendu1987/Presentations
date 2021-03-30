@@ -1,0 +1,6 @@
+(***   should print: Expecting ID after PROCEDURE   ***)
+program is
+  procedure
+begin
+  x := 123;
+end;

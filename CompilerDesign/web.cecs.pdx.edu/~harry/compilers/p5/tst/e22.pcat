@@ -1,0 +1,64 @@
+(*** Test to see whether predefined IDs are checked for. ***)
+(*** Should generate 33 errors.  ***)
+program is
+  var nil: MyArr := nil;                (* error here *)
+      true: MyArr := nil;               (* error here *)
+      false: MyArr := nil;              (* error here *)
+      integer: MyArr := nil;            (* error here *)
+      real: MyArr := nil;               (* error here *)
+      boolean: MyArr := nil;            (* error here *)
+      NIL: MyArr := nil;
+      TRUE: MyArr := nil;
+      FALSE: MyArr := nil;
+      INTEGER: MyArr := nil;
+      REAL: MyArr := nil;
+      BOOLEAN: MyArr := nil;
+      a: MyArr := nil;
+      r: MyRec := nil;
+  type nil is array of integer;              (* error here *)
+       true is array of integer;             (* error here *)
+       false is array of integer;            (* error here *)
+       integer is array of integer;          (* error here *)
+       real is array of integer;             (* error here *)
+       boolean is array of integer;          (* error here *)
+       MyArr is array of integer;
+       MyRec is record
+                  nil: MyArr;             (* error here *)
+                  true: MyArr;            (* error here *)
+                  false: MyArr;           (* error here *)
+                  integer: MyArr;         (* error here *)
+                  real: MyArr;            (* error here *)
+                  boolean: MyArr;         (* error here *)
+                  myField: MyArr;
+                end;
+  procedure nil () is begin end;                (* error here *)
+  procedure true () is begin end;               (* error here *)
+  procedure false () is begin end;              (* error here *)
+  procedure integer () is begin end;            (* error here *)
+  procedure real () is begin end;               (* error here *)
+  procedure boolean () is begin end;            (* error here *)
+  procedure foo () is begin end;
+  procedure bar (nil,                 (* error here *)
+                 true,                (* error here *)
+                 false,               (* error here *)
+                 integer,             (* error here *)
+                 real,                (* error here *)
+                 boolean,             (* error here *)
+                 myParm: MyArr) is
+    begin
+      (* Make sure the good IDs are accepted... *)
+      a := 123;
+      r := 123;
+      r.myField := 123;
+      foo ();
+      myParm := 123;
+      a := a + r + r.myField + foo() + myParm;
+
+      (* Make sure bad IDs are really detected... *)
+      undef1 := 123;             (* error here *)
+      r.undef2 := 123;           (* this error will be detected in project 6 *)
+      undef3 ();                 (* error here *)
+      a := a + undef4;           (* error here *)
+    end;
+
+begin end;

@@ -1,0 +1,70 @@
+(* Here is a sample PCAT program.  It is syntactically correct.
+
+   In any input source string to be parsed by YAPP, you must not
+   use the following identifiers:
+	expr2
+	expr3
+	expr4
+	expr5
+	E2
+	T2
+	bexpr
+	bterm
+	bfactor
+	true
+	false
+	A
+	a
+	b
+	c
+   and any symbol used as a non terminal in the PCAT grammar.
+
+   These id's are hardwired in to the YAPP program, so that it can print
+   them out in a reasonable way.
+*)
+
+program is
+  var
+  var x,y,z : integer := 123;
+      x,y,z : integer := 123;
+      x,y,z : boolean := 123;
+  type x is integer;
+       y is real;
+       z is array of real;
+       d is record
+             first: t1;
+             second: t2;
+            end;
+  procedure foo () is begin end;
+  procedure foo2 (
+              x,y,z: integer;
+              d,e,f: real)
+                  : boolean is begin end;
+  var type procedure
+
+  begin
+    z := 123;
+    x[123] := 123;
+    x.f := 123;
+    x.f[3].g := 123;
+    if 4 then
+      exit;
+    elseif 5 then
+      return;
+    elseif 6 then
+      return 123;
+    else
+      loop
+      end;
+    end;
+    for i := 1 to 10 do
+      write ("hello", 321, 123);
+    end;
+    for i := 1 to 10 by 4 do
+      write (321, "hello", 123);
+    end;
+    while 13 do
+      read (i, j, k);
+    end;
+    foo (1, 2, 3);
+  end;

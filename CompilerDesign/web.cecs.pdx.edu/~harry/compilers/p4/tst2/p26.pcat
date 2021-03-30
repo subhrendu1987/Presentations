@@ -1,0 +1,5 @@
+(***   should print: expecting ';' or ')' after type   ***)
+program is
+  procedure foo (x: integer} is begin end;
+begin
+end;

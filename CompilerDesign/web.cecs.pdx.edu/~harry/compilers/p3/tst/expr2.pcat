@@ -1,0 +1,8 @@
+program is
+  var a, b : integer := 1;  
+  var x, y : integer := 1.234;  
+  begin
+    a := b * b + - 3 * - 2;
+    x := x - y - (x - y) + 4.321;
+    write ("a = ", a, "x = ", x);
+  end;

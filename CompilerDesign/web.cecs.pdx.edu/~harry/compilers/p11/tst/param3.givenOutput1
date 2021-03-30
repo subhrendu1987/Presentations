@@ -1,0 +1,28 @@
+rm -f tst/param3.s
+rm -f tst/param3
+java Main < tst/param3.pcat 1> tst/param3.s
+Assembling...
+Beginning execution...
+Within main...
+Calling foo1 (101,102,103)
+ Entering foo1 ( x1=101, y1=102, z1=103 )
+  Calling foo2 (201,202,203)
+   Entering foo2 ( x2=201, y2=202, z2=203 )
+    Adding 1000 to locals...
+    Locals: x2=1201, y2=1202, z2=1203
+    Non-locals: x1=101, y1=102, z1=103
+    Adding 1000 to non-locals...
+    Non-locals: x1=1101, y1=1102, z1=1103
+   Leaving foo2
+  Locals within foo1: x1=1101, y1=1102, z1=1103
+  Calling foo2 (301,302,303)
+   Entering foo2 ( x2=301, y2=302, z2=303 )
+    Adding 1000 to locals...
+    Locals: x2=1301, y2=1302, z2=1303
+    Non-locals: x1=1101, y1=1102, z1=1103
+    Adding 1000 to non-locals...
+    Non-locals: x1=2101, y1=2102, z1=2103
+   Leaving foo2
+  Locals within foo1: x1=2101, y1=2102, z1=2103
+ Leaving foo1
+Leaving main

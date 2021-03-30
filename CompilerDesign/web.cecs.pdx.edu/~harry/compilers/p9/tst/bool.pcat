@@ -1,0 +1,127 @@
+(* This program tests IR generation for boolean-valued expressions. *)
+
+program is
+  var
+    b, c, d: boolean := false;
+    i, j: integer := 0;
+  begin
+
+    (* Test each operator in a context where a result value is needed. *)
+
+    b := i < j;
+    b := i <= j;
+    b := i > j;
+    b := i >= j;
+    b := i = j;
+    b := i <> j;
+    b := not c;
+    b := c and d;
+    b := c or d;
+
+    (* Test each operator in a context where a jump is needed. *)
+
+    if i < j then
+      i := 101;
+      i := 102;
+    else
+      i := 103;
+      i := 104;
+    end;
+
+    if i <= j then
+      i := 105;
+      i := 106;
+    else
+      i := 107;
+      i := 108;
+    end;
+
+    if i > j then
+      i := 109;
+      i := 110;
+    else
+      i := 111;
+      i := 112;
+    end;
+
+    if i >= j then
+      i := 113;
+      i := 114;
+    else
+      i := 115;
+      i := 116;
+    end;
+
+    if i = j then
+      i := 117;
+      i := 118;
+    else
+      i := 119;
+      i := 120;
+    end;
+
+    if i <> j then
+      i := 121;
+      i := 122;
+    else
+      i := 123;
+      i := 124;
+    end;
+
+    if not c then
+      i := 125;
+      i := 126;
+    else
+      i := 127;
+      i := 128;
+    end;
+
+    if c and d then
+      i := 129;
+      i := 130;
+    else
+      i := 131;
+      i := 132;
+    end;
+
+    if c or d then
+      i := 133;
+      i := 134;
+    else
+      i := 135;
+      i := 136;
+    end;
+
+    (* Test each operator in a context where a jump is needed. *)
+
+    b := (i < j) and d;
+    b := (i <= j) and d;
+    b := (i > j) and d;
+    b := (i >= j) and d;
+    b := (i = j) and d;
+    b := (not c) and d;
+    b := (c and d) and d;
+    b := (c or d) and d;
+
+    b := c or (i < j);
+    b := c or (i <= j);
+    b := c or (i > j);
+    b := c or (i >= j);
+    b := c or (i = j);
+    b := c or (not c);
+    b := c or (c and d);
+    b := c or (c or d);
+
+    (* Here are a couple deeply nested boolean expressions. *)
+
+    b := (not (((i =  1) or not (i =  2)) and not ((i =  3) or (i =  4))) or
+          not (((i =  5) or not (i =  6)) and not ((i =  7) or (i =  8)))) and
+         (not (((i =  9) or not (i = 10)) and not ((i = 11) or (i = 12))) or
+          not (((i = 13) or not (i = 14)) and not ((i = 15) or (i = 16))));
+
+    b := (not (((i = 17) and not (i = 18)) or not ((i = 19) and (i = 20))) and
+          not (((i = 21) and not (i = 22)) or not ((i = 23) and (i = 24)))) or
+         (not (((i = 25) and not (i = 26)) or not ((i = 27) and (i = 28))) and
+          not (((i = 29) and not (i = 30)) or not ((i = 31) and (i = 32))));
+
+  end;

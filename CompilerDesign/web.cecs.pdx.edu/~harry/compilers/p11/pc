@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# Compile the pcat program and run it.
+#
+# Remove any previous files to prevent confusion.
+#
+echo "rm -f $1.s"
+rm -f $1.s
+echo "rm -f $1"
+rm -f $1
+#
+# Run the compiler, producing a .s file.
+#
+echo "java Main < $1.pcat 1> $1.s"
+java Main < $1.pcat 1> $1.s
+stat=$?
+#
+# Abort if the compiler ended with an error exit().
+#
+if test "$stat" != 0
+  then
+    echo "PCAT compiler script aborting..."
+    exit 1
+fi
+#
+# Assemble the .s file, and abort if problems.
+#
+echo "Assembling..."
+gcc -g $1.s -o $1
+if test $? != 0
+  then
+    echo "PCAT compiler script aborting..."
+    exit 1
+fi
+#
+# Run the executable code.
+#
+echo "Beginning execution..."
+$1

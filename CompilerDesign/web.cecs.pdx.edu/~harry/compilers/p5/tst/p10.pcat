@@ -1,0 +1,39 @@
+(*** Check currentLevel assignments - should be no errors ***)
+
+program is
+
+  procedure foo (a: integer) is
+    var b: integer := x+a;
+    type MyRec is record
+                    f1: integer;
+                    f2: integer;
+                  end;
+         MyArray is array of integer;
+    begin
+      if a then
+        for b := x to a by b do
+          while (a) do
+            loop
+              x := x;
+              x := a + (-b + foo(x,a,b));
+              return x;
+              foo (x,a,b);
+              read (x,a,b);
+              write (x,a,b);
+              x := MyRec { f1:=x+a; f2:=a+b };
+              x := MyArray {{ x,a,b, x of x, a of a, b of b }};
+              x[a] := a[b] + b[x];
+            end; 
+          end;
+        end;
+      elseif b then
+        a := a;
+      else
+        b := b;
+      end;
+    end;
+
+  var x: integer := 123456;
+  begin
+    x := x + 654321;
+  end;

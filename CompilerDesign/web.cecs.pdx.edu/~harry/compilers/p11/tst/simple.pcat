@@ -1,0 +1,8 @@
+(* This program tests the simplest stuff. *)
+
+program is
+
+  begin
+    write ("Hello, world!");
+    write ("Segmentation fault - core dumped");  (* Just kidding around! *)
+  end;

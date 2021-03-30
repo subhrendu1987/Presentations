@@ -1,0 +1,6 @@
+rm -f tst/binary1.s
+rm -f tst/binary1
+java Main < tst/binary1.pcat 1> tst/binary1.s
+Assembling...
+Beginning execution...
+4 + 3 = 7

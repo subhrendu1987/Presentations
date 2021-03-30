@@ -1,0 +1,12 @@
+program is
+  procedure f(x : integer) : integer is
+    begin
+      return x + 10;
+    end;
+  procedure h(x : integer; z: integer) : integer is
+    begin
+      return x + z;
+    end;      
+  begin
+    write (h(f(10), h(f (20), f(30))));
+  end;

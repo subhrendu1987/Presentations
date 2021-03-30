@@ -1,0 +1,54 @@
+#!/bin/sh
+#
+# This script does the following:
+#
+#     Print out the PCAT source file.
+#     Run the compiler, producing a .s file.
+#     Print out the .s file.
+#     Assemble the .s file, and abort if problems.
+#     Run the executable code.
+#
+#
+# Print out the PCAT source file.
+#
+echo  --------------- tst/$1.pcat... ---------------
+cat -n < tst/$1.pcat | more
+#
+# Remove any previous .s files to prevent confusion.
+#
+echo  --------------- Removing tst/$1.s... ---------------
+rm -f tst/$1.s
+#
+# Run the compiler, producing a .s file.
+#
+echo  --------------- Compiling... ---------------
+java Main < tst/$1.pcat 1> tst/$1.s
+stat=$?
+#
+# Print out the .s file.
+#
+echo  --------------- tst/$1.s... ---------------
+cat -n < tst/$1.s | more
+#
+# Abort if the compiler ended with an error exit().
+#
+if test "$stat" != 0
+  then
+    echo "PCAT compiler script aborting..."
+    exit 1
+fi
+#
+# Assemble the .s file, and abort if problems.
+#
+echo  --------------- Assembling... ---------------
+gcc -g tst/$1.s -o tst/$1
+if test $? != 0
+  then
+    echo "PCAT compiler script aborting..."
+    exit 1
+fi
+#
+# Run the executable code.
+#
+echo  --------------- Beginning execution... ---------------
+tst/$1

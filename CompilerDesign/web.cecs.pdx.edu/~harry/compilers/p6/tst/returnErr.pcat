@@ -1,0 +1,50 @@
+(* Test the value associated with RETURN statements.
+**
+** This program contains 9 errors.
+*)
+
+program is
+  type ARR is array of integer;
+  type REC is record f: integer; end;
+  var a: ARR := nil;
+  var r: REC := nil;
+
+  procedure f0 () is
+    begin
+      if 0=0 then
+        return 1;                (* Error: expecting nothing *)
+      else
+        return nil;              (* Error: expecting nothing *)
+      end;
+    end;
+  procedure f1 () : integer is
+    begin
+      if 0=0 then
+        return 1.5;              (* Error: expecting INTEGER *)
+      else
+        return;                  (* Error: expecting INTEGER *)
+      end;
+    end;
+  procedure f2 () : real is
+    begin
+      if 0=0 then
+        return nil;              (* Error: expecting REAL *)
+      else
+        return;                  (* Error: expecting REAL *)
+      end;
+    end;
+  procedure f3 () : boolean is
+    begin
+      return 321;              (* Error: expecting BOOLEAN *)
+    end;
+  procedure f4 () : ARR is
+    begin
+      return r;                (* Error: expecting ARRAY *)
+    end;
+  procedure f5 () : REC is
+    begin
+      return a;                (* Error: expecting RECORD *)
+    end;
+ 
+begin
+end;

@@ -1,0 +1,5 @@
+(***  should print: Expecting '}' after '}' in array constructor   ***)
+program is
+begin
+  a := ARR {{ 1, 2, 3 };
+end;

@@ -1,0 +1,9 @@
+(*** Test exit and return statements ***)
+
+program is begin
+
+  exit;
+  return;
+  return 1+2+3;
+
+end;

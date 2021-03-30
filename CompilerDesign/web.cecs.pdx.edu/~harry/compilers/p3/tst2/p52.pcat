@@ -1,0 +1,5 @@
+(***   should print: expecting formal parameter name - 2   ***)
+program is
+  procedure foo (x, y, , z:  integer) is begin end;
+begin
+end;

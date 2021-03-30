@@ -1,0 +1,39 @@
+program is
+
+(***   Test type trees   ***)
+
+type t0 is array of integer;
+type t1 is array of t0;
+type t2 is array of t1;
+type t3 is
+           record
+               fieldname1
+                         :
+                           type1;
+               fieldname2
+                         :
+                           type2;
+           end;
+type t4 is record
+               f1: type1;
+               f2: type2;
+               f3: type3;
+           end;
+type t5 is
+           array
+                 of
+                   t6;
+type t6 is record
+               s1: t3;
+               s2: t6;
+               s3: type3;
+           end;
+type t7 is record
+              v1: integer;
+              v2: real;
+              v3: boolean;
+              v4: t5;
+              v5: t0;
+           end;
+ 
+begin end;

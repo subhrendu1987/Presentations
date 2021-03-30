@@ -1,0 +1,32 @@
+(* This program prints out the first few primes using the
+   "Sieve of Eratosthenes" algorithm. *)
+
+program is
+
+  type A is array of boolean;
+  var N: integer := 0;
+      a: A := nil;
+      i,j: integer := 0;
+
+begin
+
+  write ("Printing the primes from 1 to N;  Please enter N...");
+  loop
+    read (N);
+    if N>=1 then exit; end;
+    write ("N must be >= 1.  Try again...");
+  end;
+  a := A {{ N+1 of true }};
+  a[1] := false;
+  for i := 2 to N div 2 do
+    for j := 2 to N div i do
+      a [i*j] := false;
+    end;
+  end;
+  for i := 1 to N do
+    if a[i] then
+      write (i);
+    end;
+  end;
+
+end;

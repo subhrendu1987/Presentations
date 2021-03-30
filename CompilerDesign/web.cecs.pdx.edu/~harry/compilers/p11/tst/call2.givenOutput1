@@ -1,0 +1,24 @@
+rm -f tst/call2.s
+rm -f tst/call2
+java Main < tst/call2.pcat 1> tst/call2.s
+Assembling...
+Beginning execution...
+Within main...
+x0 = 0, y0 = 0, z0 = 0.9
+Within foo1...
+x0 = 0, y0 = 0, z0 = 0.9
+x1 = 1, y1 = 1, z1 = 0.9001
+Within foo2...
+x0 = 0, y0 = 0, z0 = 0.9
+x1 = 1, y1 = 1, z1 = 0.9001
+x2 = 2, y2 = 2, z2 = 0.9002
+Changing non-locals...
+x0 = 0, y0 = 1000, z0 = 1.9
+x1 = 1, y1 = 1001, z1 = 1.9001
+x2 = 2, y2 = 1002, z2 = 1.9002
+...Leaving foo2
+x0 = 0, y0 = 1000, z0 = 1.9
+x1 = 1, y1 = 1001, z1 = 1.9001
+...Leaving foo1
+x0 = 0, y0 = 1000, z0 = 1.9
+...Leaving main

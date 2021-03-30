@@ -1,0 +1,46 @@
+program is
+  procedure b() is
+    begin
+      write(101);
+    end;
+  procedure c(x: boolean) is
+    begin
+      write(not x);
+    end;
+  procedure f(x : integer) is
+    begin
+      write(x+10);
+    end;
+  procedure f1(x : integer) is
+    begin
+      x := x + 10;
+      write(x);
+    end;
+  var y := 20;
+  procedure h(x : integer; z: integer; w: integer) is
+    begin
+      write(x + z + w);
+    end;      
+  procedure g(x: integer) is
+    begin
+    end;
+  procedure echo(x: integer) : integer is  
+    begin
+      write (x);
+      return x;
+    end;
+  begin
+    b();
+    c(true);
+    f (10);
+    f1(y);
+    write(y);
+    h(echo(10), echo(20), echo(30));
+
+  end;
+
+
+
+
+
+  

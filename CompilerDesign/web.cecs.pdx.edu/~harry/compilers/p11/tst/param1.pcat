@@ -1,0 +1,38 @@
+(* This program tests passing parameters. *)
+
+program is
+  procedure foo1 (a1,a2,a3,a4,a5,a6,a7,a8,a9,a10: integer) is
+      begin
+        write (a1);
+        write (a2);
+        write (a3);
+        write (a4);
+        write (a5);
+        write (a6);
+        write (a7);
+        write (a8);
+        write (a9);
+        write (a10);
+        return;
+      end;
+  procedure foo2 (a1,a2,a3,a4,a5,a6,a7,a8,a9,a10: real) is
+      begin
+        write (a1);
+        write (a2);
+        write (a3);
+        write (a4);
+        write (a5);
+        write (a6);
+        write (a7);
+        write (a8);
+        write (a9);
+        write (a10);
+        return;
+      end;
+
+  begin
+    write ("Should print 1, 2, 3, ..., 10:");
+    foo1 (1,2,3,4,5,6,7,8,9,10);
+    write ("Should print 1.1, 2.2, 3.3, ..., 10.1:");
+    foo2 (1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.1);
+  end;

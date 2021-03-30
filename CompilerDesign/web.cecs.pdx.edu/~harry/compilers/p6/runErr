@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# This is a version of run that does not show differences in the "out" files.
+#
+echo $1:
+java Main < tst/$1.pcat 1> tst/$1.out 2> tst/$1.err
+#diff -w tst/$1.out.bak tst/$1.out
+diff -w tst/$1.err.bak tst/$1.err
+rm tst/$1.out
+rm tst/$1.err

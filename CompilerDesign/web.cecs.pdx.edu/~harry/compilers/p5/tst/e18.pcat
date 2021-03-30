@@ -1,0 +1,8 @@
+(*** This program tests that we have a proc name in an CALL_STMT ***)
+(*** It should detect 1 error ***)
+
+program is
+  var x := 1;
+begin
+  x (1,2,3);   (* Expecting a procedure name *)
+end;

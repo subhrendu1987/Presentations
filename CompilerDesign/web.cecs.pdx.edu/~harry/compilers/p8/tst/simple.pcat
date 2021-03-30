@@ -1,0 +1,7 @@
+(* This program tests basic IR code generation. *)
+
+program is
+  var i: integer := 9999;
+  begin
+    i := i + 123;
+  end;

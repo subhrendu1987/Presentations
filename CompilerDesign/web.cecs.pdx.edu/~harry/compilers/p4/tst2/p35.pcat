@@ -1,0 +1,6 @@
+(***   should  print: Expecting ID after TYPE   ***)
+program is
+  type
+begin
+  x := 123;
+end;

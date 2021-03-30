@@ -1,0 +1,6 @@
+(***   should print: expecting ';' after end in loop statement   ***)
+program is
+begin
+  loop
+  end:
+end;

@@ -1,0 +1,44 @@
+(*** Check that nested statements and nested expressions are checked. ***)
+(*** Should produce 34 "Identifier is not defined" errors. ***)
+
+program is
+  var x: integer := x34;
+  procedure foo () is begin end;
+
+begin
+  if x1 then
+    if x2 then x3 := 0; end;
+  elseif x4 then
+    x5 := 0;
+    return x11;
+  else
+    while (x6) do
+      loop
+        for x33 := x7 to x8 by x9 do
+          x10 := 0;
+        end;
+        read (x12);
+        write (x13);
+        foo (x14);
+      end;
+      x := foo(x15);
+      x := x + x16;
+      x := x - x17;
+      x := x * x18;
+      x := x / x19;
+      x := x div x20;
+      x := x mod x21;
+      x := x and x22;
+      x := x or x23;
+      x := x < x24;
+      x := x > x25;
+      x := x <= x26;
+      x := x >= x27;
+      x := x = x28;
+      x := x <> x29;
+      x := + x30;
+      x := - x31;
+      x := not x32;
+    end;
+  end;
+end;

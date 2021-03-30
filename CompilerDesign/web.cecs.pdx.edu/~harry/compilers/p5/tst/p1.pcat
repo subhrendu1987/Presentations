@@ -1,0 +1,6 @@
+(*** Check variable declarations - should be no errors ***)
+
+program is
+  var x, y, z: integer := 1;
+      a: real := 1.5;
+  begin end;

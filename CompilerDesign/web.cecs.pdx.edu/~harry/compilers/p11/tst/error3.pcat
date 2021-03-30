@@ -1,0 +1,24 @@
+(* This program is for testing the read-failed error *)
+
+program is
+
+  var i: integer := 0;
+  var x: real := 0.0;
+
+begin
+
+  write ("This program is for testing the read-failed error message.");
+  write ("  First, it will ask for an integer, then print it.");
+  write ("  Second, it will ask for a real, then print it.");
+  write ("  Please make an error entering one or the other to");
+  write ("  verify that an error message is produced and that the");
+  write ("  program subsequently aborts.");
+  write ("Please enter an integer...");
+  read (i);
+  write ("You entered...", i);
+  write ("Please enter a real...");
+  read (x);
+  write ("You entered...", x);
+  write ("Program continuing...and exiting.");
+
+end;

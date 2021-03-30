@@ -1,0 +1,7 @@
+rm -f tst/simple.s
+rm -f tst/simple
+java Main < tst/simple.pcat 1> tst/simple.s
+Assembling...
+Beginning execution...
+Hello, world!
+Segmentation fault - core dumped

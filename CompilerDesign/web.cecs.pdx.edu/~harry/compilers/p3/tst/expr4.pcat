@@ -1,0 +1,16 @@
+program is
+  var x := 3; y := 5;
+  var z := true; w := false;
+  type T is array of integer;
+  var p := T {{ 10 of 0 }};
+  var q := T {{ 10 of 0 }};
+  var r := T {{ 10 of 1 }};
+  begin
+    write (x = y, x <> y, x < y, x > y, x <= y, x >= y);
+    write (y = y, y <> y, y < y, y > y, y <= y, y >= y);
+    write (z = w, z <> w);
+    write (w = w, w <> w);
+    write (p = q, p <> q);
+    write (p = r, p <> r);
+    write (r = r, r <> r);
+  end;

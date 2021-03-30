@@ -1,0 +1,23 @@
+(* This program prints out the first several factorial numbers,
+   using a recursive algorithm.  *)
+
+program is
+
+  var i: integer := 0;
+
+  procedure fact (x: integer) : integer is
+  begin
+    if x<2 then
+      return 1;
+    else
+      return x * fact (x-1);
+    end;
+  end;
+
+begin
+
+  write ("The first factorial numbers are:");
+  for i := 1 to 10 do
+    write (fact(i));
+  end;
+end;

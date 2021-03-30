@@ -1,0 +1,50 @@
+(* Test the value associated with RETURN statements.
+**
+** This program contains no errors.
+*)
+
+program is
+  type ARR is array of integer;
+       REC is record f: integer; end;
+  var a: ARR := nil;
+  var r: REC := nil;
+
+  procedure f0 () is
+    begin
+      return;
+    end;
+  procedure f1 () : integer is
+    begin
+      return 123;
+    end;
+  procedure f2 () : real is
+    begin
+      if true then
+        return 1.5;
+      else
+        return 123;               (* Will insert coercion *)
+      end;
+    end;
+  procedure f3 () : boolean is
+    begin
+      return true;
+    end;
+  procedure f4 () : ARR is
+    begin
+      if true then
+        return nil;
+      else
+        return a;
+      end;
+    end;
+  procedure f5 () : REC is
+    begin
+      if true then
+        return nil;
+      else
+        return r;
+      end;
+    end;
+ 
+begin
+end;

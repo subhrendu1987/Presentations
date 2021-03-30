@@ -1,0 +1,29 @@
+program is
+
+(*** Make sure that all types are grouped 1st, procs 2nd, and vars 3rd   ***)
+
+var x1: integer := 111;
+    x2: integer := 222;
+type t1 is array of s1;
+     t2 is array of s2;
+     t3 is array of s3;
+procedure foo1 () is begin end;
+procedure foo2 () is begin end;
+          foo3 () is begin end;
+
+var x3: integer := 333;
+    x4: integer := 444;
+    x5: integer := 555;
+var x6: integer := 666;
+    x7: integer := 777;
+type t4 is array of s4;
+procedure foo4 () is begin end;
+          foo5 () is begin end;
+          foo6 () is begin end;
+
+var x8: integer := 888;
+type t5 is array of s5;
+     t6 is array of s6;
+procedure foo7 () is begin end;
+ 
+begin end;

@@ -1,0 +1,5 @@
+(***   should print: expecting 'id := expr' in record constructor - 1   ***)
+program is
+begin
+  r := Rec { };
+end;

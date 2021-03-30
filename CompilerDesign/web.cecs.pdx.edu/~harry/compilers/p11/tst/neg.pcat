@@ -1,0 +1,15 @@
+(* This program tests ineg and fneg. *)
+
+program is
+
+  var x: integer := 0;
+      y: integer := 3;
+      a: real := 0.0;
+      b: real := 3.3;
+
+begin
+  x := - y;
+  write ("- 3 = ", x);
+  a := - b;
+  write ("- 3.3 = ", a);
+end;

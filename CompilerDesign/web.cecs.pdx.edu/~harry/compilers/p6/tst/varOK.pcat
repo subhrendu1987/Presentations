@@ -1,0 +1,26 @@
+(* Test type compatibility in VAR decls.
+**
+** There should be no errors.
+*)
+
+program is
+  type A is array of integer;
+      R is record f: integer; end;
+
+  var i : integer := 0;
+      f : real := 1.2;
+      f2: real := 1;    (*** coercion inserted here ***)
+      b : boolean := false;
+      a : A := nil;
+      a2: A := A {{1, 2, 3}};
+      r : R := nil;
+      r2: R := R { f:=123 };
+
+      x1 := 0;
+      x2 := 1.2;
+      x3 := false;
+      x4 := A {{1, 2, 3}};
+      x5 := R { f:=123 };
+
+begin
+end;

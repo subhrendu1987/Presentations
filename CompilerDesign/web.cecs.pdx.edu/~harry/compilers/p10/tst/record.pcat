@@ -1,0 +1,44 @@
+(*  This program tests whether offsets are being assigned in records. *)
+
+program is
+  var i: integer := 0;
+      x: real := 0.0;
+      b: boolean := false;
+  procedure foo (a1,a2,a3: integer) is
+    var r: MyRec1 := nil;
+    type MyRec1 is record
+                     f1: integer;
+                     f2: real;
+                     f3: boolean;
+                     f4: MyRec3;
+                   end;
+         MyRec2 is record
+                     h1: integer;
+                     h2: real;
+                     h3: boolean;
+                   end;
+         MyRec3 is record
+                     g1: integer;
+                     g2: real;
+                     g3: boolean;
+                     g4: MyRec2;
+                   end;
+    begin
+      i := i + 3;
+      r := r;
+
+      i := r.f1;
+      x := r.f2;
+      b := r.f3;
+      x := r.f4.g2;
+      x := r.f4.g4.h2;
+
+      r.f1 := i;
+      r.f2 := x;
+      r.f3 := b;
+      r.f4.g2 := x;
+      r.f4.g4.h2 := x;
+
+      return;
+    end;
+begin end;

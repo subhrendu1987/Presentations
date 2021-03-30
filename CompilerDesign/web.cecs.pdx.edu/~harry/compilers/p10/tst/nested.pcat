@@ -1,0 +1,74 @@
+(* This program tests code generation for nested functions. *)
+
+program is
+    var i: integer := 0;
+
+    procedure foo1 (a, b, c: integer) is
+        var x: integer := 100;
+        procedure foo2 (a, b, c: integer) is
+            var x: integer := 200;
+            begin
+                i := 222;
+                foo1 (1, 2, 3);
+                foo2 (1, 2, 3);
+                foo3 (1, 2, 3);
+                return;
+            end;
+        procedure foo5 (a, b, c: integer) is
+            var x: integer := 500;
+            procedure foo6 (a, b, c: integer) is
+                var x: integer := 600;
+                begin
+                    i := 666;
+                    foo1 (1, 2, 3);
+                    foo5 (1, 2, 3);
+                    foo6 (1, 2, 3);
+                    return;
+                end;
+            procedure foo7 (a, b, c: integer) is
+                var x: integer := 700;
+                begin
+                    i := 777;
+                    foo1 (1, 2, 3);
+                    foo5 (1, 2, 3);
+                    foo7 (1, 2, 3);
+                    return;
+                end;
+            begin
+                i := 555;
+                foo1 (1, 2, 3);
+                foo5 (1, 2, 3);
+                foo3 (1, 2, 3);
+                return;
+            end;
+        begin
+            i := 111;
+            return;
+        end;
+
+    procedure foo3 (a, b, c: integer) is
+        var x: integer := 300;
+        procedure foo8 (a, b, c: integer) is
+            var x: integer := 800;
+            begin
+                i := 888;
+                foo1 (1, 2, 3);
+                foo8 (1, 2, 3);
+                foo3 (1, 2, 3);
+                return;
+            end;
+        begin
+            i := 333;
+            return;
+        end;
+
+    procedure foo4 (a, b, c: integer) is
+        var x: integer := 400;
+        begin
+            i := 444;
+            return;
+        end;
+
+    begin
+        foo1 (1, 2, 3);
+    end;

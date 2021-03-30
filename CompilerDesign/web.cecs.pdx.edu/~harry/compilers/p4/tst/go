@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# Use this shell script to run your program on a test file.
+#
+# This version is meant to be run from within the "tst" directory.
+#
+echo --------------- Source $1.pcat: ---------------
+cat -n $1.pcat | more
+java -cp .. Main < $1.pcat 1> $1.out 2> $1.err
+echo --------------- Output stdout: ---------------
+more $1.out
+echo --------------- Error output stderr: ---------------
+more $1.err
+rm $1.out
+rm $1.err

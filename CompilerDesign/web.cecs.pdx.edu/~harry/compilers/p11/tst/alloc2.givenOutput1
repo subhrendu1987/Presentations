@@ -1,0 +1,15 @@
+rm -f tst/alloc2.s
+rm -f tst/alloc2
+java Main < tst/alloc2.pcat 1> tst/alloc2.s
+Assembling...
+Beginning execution...
+Should print 123...123
+Should print 123.456...123.456
+Should print TRUE...TRUE
+Should print 321...321
+Should print 654.321...654.321
+Should print 111...111
+Should print 222.333...222.333
+Should print FALSE...FALSE
+Should print 444...444
+Should print 555.666...555.666

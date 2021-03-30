@@ -1,0 +1,37 @@
+(* This program tests IR code generation for Boolean and pointer types*)
+
+program is
+procedure foo (x,y,z: real; i,j: integer) : boolean is
+    var a: real := 0.0;
+        k: integer := 0;
+  begin
+    a := (x + y + z + h) * (x - (y - (z - h)));
+    k := (3 - i) * (j + g);
+    return b;
+  end;
+
+  type MyArr is array of integer;
+       MyRec is record f1: integer; end;
+  var b: boolean := false;
+  var a: MyArr := nil;
+  var r: MyRec := nil;
+  var g: integer := 0;
+  var h: real := 0.0;
+
+begin
+  b := false;
+  b := true;
+  a := nil;
+  r := nil;
+  b := foo (1.111, 2.222, 3.333, 4, 5);
+  b := false or false;
+  b := true or false;
+  b := false or true;
+  b := true or true;
+  b := false and false;
+  b := true and false;
+  b := false and true;
+  b := true and true;
+  b := not true;
+  b := not false;
+end;

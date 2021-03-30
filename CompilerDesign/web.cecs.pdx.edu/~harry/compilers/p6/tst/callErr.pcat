@@ -1,0 +1,34 @@
+(* Test procedure and function invocation.
+**
+** This program contains 15 errors.
+*)
+
+program is
+  type ARR is array of integer;
+  var i: integer := 0;
+  procedure f1 () : integer
+      is begin return 0; end;
+  procedure f2 ()
+      is begin return; end;
+  procedure f3 () : real
+      is begin return 0.0; end;
+  procedure f4 (w,x,y,z: integer)
+      is begin return; end;
+  procedure f5 (w,x,y,z: integer) : integer
+      is begin return 0; end;
+  procedure f6 (x: real; i: integer; b: boolean; a: ARR)
+      is begin return; end;
+  procedure f7 (x: real; i: integer; b: boolean; a: ARR) : integer
+      is begin return 0; end;
+
+begin
+  f1 ();                         (*** Error: f1 is non-void ***)
+  i := f2 ();                    (*** Error: f2 is void ***)
+  i := f3 ();                    (*** Error: wrong return type ***)
+  f4 (1,2,3);                    (*** Error: too few args ***)
+  f4 (1,2,3,4,5);                (*** Error: too many args ***)
+  i := f5 (1,2,3);               (*** Error: too few args ***)
+  i := f5 (1,2,3,4,5);           (*** Error: too many args ***)
+  f6 (true, 1.1, nil, 1);        (*** 4 Errors: all args have wrong type ***)
+  i := f7 (true, 1.1, nil, 1);   (*** 4 Errors: all args have wrong type ***)
+end;

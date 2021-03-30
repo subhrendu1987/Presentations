@@ -1,0 +1,42 @@
+(*** Test binary expressions and parentheses ***)
+
+program is
+  begin
+    return 1 + 2;
+    return (3);
+    return (((4)));
+    return ((5 + 6) + (7 + 8));
+    return 1 + 2 + 3 + 4;          (* Should parse like next line *)
+    return ((5 + 6) + 7) + 8;      (* These parens are unnecessary *)
+    return 9 + (10 + (11 + 12));   (* These parens are necessary *)
+    return 13 - 14 - 15;
+    return 16 * 17 * 18;
+    return 19 / 20 / 21;
+    return 22 or 23 or 24;
+    return 25 and 26 and 27;
+    return 28 mod 29 mod 30;
+    return 31 div 32 div 33;
+    return 34 < 35 < 36;
+    return 37 > 38 > 39;
+    return 40 = 41 = 42;
+    return 43 <= 44 <= 45;
+    return 46 >= 47 >= 48;
+    return 49 <> 50 <> 51;
+    return 1 + 2 - 3 + 4 - 5 + 6 - 7;
+    return 1 + 2 * 3 + 4 * 5 + 6 * 7;
+    return 1 + 2 < 3 + 4 < 5 + 6 < 7;
+    return 1 / 2 * 3 / 4 * 5 / 6 * 7;
+    return 1 < 2 * 3 < 4 * 5 < 6 * 7;
+    return 1 < 2 > 3 < 4 > 5 < 6 > 7;
+    return 4 < 5 > 6 <= 7 >= 8 = 9 <> 10;
+    return 1 + 2 - 3 or 4 + 5 - 6 or 7;
+    return 1 * 2 / 3 and 4 div 5 mod 6 * 7 / 8 and 9 div 10 mod 11;
+    return 1 * (2 / (3 and (4 div (5 mod 6))));
+    return - 1 + 2;
+    return - (3 + 4);
+    return not 5 and 6;
+    return not (7 and 8);
+    return 9 + + 10;
+    return not 11 or not 12;
+    return - - 13 + - - 14;     (* Same as (- (- 13)) + (- (- 14))  *)
+  end;

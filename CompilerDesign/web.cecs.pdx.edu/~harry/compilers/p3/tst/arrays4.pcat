@@ -1,0 +1,10 @@
+program is
+  type T is array of integer;
+  var a := T {{ 10 of 0 }};
+  begin	
+    a[1] := 1;
+    a[9] := 1;
+    a[10] := 1;  (* syntactically ok, but runtime time error *)
+    a[11] := 1;  (* syntactically ok, but runtime time error *)
+  end;
+

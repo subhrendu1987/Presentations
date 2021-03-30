@@ -1,0 +1,12 @@
+(* This is a test of simple loop. *)
+
+program is
+    var i : integer := 0;
+begin 
+	write("a simple loop:");
+        loop 
+	  write("i = ", i);
+          i := i + 1;
+          if i > 5 then exit; end;
+        end;
+end;

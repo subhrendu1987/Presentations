@@ -1,0 +1,7 @@
+(* This program prints out a message. *)
+
+program is
+
+  begin
+    write ("Hello, world!");
+  end;

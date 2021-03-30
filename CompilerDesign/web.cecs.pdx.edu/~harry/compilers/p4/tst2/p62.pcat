@@ -1,0 +1,8 @@
+(***   should print: expecting then after elseif expr in if statement   ***)
+program is
+begin
+  if x then
+    return;
+  elseif y }
+  end;
+end;

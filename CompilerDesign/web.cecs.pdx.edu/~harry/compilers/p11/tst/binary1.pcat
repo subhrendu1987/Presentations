@@ -1,0 +1,11 @@
+(* This program tests integer addition. *)
+program is
+
+  var x: integer := 0;
+      y: integer := 4;
+      z: integer := 3;
+
+begin
+  x := y + z;
+  write ("4 + 3 = ", x);
+end;

@@ -1,0 +1,19 @@
+program is
+  procedure 
+   f(x:integer) is
+    begin
+      write("f ", x);
+      if x = 0 then return;
+      else g(x-1);
+      end;
+    end;
+   g(x:integer) is
+    begin
+      write("g ", x);
+      if x = 0 then return;
+      else f(x-1);
+      end;
+    end;
+  begin
+    f(5);
+  end;

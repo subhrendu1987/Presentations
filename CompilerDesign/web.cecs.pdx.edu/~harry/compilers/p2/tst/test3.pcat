@@ -1,0 +1,8 @@
+(* This file tests integers and reals *)
+
+123
+45678
+0 56	89	001
+
+12.34
+567.098

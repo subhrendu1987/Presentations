@@ -1,0 +1,33 @@
+(*** Check type declarations - should be 9 "Identifier is not defined" errors ***)
+
+program is
+  type t1 is array of integer;
+       t2 is array of INTEGER;     (* error here *)
+       t3 is array of real;
+       t4 is array of REAL;     (* error here *)
+       t5 is array of tXXX;     (* error here *)
+  type t6 is record
+              f1: tYYY;     (* error here *)
+              f2: integer;
+              f3: t6;
+              f4: t7;
+              f5: t8;
+              f6: tZZZ;     (* error here *)
+             end;
+  type t7 is record
+              f1: tYYY;     (* error here *)
+              f2: integer;
+              f3: t6;
+              f4: t7;
+              f5: t8;
+              f6: tZZZ;     (* error here *)
+             end;
+  type t8 is record
+              f1: tYYY;     (* error here *)
+              f2: integer;
+              f3: t6;
+              f4: t7;
+              f5: t8;
+              f6: tZZZ;     (* error here *)
+             end;
+  begin end;

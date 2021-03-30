@@ -1,0 +1,6 @@
+(***   should print: expecting to in for statement following expr-1   ***)
+program is
+begin
+  for x := 1 thru 10 do
+  end;
+end;

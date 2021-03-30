@@ -1,0 +1,5 @@
+(***   should print: expecting ';' or '}' after 'id := expr' in record constructor   ***)
+program is
+begin
+  r := Rec { f:= 123, g:= 456 };
+end;

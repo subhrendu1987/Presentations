@@ -1,0 +1,8 @@
+(***   should print: expecting end following statements in while statement   ***)
+program is
+begin
+  while x do
+    x := 123;
+    begin
+  }
+end;

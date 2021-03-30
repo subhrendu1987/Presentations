@@ -1,0 +1,61 @@
+(*** Misc Expression tests ***)
+
+program is
+  begin
+    return 4<5<6<7;
+    return 1 + (2 - (3 or 4));
+    return ((4<5) > (6<=7))  >= ( 8 = (9 <> 10));
+    return ( ( 4<5 ) * (6- not 7) ) and -( 8 = (9 + 10));
+    return 123;
+    return 45.67;
+    return x;
+    return y - z * w;
+    return foo ();
+    return foo (x);
+    return foo (x, y, goo(w,z,5), f(f(f(x))), 7);
+    return foo (x) + foo (y);
+    return MyRec { f1 := 123 } + MyRec2 { f2 := 456 };
+    return MyArr {{ 1,2,3 }} * MyArr2 {{ 4,5,6 }};
+    return x [123];
+    return a [1] [2] [3];
+    return a [x+2] [y*3] [z<4];
+    return x.f;
+    return x.f.g.h;
+    return x.f[1].g[2].h[3];
+    return x.f[a+b].g[c+d].h[e+f];
+    return x[1].f[2].g;
+    return a[b[c[d] [e]] [f[g] [h]]];
+    return a.x[b.y[c.z[d.u] [e.v]] [f.w[g.s] [h.t]]];
+    return
+      1
+      +
+      2
+      -
+      3
+      *
+      4
+      /
+      5
+      div
+      6
+      mod
+      7
+      and
+      8
+      or
+      9
+      <
+      
+      10
+      >
+      11
+      <=
+      12
+      >=
+      13
+      =
+      14
+      <>
+      15
+      ;
+  end;

@@ -1,0 +1,5 @@
+(***   should print: expecting id after comma in var decl   ***)
+program is
+  var x, y, : integer := 123;
+begin
+end;

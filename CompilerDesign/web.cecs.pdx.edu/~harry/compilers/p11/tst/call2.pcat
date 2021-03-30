@@ -1,0 +1,50 @@
+(* This program tests access of non-local variables. *)
+
+program is
+
+  procedure foo1 () is
+
+      procedure foo2 () is
+          var x2, y2: integer := 2;
+              z2: real := 0.9002;
+          begin
+            write ("Within foo2...");
+            write ("x0 = ", x0, ", y0 = ", y0, ", z0 = ", z0);
+            write ("x1 = ", x1, ", y1 = ", y1, ", z1 = ", z1);
+            write ("x2 = ", x2, ", y2 = ", y2, ", z2 = ", z2);
+            write ("Changing non-locals...");
+            y0 := 1000;
+            y1 := 1001;
+            y2 := 1002;
+            z0 := 1.9000;
+            z1 := 1.9001;
+            z2 := 1.9002;
+            write ("x0 = ", x0, ", y0 = ", y0, ", z0 = ", z0);
+            write ("x1 = ", x1, ", y1 = ", y1, ", z1 = ", z1);
+            write ("x2 = ", x2, ", y2 = ", y2, ", z2 = ", z2);
+            write ("...Leaving foo2");
+            return;
+          end;
+
+      var x1, y1: integer := 1;
+          z1: real := 0.9001;
+      begin
+        write ("Within foo1...");
+        write ("x0 = ", x0, ", y0 = ", y0, ", z0 = ", z0);
+        write ("x1 = ", x1, ", y1 = ", y1, ", z1 = ", z1);
+        foo2 ();
+        write ("x0 = ", x0, ", y0 = ", y0, ", z0 = ", z0);
+        write ("x1 = ", x1, ", y1 = ", y1, ", z1 = ", z1);
+        write ("...Leaving foo1");
+        return;
+      end;
+
+  var x0, y0: integer := 0;
+      z0: real := 0.9000; 
+  begin
+    write ("Within main...");
+    write ("x0 = ", x0, ", y0 = ", y0, ", z0 = ", z0);
+    foo1 ();
+    write ("x0 = ", x0, ", y0 = ", y0, ", z0 = ", z0);
+    write ("...Leaving main");
+  end;

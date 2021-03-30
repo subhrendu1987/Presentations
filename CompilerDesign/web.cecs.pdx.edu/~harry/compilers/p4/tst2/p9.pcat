@@ -1,0 +1,5 @@
+(***  should print: expecting ':= expr' after id in record constructor - 1   ***)
+program is
+begin
+  r := Rec { f };
+end;

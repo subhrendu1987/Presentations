@@ -1,0 +1,31 @@
+(* This is a more thorough test of the various token types *)
+
+(* Test all the keywords *)
+and	array	begin	by	div	do	else	elseif	end	exit
+for	if	is	loop	mod	not	of	or	procedure
+program	read	record	return	then	to	type	var	while	write
+
+(* Test all the single and double character operators and delimiters *)
+  :=  +  -  *  /  <  <= >  >=  =  <> :  ;  ,  .  (  )  [  ] {  }
+
+(* Here are some integers *)
+123
+98765
+
+(* Here are some reals *)
+12.34
+0.0
+123.
+
+(* Here is a
+     multi-line
+       comment *)
+
+(* Here are some strings *)
+"abc"
+""
+"abcdef"
+
+  This is...
+
+    THE END.

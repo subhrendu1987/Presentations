@@ -1,0 +1,10 @@
+(*** Check formal declarations - should be 2 "Identifier is already defined" errors ***)
+
+program is
+  var x: integer := 1;
+      a: real := 3.5;
+  procedure foo1 (x: integer; a,x:real) is
+      procedure foo2 (x: integer; a:real) is begin end;
+      procedure foo3 (x: integer; a,i,j,i:real) is begin end;
+    begin end;
+  begin end;

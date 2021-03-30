@@ -1,0 +1,17 @@
+(*** This program tests that we have a type name in a TypeName ***)
+(*** It should detect 5 errors; the comments show the expected messages. ***)
+
+program is
+  var x1 := 1;
+      x2 := 1;
+      x3 := 1;
+      x4 := 1;
+      x5 := 1;
+  type t1 is array of x1;                  (* Identifier is not defined *)
+  type t2 is record
+               f1: x2;                     (* Identifier is not defined *)
+             end;
+  var y: x3 := 0;                          (* Expecting a type name *)
+  procedure foo () : x4 is begin end;      (* Expecting a type name *)
+  procedure foo2 (a: x5) is begin end;     (* Expecting a type name *)
+begin end;

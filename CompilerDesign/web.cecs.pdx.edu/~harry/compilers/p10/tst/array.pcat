@@ -1,0 +1,31 @@
+(*  This program tests array dereferencing. *)
+
+program is
+  var x: real := 0;
+      i: integer := 0;
+  procedure foo (z1,z2,z3: integer) is
+    var a1: A1 := nil;
+    var a2: A2 := nil;
+    var a3: A3 := nil;
+    type A1 is array of A2;
+    type A2 is array of A3;
+    type A3 is array of real;
+    begin
+      x := x + 3.21;
+      a1 := a1;
+
+      x := a3 [10];
+      x := a2 [20] [10];
+      x := a1 [30] [20] [10];
+
+      a3 [10] := x;
+      a2 [20] [10] := x;
+      a1 [30] [20] [10] := x;
+
+      x := a3 [(i*3333)+(4444*i)];
+      a3 [(i*5555)+(6666*i)] := x;
+      a1 [30*i] [20*i] [10*i] := a1 [30*i] [20*i] [10*i];
+
+      return;
+    end;
+begin end;

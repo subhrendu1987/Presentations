@@ -1,0 +1,5 @@
+(***   should print: expecting field name after '.'   ***)
+program is
+begin
+  x := r.3;
+end;

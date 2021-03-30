@@ -1,0 +1,5 @@
+(***   should print: expecting of after array   ***)
+program is
+  type a is array ;
+begin
+end;

@@ -1,0 +1,43 @@
+(* This tests stuff relating to array constructors and dereferencing.
+**
+** This program contains no errors.
+*)
+
+program is
+  type A1 is array of real;
+  type A2 is array of A1;
+  type A3 is array of A2;
+  type A4 is array of A3;
+  type A6 is array of integer;
+  type A7 is array of boolean;
+
+  var a1: A1 := nil;
+      a2: A4 := nil;
+      a5: A1 := nil;
+      a6: A6 := nil;
+      a7: A7 := nil;
+
+  var f: real := 0.0;
+      i: integer := 1;
+      b: boolean := false;
+
+begin
+  (*** OK ***)
+  a6 := A6 {{ 1, 2, 3, 400 of 4, 500 of 5 }};
+  (*** OK, but three int_to_real coercions must be inserted ***)
+  a1 := A1 {{ 1, 2.2, 3, 400 of 4.4, 500 of 5 }};
+
+  a1 [i] := 4.5;
+  f := a1 [i];
+  a6 [i] := 123;
+  i := a6 [i];
+  b := a7 [i];
+  a7 [i] := true;
+  a2 [i] := nil;
+  a1 [(i+2)*3] := a1 [4*(i+1)];
+  a1 := a2 [1] [2] [3];
+  a2 [1] [2] [3] := a1;
+  a5 := a1;
+  f := a5 [i];
+  a5 [i] := f;
+end;

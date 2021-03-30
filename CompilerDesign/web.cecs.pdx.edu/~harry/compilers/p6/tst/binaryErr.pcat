@@ -1,0 +1,383 @@
+(*  Test all error combinations involving binary operators.
+**
+**  Note, the type on the left-hand side of each assignment
+**  is type incorrect.  Hopefully, the error message
+**  associated with the assignment will be suppressed.
+**
+**  There should be one error per line in this file (i.e., 360 errors).
+*)
+
+program is
+
+type MyArr is array of integer;
+     MyRec is record f1: integer; end;
+var i: integer := 0;
+var f: real := 0.0;
+var b: boolean := false;
+var a: MyArr := nil;
+var r: MyRec := nil;
+
+begin
+
+(* Test error combinations involving INT, REAL, and BOOL *)
+  b := i + b;   (***   +   ***)
+  b := f + b;
+  b := b + i;
+  b := b + f;
+  b := b + b;
+  b := i - b;   (***   -   ***)
+  b := f - b;
+  b := b - i;
+  b := b - f;
+  b := b - b;
+  b := i * b;   (***   *   ***)
+  b := f * b;
+  b := b * i;
+  b := b * f;
+  b := b * b;
+  b := i / b;   (***   /   ***)
+  b := f / b;
+  b := b / i;
+  b := b / f;
+  b := b / b;
+  i := i and i;   (***   AND   ***)
+  i := i and f;
+  i := i and b;
+  i := f and i;
+  i := f and f;
+  i := f and b;
+  i := b and i;
+  i := b and f;
+  i := i or i;   (***   OR   ***)
+  i := i or f;
+  i := i or b;
+  i := f or i;
+  i := f or f;
+  i := f or b;
+  i := b or i;
+  i := b or f;
+  i := i = b;   (***   =   ***)
+  i := f = b;
+  i := b = i;
+  i := b = f;
+  i := i <> b;   (***   <>   ***)
+  i := f <> b;
+  i := b <> i;
+  i := b <> f;
+  i := i < b;   (***   <   ***)
+  i := f < b;
+  i := b < i;
+  i := b < f;
+  i := b < b;
+  i := i > b;   (***   >   ***)
+  i := f > b;
+  i := b > i;
+  i := b > f;
+  i := b > b;
+  i := i <= b;   (***   <=   ***)
+  i := f <= b;
+  i := b <= i;
+  i := b <= f;
+  i := b <= b;
+  i := i >= b;   (***   >=   ***)
+  i := f >= b;
+  i := b >= i;
+  i := b >= f;
+  i := b >= b;
+  b := i div f;   (***   DIV   ***)
+  b := i div b;
+  b := f div i;
+  b := f div f;
+  b := f div b;
+  b := b div i;
+  b := b div f;
+  b := b div b;
+  b := i mod f;   (***   MOD   ***)
+  b := i mod b;
+  b := f mod i;
+  b := f mod f;
+  b := f mod b;
+  b := b mod i;
+  b := b mod f;
+  b := b mod b;
+  b := a + i; (* Now test combinations involving arrays and records **  +  **)
+  b := a + f;
+  b := a + b;
+  b := a + r;
+  b := a + a;
+  b := r + i;
+  b := r + f;
+  b := r + b;
+  b := r + r;
+  b := r + a;
+  b := a - i;   (***   -   ***)
+  b := a - f;
+  b := a - b;
+  b := a - r;
+  b := a - a;
+  b := r - i;
+  b := r - f;
+  b := r - b;
+  b := r - r;
+  b := r - a;
+  b := a * i;   (***   *   ***)
+  b := a * f;
+  b := a * b;
+  b := a * r;
+  b := a * a;
+  b := r * i;
+  b := r * f;
+  b := r * b;
+  b := r * r;
+  b := r * a;
+  b := a / i;   (***   /   ***)
+  b := a / f;
+  b := a / b;
+  b := a / r;
+  b := a / a;
+  b := r / i;
+  b := r / f;
+  b := r / b;
+  b := r / r;
+  b := r / a;
+  i := a and i;   (***   AND   ***)
+  i := a and f;
+  i := a and b;
+  i := a and r;
+  i := a and a;
+  i := r and i;
+  i := r and f;
+  i := r and b;
+  i := r and r;
+  i := r and a;
+  i := a or i;   (***   OR   ***)
+  i := a or f;
+  i := a or b;
+  i := a or r;
+  i := a or a;
+  i := r or i;
+  i := r or f;
+  i := r or b;
+  i := r or r;
+  i := r or a;
+  i := a = i;   (***   =   ***)
+  i := a = f;
+  i := a = b;
+  i := a = r;
+  i := r = i;
+  i := r = f;
+  i := r = b;
+  i := r = a;
+  i := a <> i;   (***   <>   ***)
+  i := a <> f;
+  i := a <> b;
+  i := a <> r;
+  i := r <> i;
+  i := r <> f;
+  i := r <> b;
+  i := r <> a;
+  i := a < i;   (***   <   ***)
+  i := a < f;
+  i := a < b;
+  i := a < r;
+  i := a < a;
+  i := r < i;
+  i := r < f;
+  i := r < b;
+  i := r < r;
+  i := r < a;
+  i := a > i;   (***   >   ***)
+  i := a > f;
+  i := a > b;
+  i := a > r;
+  i := a > a;
+  i := r > i;
+  i := r > f;
+  i := r > b;
+  i := r > r;
+  i := r > a;
+  i := a <= i;   (***   <=   ***)
+  i := a <= f;
+  i := a <= b;
+  i := a <= r;
+  i := a <= a;
+  i := r <= i;
+  i := r <= f;
+  i := r <= b;
+  i := r <= r;
+  i := r <= a;
+  i := a >= i;   (***   >=   ***)
+  i := a >= f;
+  i := a >= b;
+  i := a >= r;
+  i := a >= a;
+  i := r >= i;
+  i := r >= f;
+  i := r >= b;
+  i := r >= r;
+  i := r >= a;
+  b := a div i;   (***   DIV   ***)
+  b := a div f;
+  b := a div b;
+  b := a div r;
+  b := a div a;
+  b := r div i;
+  b := r div f;
+  b := r div b;
+  b := r div r;
+  b := r div a;
+  b := a mod i;   (***   MOD   ***)
+  b := a mod f;
+  b := a mod b;
+  b := a mod r;
+  b := a mod a;
+  b := r mod i;
+  b := r mod f;
+  b := r mod b;
+  b := r mod r;
+  b := r mod a;
+  i := nil + i; (* Test combinations involving NIL ***   +   ***)
+  i := nil + f;
+  i := nil + b;
+  i := nil + r;
+  i := nil + a;
+  i := i + nil;
+  i := f + nil;
+  i := b + nil;
+  i := r + nil;
+  i := a + nil;
+  i := nil + nil;
+  i := nil - i;   (***   -   ***)
+  i := nil - f;
+  i := nil - b;
+  i := nil - r;
+  i := nil - a;
+  i := i - nil;
+  i := f - nil;
+  i := b - nil;
+  i := r - nil;
+  i := a - nil;
+  i := nil - nil;
+  i := nil * i;   (***   *   ***)
+  i := nil * f;
+  i := nil * b;
+  i := nil * r;
+  i := nil * a;
+  i := i * nil;
+  i := f * nil;
+  i := b * nil;
+  i := r * nil;
+  i := a * nil;
+  i := nil * nil;
+  i := nil / i;   (***   /   ***)
+  i := nil / f;
+  i := nil / b;
+  i := nil / r;
+  i := nil / a;
+  i := i / nil;
+  i := f / nil;
+  i := b / nil;
+  i := r / nil;
+  i := a / nil;
+  i := nil / nil;
+  i := nil and i;   (***   AND   ***)
+  i := nil and f;
+  i := nil and b;
+  i := nil and r;
+  i := nil and a;
+  i := i and nil;
+  i := f and nil;
+  i := b and nil;
+  i := r and nil;
+  i := a and nil;
+  i := nil and nil;
+  i := nil or i;   (***   OR   ***)
+  i := nil or f;
+  i := nil or b;
+  i := nil or r;
+  i := nil or a;
+  i := i or nil;
+  i := f or nil;
+  i := b or nil;
+  i := r or nil;
+  i := a or nil;
+  i := nil or nil;
+  i := nil = i;   (***   =   ***)
+  i := nil = f;
+  i := nil = b;
+  i := i = nil;
+  i := f = nil;
+  i := b = nil;
+  i := nil <> i;   (***   <>   ***)
+  i := nil <> f;
+  i := nil <> b;
+  i := i <> nil;
+  i := f <> nil;
+  i := b <> nil;
+  i := nil < i;   (***   <   ***)
+  i := nil < f;
+  i := nil < b;
+  i := nil < r;
+  i := nil < a;
+  i := i < nil;
+  i := f < nil;
+  i := b < nil;
+  i := r < nil;
+  i := a < nil;
+  i := nil < nil;
+  i := nil > i;   (***   >   ***)
+  i := nil > f;
+  i := nil > b;
+  i := nil > r;
+  i := nil > a;
+  i := i > nil;
+  i := f > nil;
+  i := b > nil;
+  i := r > nil;
+  i := a > nil;
+  i := nil > nil;
+  i := nil <= i;   (***   <=   ***)
+  i := nil <= f;
+  i := nil <= b;
+  i := nil <= r;
+  i := nil <= a;
+  i := i <= nil;
+  i := f <= nil;
+  i := b <= nil;
+  i := r <= nil;
+  i := a <= nil;
+  i := nil <= nil;
+  i := nil >= i;   (***   >=   ***)
+  i := nil >= f;
+  i := nil >= b;
+  i := nil >= r;
+  i := nil >= a;
+  i := i >= nil;
+  i := f >= nil;
+  i := b >= nil;
+  i := r >= nil;
+  i := a >= nil;
+  i := nil >= nil;
+  i := nil div i;   (***   DIV   ***)
+  i := nil div f;
+  i := nil div b;
+  i := nil div r;
+  i := nil div a;
+  i := i div nil;
+  i := f div nil;
+  i := b div nil;
+  i := r div nil;
+  i := a div nil;
+  i := nil div nil;
+  i := nil mod i;   (***   MOD   ***)
+  i := nil mod f;
+  i := nil mod b;
+  i := nil mod r;
+  i := nil mod a;
+  i := i mod nil;
+  i := f mod nil;
+  i := b mod nil;
+  i := r mod nil;
+  i := a mod nil;
+  i := nil mod nil;
+end;

@@ -1,0 +1,5 @@
+S = a S b c
+S = B
+B = b c B
+B =
+

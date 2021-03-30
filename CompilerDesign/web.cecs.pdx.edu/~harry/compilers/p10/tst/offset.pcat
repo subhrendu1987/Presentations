@@ -1,0 +1,26 @@
+(* This program tests that variables and formals are assign correct offsets. *)
+
+program is
+  var x1, x2: integer := 0;
+      y1, y2: real := 0;
+
+  procedure big (z1,z2,z3: boolean) is
+    procedure middle1 (z1,z2,z3: boolean) is
+      var v1, v2: integer := 0;
+          w1, w2: real := 0;
+      begin return; end;
+    procedure middle2 (z1,z2,z3: boolean) is
+      var v1, v2: integer := 0;
+          w1, w2: real := 0;
+      begin return; end;
+    procedure middle3 (u1, u2, u3: boolean) is
+      procedure inner1 () is
+        var v1, v2: integer := 0;
+            w1, w2: real := 0;
+        begin return; end;
+      begin return; end;
+    var v1, v2: integer := 0;
+        w1, w2: real := 0;
+    begin return; end;
+
+begin end;

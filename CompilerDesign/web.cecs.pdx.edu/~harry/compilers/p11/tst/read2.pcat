@@ -1,0 +1,36 @@
+(* This program tests IRreadFloat. *)
+
+program is
+
+procedure foo (j1, j2, j3: real) is
+  begin
+    write ("About to call readFloat (j1, j2, j3)...");
+    write ("PLEASE ENTER 3 REALS:");
+    read (j1, j2, j3);
+    write ("j1 = ", j1);
+    write ("j2 = ", j2);
+    write ("j3 = ", j3);
+    write ("About to call readFloat (i1, i2, i3)...");
+    write ("PLEASE ENTER 3 REALS:");
+    read (i1, i2, i3);
+    write ("i1 = ", i1);
+    write ("i2 = ", i2);
+    write ("i3 = ", i3);
+    return;
+  end;
+
+var i1, i2, i3: real := 0;
+
+begin
+  write ("About to call readFloat (i1)...");
+  write ("PLEASE ENTER AN REAL:");
+  read (i1);
+  write ("i1 = ", i1);
+  write ("About to call readFloat (i1, i2, i3)...");
+  write ("PLEASE ENTER 3 REALS:");
+  read (i1, i2, i3);
+  write ("i1 = ", i1);
+  write ("i2 = ", i2);
+  write ("i3 = ", i3);
+  foo (1,2,3);
+end;

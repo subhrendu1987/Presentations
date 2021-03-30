@@ -1,0 +1,93 @@
+YAPP - Yet Another PCAT Parser
+==============================
+
+by Harry Porter (October, 1998)
+
+This directory contains an SLR parser generator written in the PCAT language.  
+This program takes, as input, a context-free grammar (the "grammar") and a
+sample input string (called the "example").  From the grammar, it builds
+parsing LR parsing tables using the "SLR" algorithm.  Then it attempts
+to find a parsing of the sample input example string.
+
+-----
+
+There is also a tst directory containing several sample "grammar"s and
+"example"s.
+
+grammar1:     A syntax for expressions using + * ( ) id
+example1:     A small expression
+
+grammar2:     A syntax for expressions using AND OR NOT ( ) true false
+example2:     A small boolean expression
+
+grammar3:     A small ambiguous (therefore, non-LR) grammar
+example3:     An example string from this language
+
+grammarPCAT:  A grammar for PCAT
+examplePCAT1: A small PCAT program
+examplePCAT2: A small PCAT program (The quicksort program)
+
+-----
+
+To run the YAPP program type something like one of these commands:
+  go grammar1 example1
+  go grammar2 example2
+  go grammar3 example3
+  go grammarPCAT examplePCAT1
+  go grammarPCAT examplePCAT2
+
+You should see a trace of the table building process, followed by an
+attempt to parse the given input.
+
+In particular, you should see the following:
+  1.  The grammar rules as they are read in.
+  2.  A list of the terminals and the non-terminals in the grammar.
+  3.  A repeat of the grammar, augmented with a dummy start rule.
+  4.  The FIRST and FOLLOW sets.
+  5.  A trace of the SLR table building process.
+  6.  A list of all the sets of items (i.e., the canonical collection
+      of LR(0) items).
+  7.  A formatted display of the table.  (This will only look good
+      for very small grammars, since it will be truncated.)
+  8.  A parse of the sample "prog" input string using the table,
+      with a trace of which actions were taken.  This should end
+      by saying either "parse succeeded" or "parse failed".
+
+In the case of grammar3, you will see error messages during table
+construction as the shift-reduce and reduce-reduce conflicts are
+detected.
+
+In the case of grammarPCAT, the trace of the table building is fairly long
+and the table is fairly large.  The trace of the parse is also long, but
+should succeed.
+
+The following files are included in this directory:
+
+tst
+  A directory containing the test grammars and examples, as described
+  above.
+go
+  A script to run the YAPP program, discussed above.
+pre.c
+  A program to pre-process the grammar and the input string.  PCAT programs
+  cannot read character data; only integers and reals, so the input is
+  preprocessed to turn all tokens into integers before being sent to
+  the main PCAT program.
+lexer.h, lexer.c
+  Routines used by pre.c to tokenize the input grammar and the input string.
+  Lexer.c may not be present since it is assigned as a programming
+  project in CS-301.
+post.c
+  PCAT programs have limited capability to output newlines, so the
+  YAPP program writes a "$" instead of newline.  This program translates
+  all "$"s into newlines.
+yapp.pcat
+  The SLR parser generator and the LR parsing algorithm.  2109 lines of
+  PCAT code.
+pcat
+  An executable version of the PCAT-to-SPARC compiler (C Version).
+pc
+  A shell script to run the PCAT compiler and follow it with the assembly
+  stage, producing a ".o" file.
+makefile
+  A Makefile to compile the programs: pre.c, yapp.pcat, and post.c.

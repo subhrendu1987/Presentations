@@ -1,0 +1,6 @@
+(***   should print: expecting := in for statement following index var   ***)
+program is
+begin
+  for i = 3 to 4
+    do end;
+end;

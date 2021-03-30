@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+ <head>
+  <title>Index of /~harry/compilers/p4/tst</title>
+ </head>
+ <body>
+<h1>Index of /~harry/compilers/p4/tst</h1>
+  <table>
+   <tr><th valign="top"><img src="http://web.cecs.pdx.edu/icons/blank.gif" alt="[ICO]"></th><th><a href="index.html?C=N%3BO=D">Name</a></th><th><a href="index.html?C=M%3BO=A">Last modified</a></th><th><a href="index.html?C=S%3BO=A">Size</a></th><th><a href="index.html?C=D%3BO=A">Description</a></th></tr>
+   <tr><th colspan="5"><hr></th></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/back.gif" alt="[PARENTDIR]"></td><td><a href="../index.html">Parent Directory</a></td><td>&nbsp;</td><td align="right">  - </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="go">go</a></td><td align="right">2005-10-25 16:34  </td><td align="right">419 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p1.err.bak">p1.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p1.out.bak">p1.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">178 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p1.pcat">p1.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 61 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p2.err.bak">p2.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p2.out.bak">p2.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">1.4K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p2.pcat">p2.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">186 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p3.err.bak">p3.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p3.out.bak">p3.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">8.0K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p3.pcat">p3.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">338 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p4.err.bak">p4.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p4.out.bak">p4.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 61K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p4.pcat">p4.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">1.3K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p5.err.bak">p5.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p5.out.bak">p5.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 66K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p5.pcat">p5.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">1.1K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p6.err.bak">p6.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p6.out.bak">p6.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 10K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p6.pcat">p6.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">520 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p7.err.bak">p7.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p7.out.bak">p7.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 18K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p7.pcat">p7.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">586 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p8.err.bak">p8.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p8.out.bak">p8.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">9.7K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p8.pcat">p8.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">339 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p9.err.bak">p9.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p9.out.bak">p9.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">7.9K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p9.pcat">p9.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">797 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p10.err.bak">p10.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p10.out.bak">p10.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">8.7K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p10.pcat">p10.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">487 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p11.err.bak">p11.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p11.out.bak">p11.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">9.5K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p11.pcat">p11.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">666 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p12.err.bak">p12.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p12.out.bak">p12.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">6.5K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p12.pcat">p12.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">150 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p13.err.bak">p13.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p13.out.bak">p13.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">7.6K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p13.pcat">p13.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">313 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p14.err.bak">p14.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p14.out.bak">p14.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">3.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p14.pcat">p14.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">101 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p15.err.bak">p15.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p15.out.bak">p15.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">8.2K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p15.pcat">p15.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">486 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p16.err.bak">p16.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p16.out.bak">p16.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">6.0K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p16.pcat">p16.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">195 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p17.err.bak">p17.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p17.out.bak">p17.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right">1.5K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p17.pcat">p17.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">101 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p18.err.bak">p18.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p18.out.bak">p18.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 15K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p18.pcat">p18.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">781 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p19.err.bak">p19.err.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 23 </td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p19.out.bak">p19.out.bak</a></td><td align="right">2005-10-25 16:34  </td><td align="right"> 11K</td><td>&nbsp;</td></tr>
+<tr><td valign="top"><img src="http://web.cecs.pdx.edu/icons/unknown.gif" alt="[   ]"></td><td><a href="p19.pcat">p19.pcat</a></td><td align="right">2005-10-25 16:34  </td><td align="right">362 </td><td>&nbsp;</td></tr>
+   <tr><th colspan="5"><hr></th></tr>
+</table>
+</body></html>

@@ -1,0 +1,200 @@
+(* This program tests the computation of frameSize. *)
+
+program is
+
+  var x1, x2: integer := 0;
+
+  procedure foo1 (a1: integer) is
+    var x1, x2, x3, x4: integer := 0;
+    begin
+      foo2 (1,2,3,4);
+      return;
+    end;
+  procedure foo2 (a1,a2,a3,a4: integer) is
+    var x1: integer := 0;
+    begin
+      foo3 (1,2);
+      return;
+    end;
+  procedure foo3 (a1,a2: integer) is
+    var x1, x2, x3: integer := 0;
+    begin
+      foo1 (1);
+      return;
+    end;
+
+
+
+  procedure bar1 () is
+    begin
+      foo1 (1);
+      return;
+    end;
+
+  procedure bar2 (a1: integer) is
+    begin
+      foo1 (1);
+      return;
+    end;
+
+  procedure bar3 (a1,a2: integer) is
+    begin
+      foo1 (1);
+      return;
+    end;
+
+  procedure bar4 (a1,a2,a3: integer) is
+    begin
+      foo1 (1);
+      return;
+    end;
+
+
+
+  procedure bar5 () is
+    var x1: integer := 0;
+    begin
+      foo1 (1);
+      return;
+    end;
+
+  procedure bar6 (a1: integer) is
+    var x1: integer := 0;
+    begin
+      foo1 (1);
+      return;
+    end;
+
+  procedure bar7 (a1,a2: integer) is
+    var x1: integer := 0;
+    begin
+      foo1 (1);
+      return;
+    end;
+
+  procedure bar8 (a1,a2,a3: integer) is
+    var x1: integer := 0;
+    begin
+      foo1 (1);
+      return;
+    end;
+
+
+
+  procedure bar9 () is
+    var x1,x2: integer := 0;
+    begin
+      foo1 (1);
+      return;
+    end;
+
+  procedure bar10 (a1: integer) is
+    var x1,x2: integer := 0;
+    begin
+      foo1 (1);
+      return;
+    end;
+
+  procedure bar11 (a1,a2: integer) is
+    var x1,x2: integer := 0;
+    begin
+      foo1 (1);
+      return;
+    end;
+
+  procedure bar12 (a1,a2,a3: integer) is
+    var x1,x2: integer := 0;
+    begin
+      foo1 (1);
+      return;
+    end;
+
+
+
+  procedure bar13 () is
+    var x1,x2: integer := 0;
+    begin
+      foo2 (1,2,3,4);
+      return;
+    end;
+
+  procedure bar14 (a1: integer) is
+    var x1,x2: integer := 0;
+    begin
+      foo2 (1,2,3,4);
+      return;
+    end;
+
+  procedure bar15 (a1,a2: integer) is
+    var x1,x2: integer := 0;
+    begin
+      foo2 (1,2,3,4);
+      return;
+    end;
+
+  procedure bar16 (a1,a2,a3: integer) is
+    var x1,x2: integer := 0;
+    begin
+      foo2 (1,2,3,4);
+      return;
+    end;
+
+
+
+  procedure fun1 (a1: integer) is
+    procedure fun2 (a1: integer) is
+      procedure fun3 (a1,a2: integer) is
+        procedure fun4 (a1,a2: integer) is
+          procedure fun5 () is
+            procedure fun6 () is
+              procedure fun7 (a1: integer) is
+                procedure fun8 (a1: integer) is
+                  var x1: integer := 0;
+                  begin
+                    foo2 (1,2,3,4);
+                    return;
+                  end;
+                var x1,x2: integer := 0;
+                begin
+                  foo2 (1,2,3,4);
+                  return;
+                end;
+              var x1: integer := 0;
+              begin
+                foo2 (1,2,3,4);
+                return;
+              end;
+            var x1,x2: integer := 0;
+            begin
+              foo2 (1,2,3,4);
+              return;
+            end;
+          var x1: integer := 0;
+          begin
+            foo2 (1,2,3,4);
+            return;
+          end;
+        var x1,x2: integer := 0;
+        begin
+          foo2 (1,2,3,4);
+          return;
+        end;
+      var x1: integer := 0;
+      begin
+        foo2 (1,2,3,4);
+        return;
+      end;
+    var x1,x2: integer := 0;
+    begin
+      foo2 (1,2,3,4);
+      return;
+    end;
+
+
+
+
+  begin
+    foo1 (1);
+    foo2 (1,2,3,4);
+    foo3 (1,2);
+  end;

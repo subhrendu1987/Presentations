@@ -1,0 +1,6 @@
+(***   should print: expecting field name after record   ***)
+program is
+  type r is record
+            end;
+begin
+end;

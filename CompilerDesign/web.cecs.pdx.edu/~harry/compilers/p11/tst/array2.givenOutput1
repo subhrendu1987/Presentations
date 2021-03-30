@@ -1,0 +1,8 @@
+rm -f tst/array2.s
+rm -f tst/array2
+java Main < tst/array2.pcat 1> tst/array2.s
+Assembling...
+Beginning execution...
+Should print -7654...-7654
+Should print -7654...-7654
+Should print -7654...-7654

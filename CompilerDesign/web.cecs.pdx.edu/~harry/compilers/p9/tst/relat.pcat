@@ -1,0 +1,108 @@
+(* This program tests IR code generation for relational operators *)
+
+program is
+
+  type MyArr is array of integer;
+       MyRec is record f1: integer; end;
+  var i,j: integer := 0;
+  var x,y: real := 0.0;
+  var b, b1, b2: boolean := false;
+  var a1, a2: MyArr := nil;
+  var r1, r2: MyRec := nil;
+
+begin
+  (* Test relational operators on integers. *)
+  if i = j then
+    i := 123;
+  end;
+  b := i = j;
+
+  if i <> j then
+    i := 123;
+  end;
+  b := i <> j;
+
+  if i < j then
+    i := 123;
+  end;
+  b := i < j;
+
+  if i <= j then
+    i := 123;
+  end;
+  b := i <= j;
+
+  if i > j then
+    i := 123;
+  end;
+  b := i > j;
+
+  if i >= j then
+    i := 123;
+  end;
+  b := i >= j;
+
+  (* Test relational operators on reals. *)
+  if x = y then
+    i := 123;
+  end;
+  b := x = y;
+
+  if x <> y then
+    i := 123;
+  end;
+  b := x <> y;
+
+  if x < y then
+    i := 123;
+  end;
+  b := x < y;
+
+  if x <= y then
+    i := 123;
+  end;
+  b := x <= y;
+
+  if x > y then
+    i := 123;
+  end;
+  b := x > y;
+
+  if x >= y then
+    i := 123;
+  end;
+  b := x >= y;
+
+  (* Test relational operators on Booleans. *)
+  if b1 = b2 then
+    i := 123;
+  end;
+  b := b1 = b2;
+
+  if b1 <> b2 then
+    i := 123;
+  end;
+  b := b1 <> b2;
+
+  (* Test relational operators on ptrs to records. *)
+  if r1 = r2 then
+    i := 123;
+  end;
+  b := r1 = r2;
+
+  if r1 <> r2 then
+    i := 123;
+  end;
+  b := r1 <> r2;
+
+  (* Test relational operators on ptrs to arrays. *)
+  if a1 = a2 then
+    i := 123;
+  end;
+  b := a1 = a2;
+
+  if a1 <> a2 then
+    i := 123;
+  end;
+  b := a1 <> a2;
+end;

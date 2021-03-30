@@ -1,0 +1,15 @@
+(* This program tests the index-out-of-bounds error. *)
+
+program is
+
+  type A is array of integer;
+  var a: A := nil;
+      i: integer := 0;
+
+begin
+
+  a := A {{ 111, 222, 333 }};
+  write ("Should cause an index-out-of-bounds error...");
+  i := a [3];
+
+end;

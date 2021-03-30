@@ -1,0 +1,5 @@
+(***   should print: expecting expr or ',' or ')' in argument list   ***)
+program is
+begin
+  FOR (x y,z);
+end;

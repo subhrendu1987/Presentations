@@ -1,0 +1,5 @@
+(***   should print: expecting ';' after expr in return statement   ***)
+program is
+begin
+  return 123 }
+end

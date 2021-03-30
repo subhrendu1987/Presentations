@@ -1,0 +1,28 @@
+program is
+  type T is array of integer;
+  type U is array of T;
+  type V is array of boolean;
+  var a := T {{ 100 of 0 }};
+  var b := U {{ 10 of t {{ 10 of 0 }} }};
+  var c := V {{ 10 of true }};
+  var x := 1;
+  procedure echo (q:integer) : integer is
+    begin
+      write(q);
+      return q;
+    end;
+  begin	
+    write (a[0]);
+    write (b[1][1]);
+    write (c[2]);    
+    a[0] := 38;
+    a[4-x] := 48;
+    b[1][1] := 39;
+    b[echo(2)][echo(1)] := 88;
+    c[2] := false;
+    write (a[0]);
+    write (a[x+2]);
+    write (b[1][1]);
+    write (c[2]);    
+  end;
+

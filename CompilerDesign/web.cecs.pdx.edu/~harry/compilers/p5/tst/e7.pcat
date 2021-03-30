@@ -1,0 +1,18 @@
+(*** Check type declarations - should be 3 "This field is already defined in this RECORD" errors ***)
+
+program is
+  type t1 is record
+              f1: t1;
+              f2: t1;
+              f3: t1;
+              f4: t1;
+              f3: t1;    (* error here *)
+              f4: t1;    (* error here *)
+             end;
+  type t2 is record
+              f1: t1;
+              f2: t1;
+              f3: t1;
+              f1: t1;    (* error here *)
+             end;
+  begin end;

@@ -1,0 +1,8 @@
+program is 
+  type T is array of integer;
+  var a := T {{ 2 of 0 }};
+  procedure echo(x: integer) is begin write(x); return x; end;
+  begin
+    read(a[echo(0)], a[echo(1)]);
+    write(a[0], " ", a[1]);
+  end;

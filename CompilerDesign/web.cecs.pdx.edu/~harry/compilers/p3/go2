@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# Use this shell script to run your program on a test file.
+#
+# Use this script from a directory containing the executable "Main.class" and a
+# subdirectory "tst" containing a file such as
+#       test01.pcat
+#
+# Type:
+#       go2 test01
+#
+# It will do the following:
+#       Print the source file
+#       Run "main"
+#       Print the output file
+#       Print the error output
+#
+echo --------------- Source tst2/$1.pcat: ---------------
+more tst2/$1.pcat
+java Main < tst2/$1.pcat 1> tst2/$1.out 2> tst2/$1.err
+echo --------------- Output stdout: ---------------
+more tst2/$1.out
+echo --------------- Error output stderr: ---------------
+more tst2/$1.err
+rm tst2/$1.out
+rm tst2/$1.err

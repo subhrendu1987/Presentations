@@ -1,0 +1,8 @@
+(*** Check array constructors - should be 2 "Identifier is not defined" errors ***)
+
+program is
+  type A is array of integer;
+  var x := AXXX {{ 1,2,3 }};
+begin
+  x := AYYY {{ 1,2,3 }};
+end;

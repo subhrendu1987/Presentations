@@ -1,0 +1,41 @@
+(* Test type compatibility in VAR decls.
+**
+** There should be 24 errors, one per "x" line.
+*)
+
+program is
+  type A is array of integer;
+       R is record f: integer; end;
+
+  var i : integer := 0;
+      f : real := 0;
+      b : boolean := false;
+      a : A := nil;
+      r : R := nil;
+
+  var x1 : integer := 1.1;
+  var x2 : integer := true;
+  var x3 : integer := a;
+  var x4 : integer := r;
+  var x5 : integer := nil;
+  var x6 : real := true;
+  var x7 : real := a;
+  var x8 : real := r;
+  var x9 : real := nil;
+  var x10: boolean := 1;
+  var x11: boolean := 1.1;
+  var x12: boolean := a;
+  var x13: boolean := r;
+  var x14: boolean := nil;
+  var x15: A := 1;
+  var x16: A := 1.1;
+  var x17: A := true;
+  var x18: A := r;
+  var x19: R := 1;
+  var x20: R := 1.1;
+  var x21: R := true;
+  var x22: R := a;
+  var x23:= nil;
+  var x24:= nil;
+
+begin end;

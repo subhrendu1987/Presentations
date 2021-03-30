@@ -1,0 +1,11 @@
+(* this is a test of while loop. *)
+
+program is
+    var i : integer := 0;
+begin 
+	write("a while loop:");
+        while i <= 5 do 
+	  write("i = ", i);
+          i := i + 1;
+        end;
+end;

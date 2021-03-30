@@ -1,0 +1,15 @@
+program is
+  procedure echo(x: integer) : integer is  
+    begin
+      write (x);
+      return x;
+    end;
+  type T is array of integer;
+  var a := T {{ 10 of 0 }};
+  var b := 99;
+  begin
+      a[9] := b;  
+      a[echo(1)] := echo(b) + echo(3);
+  end;
+
+  

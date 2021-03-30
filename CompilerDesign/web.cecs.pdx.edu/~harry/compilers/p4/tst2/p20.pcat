@@ -1,0 +1,5 @@
+(***   should print: expecting ';' after exit statement   ***)
+program is
+begin
+  exit {
+end;

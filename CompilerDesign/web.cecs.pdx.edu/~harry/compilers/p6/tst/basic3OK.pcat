@@ -1,0 +1,35 @@
+(* Test basic type checking involving...
+**    integer, real, boolean
+**    simple expressions
+**    assignments
+**    insert coercion is required
+**
+** It contains no errors.
+*)
+
+program is
+
+var f: real := 0.0;
+    i: integer := 0;
+    b: boolean := false;
+
+begin
+
+  (* These do not require int-to-real insertion *)
+  i := 2 + 3;
+  f := 1.111 + 2.222;
+  i := - 1;
+  f := - 1.0;
+  i := + 23;
+  f := + 23.0;
+  b := not b;
+
+  (* Now try some that require int-to-real insertion *)
+  f := 123;
+  f := 2 + 3;
+  f := 2 + 3.333;
+  f := 2.222 + 3;
+  f := - 1;
+  f := + 23;
+
+end;

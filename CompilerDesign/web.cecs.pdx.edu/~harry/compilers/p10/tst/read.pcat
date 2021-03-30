@@ -1,0 +1,10 @@
+(* This files test IR generation for READ statements. *)
+program is
+  var i,j,k: integer := 0;
+  var x,y,z: real := 0.0;
+
+begin
+  read (i);
+  read (x);
+  read (i,x,j,y,k,z);
+end;

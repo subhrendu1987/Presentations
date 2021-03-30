@@ -1,0 +1,4 @@
+(***   should print: Expecting LValue   ***)
+program is
+begin
+  for

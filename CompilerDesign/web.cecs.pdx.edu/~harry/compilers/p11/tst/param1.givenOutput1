@@ -1,0 +1,27 @@
+rm -f tst/param1.s
+rm -f tst/param1
+java Main < tst/param1.pcat 1> tst/param1.s
+Assembling...
+Beginning execution...
+Should print 1, 2, 3, ..., 10:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+Should print 1.1, 2.2, 3.3, ..., 10.1:
+1.1
+2.2
+3.3
+4.4
+5.5
+6.6
+7.7
+8.8
+9.9
+10.1

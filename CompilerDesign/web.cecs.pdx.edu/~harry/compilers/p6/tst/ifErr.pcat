@@ -1,0 +1,18 @@
+(* Check conditional expr in IF, ELSIF, and WHILE.
+**
+** It contains 3 errors.
+*)
+
+program is begin
+  if 12345 then            (***  Error here ***)
+    write ("hello");
+  end;
+  if true then
+    write ("hello");
+  elseif 3.1415 then        (***  Error here ***)
+    write ("hello");
+  end;
+  while 123.456 do         (***  Error here ***)
+    write ("hello");
+  end;
+end;

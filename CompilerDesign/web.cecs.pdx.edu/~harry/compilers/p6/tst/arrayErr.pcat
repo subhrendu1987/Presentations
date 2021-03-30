@@ -1,0 +1,37 @@
+(* This tests stuff relating to array constructors and dereferencing.
+**
+** This program contains 12 errors.
+*)
+
+program is
+
+  type MyArr is array of integer;
+  type MyArr2 is array of real;
+  type MyRec is record f: integer; end;
+
+  var a: MyArr := nil;
+  var f: real := 0.0;
+  var r: MyRec := nil;
+  var i: integer := 1;
+
+begin
+
+  (*** Error: MyRec is not an array. ***)
+  a := MyRec {{ 1, 2, 3 }};
+
+  (*** Error: type of value expr FALSE is not right ***)
+  (*** Error: type of value expr 3.3 is not right ***)
+  (*** Error: type of value expr a is not right ***)
+  a := MyArr {{ 1, 2, 3, false, 3.3, a }};
+
+  (*** Error: type of count expr 400.0 is not INTEGER ***)
+  (*** Error: type of count expr TRUE is not INTEGER ***)
+  (*** Error: type of count expr a is not INTEGER ***)
+  a := MyArr {{ 1, 2, 3, 400.0 of 4, true of 5, a of 6 }};
+
+  r [i] := 4.5;           (*** Error: r is not an ARRAY type ***)
+  f [i] := 4.5;           (*** Error: f is not an ARRAY type ***)
+  x [i] := 4.5;           (*** Error: x is not defined at all ***)
+                          (*** Error: x is an ARRAY type ***)
+  a [1.2] := 4;           (*** Error: index is not an INTEGER ***)
+end;

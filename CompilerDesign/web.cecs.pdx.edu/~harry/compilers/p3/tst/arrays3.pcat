@@ -1,0 +1,9 @@
+program is
+  type T is array of integer;
+  var a := T {{ 10 of 0 }};
+  begin	
+    a[1] := 1;
+    a[0] := 1;
+    a[-1] := 1;  (* sytactically ok, but semantic problem *)
+  end;
+

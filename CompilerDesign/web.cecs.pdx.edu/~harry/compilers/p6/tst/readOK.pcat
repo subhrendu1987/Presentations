@@ -1,0 +1,21 @@
+(* Test for READ statements.
+**
+** This program contains no errors.
+*)
+
+program is
+  type MyRec is record f1: integer; f2: real; end;
+       MyArr is array of integer;
+       MyArrReal is array of real;
+  var i: integer := 0;
+  var f: real := 0.0;
+  var a: MyArr := nil;
+  var b: MyArrReal := nil;
+  var r: MyRec := nil;
+
+begin
+  read (i);
+  read (f);
+  read (i,f,i,f,f);         (*** Repeated names are allowed ***)
+  read (a[1], b[1], r.f1, r.f2);
+end;

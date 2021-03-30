@@ -1,0 +1,38 @@
+(* This program tests the computation of frameSize. *)
+(* In particular, it tests maxNumberOfArgsUsed. *)
+
+program is
+
+  procedure foo1 (a1: integer) : integer is
+    begin return 0; end;
+  procedure foo2 (a1,a2: integer) : integer is
+    begin return 0; end;
+  procedure foo4 (a1,a2,a3,a4: integer) : integer is
+    begin return 0; end;
+
+  procedure bar1 () is
+    var i: integer := foo2 (1,2);
+    procedure bar2 () is
+      begin
+        i := foo4 (1, 2, 3, 4);
+        return;
+      end;
+    begin
+      i := foo1 (1);
+      return;
+    end;
+
+  procedure bar3 () is
+    var i: integer := foo2 (1,2);
+        j: integer := 0;
+    procedure bar2 () is
+      begin
+        i := foo4 (1, 2, 3, 4);
+        return;
+      end;
+    begin
+      i := foo1 (1);
+      return;
+    end;
+  begin
+  end;

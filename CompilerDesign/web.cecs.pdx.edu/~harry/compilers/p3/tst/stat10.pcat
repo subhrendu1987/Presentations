@@ -1,0 +1,9 @@
+program is
+  begin
+    write();
+    write(1);
+    write(1,2,3);
+    write("This is a string with a number ", 39, " in it");
+    write(true,false);
+  end;
+

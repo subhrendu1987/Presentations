@@ -1,0 +1,23 @@
+rm -f tst/read2.s
+rm -f tst/read2
+java Main < tst/read2.pcat 1> tst/read2.s
+Assembling...
+Beginning execution...
+About to call readFloat (i1)...
+PLEASE ENTER AN REAL:
+i1 = 123.456
+About to call readFloat (i1, i2, i3)...
+PLEASE ENTER 3 REALS:
+i1 = 1.1
+i2 = 2.2
+i3 = 3.3
+About to call readFloat (j1, j2, j3)...
+PLEASE ENTER 3 REALS:
+j1 = 11.11
+j2 = 22.22
+j3 = 33.33
+About to call readFloat (i1, i2, i3)...
+PLEASE ENTER 3 REALS:
+i1 = 1
+i2 = 2
+i3 = 3

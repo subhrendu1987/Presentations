@@ -1,0 +1,46 @@
+(* This program tests IR code generation for record constructors. *)
+
+program is
+    var r1: R1 := nil;
+        r2: R2 := nil;
+        b,c: boolean := false;
+
+    type R1 is record
+                f1: integer;
+                f2: real;
+                f3: boolean;
+              end;
+
+    type R2 is record
+                f1: integer;
+                f2: real;
+                f3: boolean;
+                f4: R3;
+              end;
+
+    type R3 is record
+                g1: integer;
+                g2: real;
+                g3: boolean;
+                g4: R4;
+              end;
+    type R4 is record
+                h1: integer;
+                h2: real;
+                h3: boolean;
+              end;
+    begin
+
+      r1 := R1 { f1 := 123; f2 := 23.45; f3 := false };
+
+      r1 := R1 { f2 := 23.45; f1 := 123; f3 := false };
+
+      r1 := R1 { f1 := 100+23; f2 := 23.45*1.1; f3 := b or c };
+
+      r2 := R2 { f1 := 123; f2 := 23.45; f3 := false; f4 :=
+                    R3 { g1 := 1; g2 := 2.2; g3 := true; g4 :=
+                                 R4 { h1 := 666; h2 := 77.77; h3 := false}
+                       }
+               };
+
+    end;

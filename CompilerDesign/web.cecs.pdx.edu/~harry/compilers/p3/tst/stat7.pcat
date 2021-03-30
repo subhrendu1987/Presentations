@@ -1,0 +1,20 @@
+program is 
+  procedure f() is
+   begin
+     write(1);
+     return;
+     write(2);
+   end;
+  procedure g() is
+   begin
+     write(10);
+     f();
+     write(20);
+   end;
+  begin
+    write(100);
+    g();
+    write(200);
+  end;
+
+  

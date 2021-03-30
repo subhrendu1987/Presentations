@@ -1,0 +1,15 @@
+(*** Check type declarations - should be no errors ***)
+
+program is
+  type t1 is array of integer;
+       t2 is array of t1;
+       t3 is array of t4;
+       t4 is array of real;
+  type t5 is record
+              f1: integer;
+              f2: boolean;
+              f3: t1;
+              f4: t5;
+             end;
+  type t6 is array of t6;
+  begin end;

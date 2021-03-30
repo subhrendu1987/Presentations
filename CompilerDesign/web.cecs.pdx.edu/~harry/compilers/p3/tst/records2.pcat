@@ -1,0 +1,33 @@
+(* testing records *)
+
+program is
+    var i : integer := 0;
+    type Complex is record r: real; i : real; end;
+    type Pair is record first: Complex; second : Complex; end;
+    var c : Complex := Complex { r := 0.0; i := 0.0 };
+    var p : Pair := Pair { first := Complex { r := 0.0; i := 0.0 };
+                           second := Complex { r := 0.0; i := 0.0 } };
+    procedure print() is begin
+	write("    (", c.r, ", ", c.i, ")");
+    end;
+begin 
+    c.r := 1.0;
+    c.i := 0.0;
+    p.first := c;
+    c.r := 0.0;
+    c.i := 1.0;
+    p.second := c;
+    c := p.first;
+    write ("The first complex number should be (1.0, 0.0):");
+    print();
+    c := p.second;
+    write ("The second complex number should be (0.0, 1.0):");
+    print();
+    if p.first.r <> p.second.r then 
+	write ("and these two complex numbers are not equal!");
+    elseif p.first.i <> p.second.i then 
+	write ("and these two complex numbers are not equal!");
+    else
+	write ("and these two complex numbers are equal?");
+    end;
+end;

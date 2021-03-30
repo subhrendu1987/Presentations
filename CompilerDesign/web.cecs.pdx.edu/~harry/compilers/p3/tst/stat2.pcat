@@ -1,0 +1,46 @@
+program is
+  begin
+    if (true) then write ("yes"); else write ("no"); end;
+    if (true) then write ("again"); end;
+    if (false) then write ("yes"); else write ("no"); end;
+    if (false) then write ("again"); end;
+    if (true) then
+      write ("a");
+      write ("b");
+      write ("c");
+    end;
+    if (true) then
+      write ("a");
+      write ("b");
+      write ("c");
+    else
+      write ("a");
+      write ("b");
+      write ("c");
+    end;
+    if (x) then
+      write ("d");
+      write ("e");
+    elseif (y) then
+      write ("f");
+      write ("g");
+    elseif (z) then
+      write ("h");
+      write ("i");
+    else
+      write ("j");
+      write ("k");
+    end;
+    if (x) then
+      write ("d");
+      write ("e");
+    elseif (y) then
+      write ("f");
+      write ("g");
+    elseif (z) then
+      write ("h");
+      write ("i");
+    end;
+  end;
+    
+  

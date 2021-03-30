@@ -1,0 +1,27 @@
+(* This program tests that the lexical level info is in the return quads. *)
+
+program is
+
+  procedure foo1 () : integer is
+    begin
+      return 1;
+    end;
+  procedure foo2 () : integer is
+    procedure foo3 () : integer is
+      procedure foo4 () : integer is
+        begin
+          return 4;
+        end;
+      procedure foo5 () is
+        begin
+          return;
+        end;
+      begin
+        return 3;
+      end;
+    begin
+      return 2;
+    end;
+
+  begin
+  end;

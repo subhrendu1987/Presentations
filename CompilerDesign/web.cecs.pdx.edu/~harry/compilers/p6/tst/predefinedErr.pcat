@@ -1,0 +1,52 @@
+(* Check that the predefined IDs cannot be redefined.
+**
+** There should be 42 errors here.
+*)
+
+program is
+  procedure foo () is
+    type nil     is array of integer;
+         true    is array of integer;
+         false   is array of integer;
+         integer is array of integer;
+         real    is array of integer;
+         boolean is array of integer;
+    var nil     := 0;
+        true    := 0;
+        false   := 0;
+        integer := 0;
+        real    := 0;
+        boolean := 0;
+    procedure nil     () is begin return; end;
+              true    () is begin return; end;
+              false   () is begin return; end;
+              integer () is begin return; end;
+              real    () is begin return; end;
+              boolean () is begin return; end;
+              bar (nil: boolean;
+                   true: boolean;
+                   false: RecType;
+                   integer: integer;
+                   real: real;
+                   boolean: boolean)
+                              is begin return; end;
+    type RecType is record
+                      nil: RecType;
+                      true: boolean;
+                      false: boolean;
+                      integer: integer;
+                      real: real;
+                      boolean: boolean;
+                    end;
+    begin
+      nil := 123;
+      true := 123;
+      false := 123;
+      integer := 123;
+      real := 123;
+      boolean := 123;
+      read (nil, true, false, integer, real, boolean);
+      return;
+    end;
+  begin
+  end;

@@ -1,0 +1,38 @@
+(* This program tests IR code generation for procedure invocation. *)
+
+program is
+
+  var x, y, z: integer := 0;
+  var a, b, c: real := 0.0;
+
+  procedure foo1 (x, y, z: integer) : integer is begin return x+9999; end;
+  procedure foo2 (x, y, z: real) : real is begin return a+999.999; end;
+  procedure foo3 (x, y, z: integer) is begin return; end;
+  procedure foo4 (x, y, z: real) is begin return; end;
+  procedure foo5 () is begin return; end;
+  procedure foo6 (x: integer) : integer is begin return x+8888; end;
+  procedure foo7 (x, y: integer) : integer is begin return x+7777; end;
+
+begin
+
+  x := foo1 (2, 4, 6);
+  x := foo1 (x+2, (x+4) mod 3, 6*x);
+  x := foo1 (foo1 (2, 4, 6), foo1 (2+x, 4+y, 6+z) mod 3, 6*x);
+
+  a := foo2 (2.2, 4.4, 6.6);
+  a := foo2 (2.2*a, 4.4*b, 6.6*c);
+
+  foo3 (2, 4, 6);
+  foo3 (x+2, (x+4) mod 3, 6*x);
+
+  foo4 (2.2, 4.4, 6.6);
+
+  foo5 ();
+
+  x := foo6 (y);
+  x := foo6 (foo6 (foo6 (foo6 (y))));
+
+  x := foo7 (foo7 (foo7 (x+1, y+2), foo7 (x+3, y+4)),
+             foo7 (foo7 (x+5, y+6), foo7 (x+7, y+8)));
+
+end;

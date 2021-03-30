@@ -1,0 +1,33 @@
+rm -f tst/local.s
+rm -f tst/local
+java Main < tst/local.pcat 1> tst/local.s
+Assembling...
+Beginning execution...
+=== foo2 ===
+x1 = 103
+x2 = 402
+x3 = 701
+y1 = 502
+y2 = 801
+z1 = 901
+a  = 1003
+b  = 1302
+c  = 1501
+d  = 1601
+=== foo1 ===
+x1 = 103
+x2 = 402
+x3 = 302
+y1 = 502
+y2 = 601
+a  = 1003
+b  = 1302
+c  = 1401
+d  = 1202
+=== main ===
+x1 = 103
+x2 = 201
+x3 = 302
+a  = 1003
+b  = 1101
+d  = 1202

@@ -1,0 +1,23 @@
+rm -f tst/read1.s
+rm -f tst/read1
+java Main < tst/read1.pcat 1> tst/read1.s
+Assembling...
+Beginning execution...
+About to call readInt(i)...
+PLEASE ENTER AN INTEGER:
+i1 = 1234
+About to call readInt (i1, i2, i3)...
+PLEASE ENTER 3 INTEGERS:
+i1 = 1
+i2 = 2
+i3 = 3
+About to call readInt (j1, j2, j3)...
+PLEASE ENTER 3 INTEGERS:
+j1 = 111
+j2 = 222
+j3 = 333
+About to call readInt (i1, i2, i3)...
+PLEASE ENTER 3 INTEGERS:
+i1 = 101
+i2 = 202
+i3 = 303

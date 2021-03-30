@@ -1,0 +1,33 @@
+program is
+  type T is array of integer;
+  procedure echo (q:integer) : integer is
+    begin
+      write(q);
+      return q;
+    end;
+  procedure report (a:T) is
+    begin
+      write (a[0], " ", a[10], " ", a[20]);
+    end;
+  procedure change (a:T) is
+    begin
+      a[0] := 888;
+      a[20] := 777;
+      report(a);
+    end;
+  var x, y, z, w := 10;
+  var a := T {{ 10 of 0, 10 of 1, 10 of 2 }};
+  var b := T {{ x of 10, 10 of y, z of w }};
+  var c := T {{ echo(10) of echo(0), echo(20) of echo(1), echo(30) of echo(2) }};
+  begin	
+    report(a);
+    report(b);
+    report(c);
+    change(a);
+    change(b);
+    change(c);
+    report(a);
+    report(b);
+    report(c);
+  end;
+

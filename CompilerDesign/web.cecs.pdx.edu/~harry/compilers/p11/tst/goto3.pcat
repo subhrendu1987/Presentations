@@ -1,0 +1,103 @@
+(* This routine tests floating point conditional gotos *)
+
+program is
+
+var x: real := 1.1;
+    y: real := 2.2;
+
+begin
+  write ("SHOULD PRINT ALL OKS AFTER EACH TEST:");
+
+write ("TESTING =...");
+  if x=y then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+  if x=x then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+
+write ("TESTING <>...");
+  if x<>y then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+  if x<>x then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+
+write ("TESTING <...");
+  if x<x then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+  if y<x then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+  if x<y then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+
+write ("TESTING >...");
+  if x>x then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+  if y>x then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+  if x>y then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+
+write ("TESTING <=...");
+  if x<=x then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+  if y<=x then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+  if x<=y then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+
+write ("TESTING >=...");
+  if x>=x then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+  if y>=x then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+  if x>=y then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+
+end;

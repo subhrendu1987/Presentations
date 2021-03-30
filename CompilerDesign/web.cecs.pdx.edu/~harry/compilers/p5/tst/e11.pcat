@@ -1,0 +1,10 @@
+(*** Check variable usage - should be 4 "Identifier is not defined" errors ***)
+
+program is
+  var x, y, z: integer := 1;
+      a: real := 1.5;
+begin
+  xxxx := y;
+  a := zzzz;
+  read (xxx1, xxx2);
+end;

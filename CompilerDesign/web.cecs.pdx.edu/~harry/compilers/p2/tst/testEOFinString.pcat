@@ -1,0 +1,6 @@
+(* The following string ends with an EOF.  There should not be a NEWLINE before the
+EOF.  Perhaps, when you download this file, a NEWLINE will get inserted.  If so,
+you will get a different error.  You should not edit this file, since your editor
+will most likely detect the missing NEWLINE and insert it. *)
+
+"xyz

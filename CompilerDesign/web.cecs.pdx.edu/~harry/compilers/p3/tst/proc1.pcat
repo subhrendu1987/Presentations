@@ -1,0 +1,11 @@
+program is
+  procedure f(x:integer) is
+    begin
+      write(x);
+      if x = 0 then return;
+      else f(x-1);
+      end;
+    end;
+  begin
+    f(5);
+  end;

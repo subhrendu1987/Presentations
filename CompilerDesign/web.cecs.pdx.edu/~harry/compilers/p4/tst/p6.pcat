@@ -1,0 +1,15 @@
+(***   Test variables, record dereferencing, array dereferencing, and function calls   ***)
+
+program is
+  begin
+    return x;                (* Get the value of variable x *)
+    return r.f;              (* Get the value of the "f" field from record r *)
+    return r.f.g.h;
+    return a[1];             (* Get the value of the 1st element from array a *)
+    return a[1][2][3];
+    return a[1].f[2].g;
+    return f();              (* Call function f *)
+    return f(1);
+    return f(1,2);
+    return f(1,2,3,4);
+  end;

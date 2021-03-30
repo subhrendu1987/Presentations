@@ -1,0 +1,27 @@
+(* This program tests code generation for WRITE statements. *)
+
+program is
+
+  var x: real := 0.0;
+      i: integer := 0;
+      b: boolean := false;
+
+  procedure foo1 () is
+    begin
+      write ("Within foo1...");
+      write ("x+i = ", x+i);
+      write ("b = ", b, "True = ", true, "Bool-expr = ", b and (not b));
+      return;
+    end;
+
+  procedure foo2 () is
+    begin
+      write ("Within foo2...");
+      write ("x-i = ", x-i);
+      return;
+    end;
+
+begin
+  write ("Hello, world!");
+  write ("x = ", x, "i = ", i);
+end;

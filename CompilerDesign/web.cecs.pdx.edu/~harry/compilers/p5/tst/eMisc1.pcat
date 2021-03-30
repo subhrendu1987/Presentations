@@ -1,0 +1,18 @@
+(***  This program tests a varied collection of error conditions and
+      should produce a number of different messages.  ***)
+
+program is
+  var x: xxx1 := xxx2;
+  var x := xxx3();
+  type t1 is record
+               f1: integer;
+               f1: integer;
+             end;
+  type t1 is array of t1;
+  procedure foo1 (a,a: real) is begin end;
+  procedure foo1 () is begin end;
+begin
+    x := xxx5 {f1:=1; f1:=1; xxx6:=1};
+    x := xxx7 {{ 1 }};
+    xxx8 ();
+end;

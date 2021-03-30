@@ -1,0 +1,13 @@
+rm -f tst/div.s
+rm -f tst/div
+java Main < tst/div.pcat 1> tst/div.s
+Assembling...
+Beginning execution...
+17 DIV 5 = 3
+17 DIV -5 = -3
+-17 DIV 5 = -3
+-17 DIV -5 = 3
+17 MOD 5 = 2
+17 MOD -5 = 2
+-17 MOD 5 = -2
+-17 MOD -5 = -2

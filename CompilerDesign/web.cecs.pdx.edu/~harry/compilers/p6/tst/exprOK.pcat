@@ -1,0 +1,11 @@
+(* This program tests the type checking of expressions. *)
+
+program is
+  var a,b,c,d,e,f:       integer := 0;
+      u,v,w,x,y,z:       real    := 0.0;
+      b1,b2,b3,b4,b5,b6: boolean := false;
+  begin
+        f := a + b * c + d div e;
+        u := v + w * x + y / z;
+        b1 := not (b2 and not b3 or not b4 and not b5 or not (not b6));
+  end;

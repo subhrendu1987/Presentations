@@ -1,0 +1,5 @@
+(***   should print: expecting is in procedure definition   ***)
+program is
+  procedure foo (x:integer) : integer {
+begin
+end;

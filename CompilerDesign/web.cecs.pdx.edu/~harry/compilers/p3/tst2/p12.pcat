@@ -1,0 +1,5 @@
+(***   should print: expecting ':=' or ':' or ',' in var definition   ***)
+program is
+var x = 123;
+begin
+end;

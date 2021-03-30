@@ -1,0 +1,14 @@
+(*** Test grouping of var_decls and sharing of types & initializing exprs ***)
+
+program is
+  var x, y, z: integer := 1234;
+  var xx, yy, zz := 4321;
+  var i1,j1,k1 := 555;
+      i2,j2,k2 := 666;
+      i3,j3,k3 := 777;
+  var xxx: integer := 123;
+      yyy: integer := 321;
+  var a,b,c,d := 10101;
+  var zzz: integer := 456;
+  
+  begin end;

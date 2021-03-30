@@ -1,0 +1,19 @@
+(***  Check that TRUE, FALSE, and NIL exist and have the right type  ***)
+
+(***  Should have no errors.  ***)
+
+program is
+    type MyArr is array of integer;
+         MyRec is record f: integer; end;
+    var b: boolean := false;
+    var r: MyRec := nil;
+    var a: MyArr := nil;
+  begin
+    b := true;
+    b := false;
+    b := true or false and not true;
+    r := nil;
+    a := nil;
+    b := (nil = r);
+    b := (a = nil);
+  end;

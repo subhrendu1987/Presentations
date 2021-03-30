@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+# Run the YAPP program.  This script expects 2 files.  For example:
+#
+#    go grammar-file source-file
+#
+# The grammar-file contains the grammar and the source-file contains
+# the tokens to be parsed.  They are assumed to be in a "tst" directory.
+#
+echo "rm -f tempInput2"
+rm -f tempInput2
+#
+echo "rm -f tempInput1"
+rm -f tempInput1
+#
+echo "cat tst/$1 tst/$2 > tempInput1"
+cat tst/$1 tst/$2 > tempInput1
+#
+echo "pre < tempInput1 > tempInput2"
+pre < tempInput1 > tempInput2
+#
+echo "rm -f tempInput1"
+rm -f tempInput1
+#
+echo "yapp < tempInput2 | post | more"
+yapp < tempInput2 | post | more
+#
+echo "rm -f tempInput2"
+rm -f tempInput2

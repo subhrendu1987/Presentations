@@ -1,0 +1,21 @@
+(* This program tests IR generation for READ and WRITE stmts. *)
+
+program is
+
+  var i,j,k: integer := 0;
+      x,y,z: real := 0.0;
+  type A is array of integer;
+       R is record
+              f1: integer;
+              f2: real;
+              f3: A;
+            end;
+  var a: A := nil;
+      r: R := nil;
+
+  begin
+    write ( "Test printing expressions...");
+    write ( i+j, k*43+i, x-y-z-i);
+    write ( "Test reading complex L-values...");
+    read  ( i, x, a[i+j], r.f1, r.f2, r.f3[k*j] );
+  end;

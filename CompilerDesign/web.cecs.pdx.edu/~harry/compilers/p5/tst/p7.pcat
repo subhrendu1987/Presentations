@@ -1,0 +1,10 @@
+(*** Check array constructors - should be no errors ***)
+
+program is
+  type A is array of integer;
+  var x := A {{ 1,2,3 }};
+  var y := B {{ 1,2,3 }};
+  type B is array of integer;
+begin
+  x := A {{ 1,2,3 }};
+end;

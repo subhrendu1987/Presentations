@@ -1,0 +1,12 @@
+(*** Test simple expressions and the return statement. ***)
+
+program is
+  begin
+    return;
+    return 123;
+    return
+           456
+              ;
+    return 3.14;
+    return;
+  end;

@@ -1,0 +1,96 @@
+(*** Check currentLevel assignments - should be no errors ***)
+
+program is
+
+  procedure foo1 (a1,a2: integer; a3,a4: real) is
+
+      procedure foo2 (c1,c2: integer; c3,c4: real) is
+
+          procedure foo4 (e1,e2: integer; x1,a1,b1,c1,d1: real) is
+            var d2: integer := x1+x2+x3+x4+a1+a2+a3+a4+b1+b2+c1+c2+c3+c4+d1+e1+e2;
+            begin
+              d2 := x1+x2+x3+x4+a1+a2+a3+a4+b1+b2+c1+c2+c3+c4+d1+d2+e1+e2;
+              x1 := 3;
+              x4 := 3;
+              a1 := 3;
+              a4 := 3;
+              b1 := 3;
+              b2 := 3;
+              c1 := 3;
+              c4 := 3;
+              d1 := 3;
+              d2 := 3;
+              e1 := 3;
+              e2 := 3;
+            end;
+
+        var d1: integer := x1+x2+x3+x4+a1+a2+a3+a4+b1+b2+c1+c2+c3+c4;
+            d2: integer := x1+x2+x3+x4+a1+a2+a3+a4+b1+b2+c1+c2+c3+c4+d1;
+        begin
+          d2 := x1+x2+x3+x4+a1+a2+a3+a4+b1+b2+c1+c2+c3+c4+d1+d2;
+          x1 := 2;
+          x4 := 2;
+          a1 := 2;
+          a4 := 2;
+          b1 := 2;
+          b2 := 2;
+          c1 := 2;
+          c4 := 2;
+          d1 := 2;
+          d2 := 2;
+        end;
+
+      procedure foo3 (c1,c2: integer; c3,c4: real) is
+
+          procedure foo4 (e1,e2: integer; x1,a1,b1,c1,d1: real) is
+            var d2: integer := x1+x2+x3+x4+a1+a2+a3+a4+b1+b2+c1+c2+c3+c4+d1+e1+e2;
+            begin
+              d2 := x1+x2+x3+x4+a1+a2+a3+a4+b1+b2+c1+c2+c3+c4+d1+d2+e1+e2;
+              x1 := 3;
+              x4 := 3;
+              a1 := 3;
+              a4 := 3;
+              b1 := 3;
+              b2 := 3;
+              c1 := 3;
+              c4 := 3;
+              d1 := 3;
+              d2 := 3;
+              e1 := 3;
+              e2 := 3;
+            end;
+
+        var d1: integer := x1+x2+x3+x4+a1+a2+a3+a4+b1+b2+c1+c2+c3+c4;
+            d2: integer := x1+x2+x3+x4+a1+a2+a3+a4+b1+b2+c1+c2+c3+c4+d1;
+        begin
+          d2 := x1+x2+x3+x4+a1+a2+a3+a4+b1+b2+c1+c2+c3+c4+d1+d2;
+          x1 := 1;
+          x4 := 1;
+          a1 := 1;
+          a4 := 1;
+          b1 := 1;
+          b2 := 1;
+          c1 := 1;
+          c4 := 1;
+          d1 := 1;
+          d2 := 1;
+        end;
+
+    var b1: integer := x1+x2+x3+x4+a1+a2+a3+a4;
+        b2: integer := x1+x2+x3+x4+a1+a2+a3+a4+b1;
+    begin
+      b1 := x1+x2+x3+x4+a1+a2+a3+a4+b1+b2;
+      x1 := 1;
+      x4 := 1;
+      a1 := 1;
+      a4 := 1;
+      b1 := 1;
+      b2 := 1;
+    end;
+
+  var x1,x2: integer := 1;
+      x3, x4: real := 1.5;
+  begin
+    x1 := x1+x2+x3+x4;
+    x4 := x1+x2+x3+x4;
+  end;

@@ -1,0 +1,4 @@
+(***   should print: expecting statement or end   ***)
+program is
+begin
+}

@@ -1,0 +1,24 @@
+(**************************************************************
+   Here is a little grammar which is ambiguous; for example:
+
+            E                   E
+           / \                 / \
+          /   \               /   \
+         /     \             T     E
+        T       \            |    / \
+       / \       E           +   /   \
+      /   \     / \             /     \
+     E     T   T   E           T       E
+    / \    |   |   |          / \     / \
+   T   E   +   +   -         E   T   T   E
+   |   |                     |   |   |   |
+   +   -                     -   +   +   -
+
+   Ambiguous grammars are not LR; therefore this grammar
+   will cause a conflicts when building the tables in YAPP.
+**************************************************************)
+E = T E
+T = E T
+E = -
+T = +
+

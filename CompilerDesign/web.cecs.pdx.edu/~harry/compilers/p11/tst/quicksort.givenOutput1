@@ -1,0 +1,16 @@
+rm -f tst/quicksort.s
+rm -f tst/quicksort
+java Main < tst/quicksort.pcat 1> tst/quicksort.s
+Assembling...
+Beginning execution...
+Enter 9 integers (between -9998 and +9998):
+The sorted array is:
+10
+15
+21
+23
+30
+57
+62
+81
+96

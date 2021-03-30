@@ -1,0 +1,14 @@
+(* This program tests the "Allocation-failed" error. *)
+
+program is
+
+  type A is array of integer;
+  var p: A := nil;
+
+begin
+
+  write ("Should cause an allocation-failed message...");
+  p := A {{ 1000 of 0 }};
+
+end;
+

@@ -1,0 +1,7 @@
+(***   should print: expecting ';' after end in while statement   ***)
+program is
+begin
+  while x do
+    return;
+  end {
+end;

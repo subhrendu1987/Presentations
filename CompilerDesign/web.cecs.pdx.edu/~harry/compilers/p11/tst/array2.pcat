@@ -1,0 +1,16 @@
+(* This program tests array allocation. *)
+
+program is
+
+  type A is array of integer;
+  var a: A := nil;
+      i : integer := 0;
+
+begin
+
+  a := A {{ 100 of -7654 }};
+  write ("Should print -7654...", a[0]);
+  write ("Should print -7654...", a[50]);
+  write ("Should print -7654...", a[99]);
+
+end;

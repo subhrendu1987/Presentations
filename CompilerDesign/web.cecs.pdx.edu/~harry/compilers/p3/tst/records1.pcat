@@ -1,0 +1,13 @@
+(* testing records *)
+
+program is
+    type Pair is record i: integer; r: real; end;
+    var c : Pair := Pair { r := 0.0; i := 0 };
+    procedure print() is begin
+	write("    (", c.r, ", ", c.i, ")");
+    end;
+begin 
+    c.r := 2.3;
+    c.i := 1;
+    print();
+end;

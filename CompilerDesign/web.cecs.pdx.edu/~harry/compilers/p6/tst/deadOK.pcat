@@ -1,0 +1,84 @@
+(* This program tests dead code detection.
+**
+** It contains no errors.
+*)
+program is
+  var i := 0;
+  procedure foo1 () is
+    begin
+      write ("Hello");
+      return;
+    end;
+  procedure foo2 () is
+    begin
+      loop
+        write ("Hello");
+      end;
+    end;            (* RETURN not needed here since we'll never get here. *)
+  procedure foo3 () is
+    begin
+      if i=1 then
+        if i=3 then
+          return;
+        else
+          return;
+        end;
+      elseif i=2 then
+        if i=3 then
+          return;
+        else
+          return;
+        end;
+      else
+        if i=3 then
+          return;
+        else
+          return;
+        end;
+      end;
+    end;            (* RETURN not needed here since we'll never get here. *)
+begin
+  loop
+    i := i + 1;
+    if i>100 then exit; end;
+    i := i * 2;
+  end;
+  loop
+    if i=1 then       (* There is one way thru this IF... *)
+      if i=3 then
+        exit;
+      else
+        exit;
+      end;
+    elseif i=2 then
+      if i=3 then
+        exit;
+      else
+        i := 0;
+      end;
+    else
+      if i=3 then
+        exit;
+      else
+        exit;
+      end;
+    end;
+    write ("hello");   (* ... so this stmt can be reached. *)
+  end;
+  loop
+    if i=1 then
+      exit;
+    end;
+    for i := 1 to 10 do
+    end;
+  end;
+  loop
+    if i=1 then
+    else
+      exit;
+    end;
+    while true do    (* Do not expect to catch this as an error.*)
+    end;
+  end;
+  write ("hello");
+end;

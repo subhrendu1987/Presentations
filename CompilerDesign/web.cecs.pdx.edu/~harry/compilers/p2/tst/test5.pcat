@@ -1,0 +1,21 @@
+(* This file tests identifiers.  When the lexer scans an ID,
+   it will return the attribute sValue set to point to a
+   String giving the characters in the ID.  Whenever the same
+   ID is scanned, the lexer must set "sValue" to point to
+   the same String, not just an equal String with the same
+   characters.
+
+   The "main" method will test that the lexer does this.  The
+   "main" routine will watch for certain ID's and will remember
+   the "sValue" associated with them and will test whenever the
+   same ID re-appears in the source.
+*)
+
+anIdentifier
+abc
+anotherID
+abc
+abcHello
+anotherID
+abc
+GoodBye

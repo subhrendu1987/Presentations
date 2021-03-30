@@ -1,0 +1,5 @@
+(***  should print: expecting ')' or l-value in read statement   ***)
+program is
+begin
+  read (x;y);
+end;

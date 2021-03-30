@@ -1,0 +1,21 @@
+(* Test READ statements.
+**
+** This program contains 7 errors.
+*)
+
+program is
+  type MyRec is record f1: boolean; end;
+       MyArr is array of integer;
+  var b: boolean := false;
+      a: MyArr := nil;
+      r: MyRec := nil;
+
+begin
+  read (b);            (*** Can't read into a BOOLEAN ***)
+  read (a);            (*** Can't read into a ARRAY ***)
+  read (r);            (*** Can't read into a RECORD ***)
+  read (nil);          (*** ERROR: can't read into NIL ***)
+  read (xxx);          (*** ERROR: within l-value: undefined name ***)
+  read (r.f1);         (*** ERROR: this field is BOOLEAN ***)
+  read (a[3.5]);       (*** ERROR: problems with subscripting ***)
+end;

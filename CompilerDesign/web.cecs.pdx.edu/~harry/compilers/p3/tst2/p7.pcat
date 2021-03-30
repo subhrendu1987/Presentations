@@ -1,0 +1,5 @@
+(***  should print: expecting ': type' after field name   ***)
+program is
+type r is record f; g end;
+begin
+end;

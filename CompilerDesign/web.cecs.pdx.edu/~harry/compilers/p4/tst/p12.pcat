@@ -1,0 +1,11 @@
+program is begin
+
+(***  Test assignment statements  ***)
+
+  x := 12345;
+  x := foo (1,2,3);
+  x := a;
+  x[a] := x[a + i];
+  x.f.g := 1 + 2 * 3;
+
+end;

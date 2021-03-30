@@ -1,0 +1,14 @@
+program is
+  var a := 10;
+  var b := a + 10;
+  procedure f(a: boolean) is
+    var b := not a;
+    begin 
+      write(a," ", b);
+    end;
+  var c := true;
+  begin
+    write(a," ", b);
+    f(c);
+  end;
+

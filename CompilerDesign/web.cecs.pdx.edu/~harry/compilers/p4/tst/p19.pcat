@@ -1,0 +1,12 @@
+(* Test the handling of the predefined variables "true", "false", and "nil". *)
+
+program is
+  begin
+    x1 := true;
+    x2 := false;
+    x3 := nil;
+    x4 := x1;
+    x5 := TRUE + FALSE - NIL;  (* These should NOT be recognized as special *)
+    return a + b * true < nil - false * c;
+    return (((a + b) / (((((false - nil))))))) * ((c - true * d) / e);
+  end;

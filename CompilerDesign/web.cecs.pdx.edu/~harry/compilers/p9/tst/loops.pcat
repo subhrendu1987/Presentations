@@ -1,0 +1,68 @@
+(* This file tests IR generation for LOOP, WHILE, FOR, and EXIT *)
+
+program is
+  var b,c: boolean := false;
+  var i: integer := 0;
+
+begin
+  while true do
+    i := 123;
+  end;
+  while b do
+    i := 123;
+  end;
+  while b and c do
+    i := 123;
+  end;
+  while b or c do
+    i := 123;
+  end;
+  while (b or c or not b) and not (not b and c) do
+    i := 123;
+  end;
+  while b do
+    i := 111;
+    if b then
+      exit;
+    end;
+    i := 222;
+  end;
+  loop
+    i := 111;
+    loop
+      i := 222;
+      if b then
+        exit;
+      end;
+      loop
+        i := 333;
+        if b then
+          exit;
+        end;
+        i := 444;
+      end;
+      if b then
+        exit;
+      end;
+      i := 555;
+    end;
+    i := 666;
+    if b then
+      exit;
+    end;
+    i := 777;
+  end;
+  i := 888;
+  for i := 100*i to 200*i by 3*i do
+    i := 1010101;
+  end;
+  for i := 3000 to 4000 do
+    i := 1111;
+    if b then
+      i := 2222;
+      exit;
+    end;
+    i := 3333;
+  end;
+  i := 4444;
+end;

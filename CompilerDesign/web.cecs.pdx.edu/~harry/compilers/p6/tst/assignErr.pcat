@@ -1,0 +1,40 @@
+(* Test assignment compatibilities.
+**
+** This file has 22 errors, one for every assignment.
+*)
+
+program is
+  type T3 is array of integer;
+       T4 is record f1: integer; end;
+
+  var i: integer := 0;
+      f: real := 0.0;
+      b: boolean := false;
+      a: T3 := nil;
+      r: T4 := nil;
+
+begin
+  i := f;
+  i := b;
+  i := a;
+  i := r;
+  i := nil;
+  f := b;
+  f := a;
+  f := r;
+  f := nil;
+  b := i;
+  b := f;
+  b := a;
+  b := r;
+  b := nil;
+  a := i;
+  a := f;
+  a := b;
+  a := r;
+  r := i;
+  r := f;
+  r := b;
+  r := a;
+end;
+

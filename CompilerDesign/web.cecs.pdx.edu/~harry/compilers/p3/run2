@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# Use this shell script to test your program.
+#
+# Use this script from a directory that contains the "*.class" files and a
+# subdirectory "tst2" containing files such as
+#	test01.pcat
+#	test01.out.bak
+#	test01.err.bak
+#
+# Type:
+#	run test01
+#
+# It will first run "main" to create files:
+#	test01.out
+#	test01.err
+#
+# It will then print any differences between your output/error files
+# and the pre-existing ".bak" output/error files.
+#
+echo $1:
+java Main < tst2/$1.pcat 1> tst2/$1.out 2> tst2/$1.err
+diff -w tst2/$1.out.bak tst2/$1.out
+diff -w tst2/$1.err.bak tst2/$1.err
+rm tst2/$1.out
+rm tst2/$1.err

@@ -1,0 +1,27 @@
+(* This program tests iadd, isub, imul, fadd, fsub, fmul, fdiv. *)
+
+program is
+
+  var x: integer := 0;
+      y: integer := 3;
+      z: integer := 4;
+      a: real := 0.0;
+      b: real := 3.3;
+      c: real := 4.4;
+
+begin
+  x := y + z;
+  write ("3 + 4 = ", x);
+  x := y - z;
+  write ("3 - 4 = ", x);
+  x := y * z;
+  write ("3 * 4 = ", x);
+  a := b + c;
+  write ("3.3 + 4.4 = ", a);
+  a := b - c;
+  write ("3.3 - 4.4 = ", a);
+  a := b * c;
+  write ("3.3 * 4.4 = ", a);
+  a := b / c;
+  write ("3.3 / 4.4 = ", a);
+end;

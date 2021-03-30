@@ -1,0 +1,26 @@
+(* This program tests returning expressions. *)
+
+program is
+  procedure foo1 () : integer is
+      procedure foo2 () : integer is
+          begin
+            write ("    Within foo2...");
+            write ("    Leaving foo2");
+            return 123;
+          end;
+      var j: integer := 0;
+      begin
+        write ("  Within foo1...");
+        j := foo2 ();
+        write ("   foo2 returned ", j);
+        write ("  Leaving foo1");
+        return 456;
+      end;
+
+  var i: integer := 0;
+  begin
+    write ("Within main...");
+    i := foo1 ();
+    write (" foo1 returned ", i);
+    write ("Leaving main");
+  end;

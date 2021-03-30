@@ -1,0 +1,11 @@
+(*** This program tests that we have a var or formal name in a VARIABLE ***)
+(*** It should detect 2 errors ***)
+
+program is
+  type t is array of integer;
+  var i := 0;
+  procedure foo () is begin end;
+begin
+  t := 123;       (* Expecting a local or formal name *)
+  i := 3 * foo;   (* Expecting a local or formal name *)
+end;

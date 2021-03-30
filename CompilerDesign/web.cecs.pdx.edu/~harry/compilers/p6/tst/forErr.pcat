@@ -1,0 +1,26 @@
+(* Test FOR statement checking.
+**
+** It contains 7 errors.
+*)
+
+program is
+  var i: integer := 0;
+  var a: real := 0.0;
+  var b: boolean := false;
+begin
+  for a := 1 to 10 by 2 do           (* Error here *)
+    write ("hello");
+  end;
+  for i := 1.5 to 10 by 2 do         (* Error here *)
+    write ("hello");
+  end;
+  for i := 1 to 10.5 by 2 do         (* Error here *)
+    write ("hello");
+  end;
+  for i := 1 to 10 by 2.5 do         (* Error here *)
+    write ("hello");
+  end;
+  for i := 1+b to 10+b by 2+b do     (* 3 errors here *)
+    write ("hello");
+  end;
+end;

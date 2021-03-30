@@ -1,0 +1,45 @@
+(* This tests stuff relating to record constructors and dereferencing.
+**
+** This program contains no errors.
+*)
+
+program is
+  type MyRec is record
+                  f1: integer;
+                  f2: real;
+                  f3: integer;
+                end;
+  type MyRec1 is record
+                  f1: integer;
+                  f2: real;
+                  f3: boolean;
+                  f4: MyRec2;
+                end;
+  type MyRec2 is record
+                  f1: MyRec3;
+                end;
+  type MyRec3 is record
+                  f1: MyRec1;
+                  f2: integer;
+                end;
+  var r: MyRec := nil;
+      r1: MyRec1 := nil;
+      r2: MyRec2 := nil;
+      r4: MyRec1 := nil;
+      i: integer := 0;
+      f: real := 0.0;
+      b: boolean := false;
+
+begin
+
+  r := MyRec { f1 := 1; f2 := 2.5; f3 := 3 };
+  (*** Next, int_to_real must be inserted for to f2. ***)
+  r := MyRec { f1 := 1; f2 := 2; f3 := 3 };
+  i := r1.f1;
+  f := r1.f2;
+  b := r1.f3;
+  r2 := r1.f4;
+  i := r1.f4.f1.f2;
+  f := r4.f4.f1.f1.f2;
+
+end;

@@ -1,0 +1,24 @@
+(* This routine tests IRgoto, IRlabel, IRgotoiEQ *)
+
+program is
+
+var f: boolean := false;
+    t: boolean := true;
+
+begin
+  if t then
+    write ("OK 1");
+  else
+    write ("ERROR 1");
+  end;
+  if f then
+    write ("ERROR 2");
+  else
+    write ("OK 2");
+  end;
+  if f=f then
+    write ("OK 3");
+  else
+    write ("ERROR 3");
+  end;
+end;

@@ -1,0 +1,25 @@
+program is begin
+ 
+(***  Test looping statements  ***)
+
+  while 1 do end;
+  loop end;
+  for i := 1 to 2 do end;
+  while a+b do
+    x := 1;
+    y := 2;
+  end;
+  loop
+    x := 1;
+    y := 2;
+  end;
+  for i := 1 to 10 by 2 do
+    x := 1;
+    y := 2;
+  end;
+  for i := 1 to 10 do
+    x := 1;
+    y := 2;
+  end;
+
+end;

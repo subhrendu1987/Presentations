@@ -1,0 +1,21 @@
+(***   Test array and record constructors   ***)
+
+program is
+  begin
+    return MyArrType {{ 1+2 }};
+    return MyArrType {{ 1+2, 3+4 }};
+    return MyArrType {{ 1+2, 3+4, 5+6 }};
+    return MyArrType {{ 100 of 11 }};
+    return MyArrType {{ 100 of 11, 22, 300 of 33, 44, 500 of 55 }};
+    return MyArrType {{ x+y of 1+2, a+b of 3+4, c+d of 5+6 }};
+    return MyRecordType {f := 111; g := 222; h := 333};
+    return MyRecType
+             {
+               f
+                 :=
+                   123 ;
+               g
+                 :=
+                   456
+             };
+  end;

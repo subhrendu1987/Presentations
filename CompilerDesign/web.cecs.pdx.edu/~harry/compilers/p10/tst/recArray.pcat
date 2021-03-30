@@ -1,0 +1,64 @@
+program is
+  type T1 is array of T2;
+       T2 is record
+               f1: integer;
+               f2: T1;
+               f3: T2;
+               f4: boolean;
+             end;
+  var x1, x2, x3: T1 := T1 {{ 5 of T2 { f1:=123; f2:=nil; f3:=nil; f4:=false } }};
+      y1, y2, y3: T2 := T2 { f1:=123; f2:= T1 {{ 6 of nil }}; f3:=nil; f4:=false };
+      i: integer := 0;
+      b: boolean := false;
+
+  begin
+    x1 := T1 {{ 100 of nil}};
+    y1 := T2 { f1:=123; f2:=x1; f3:=nil; f4:=false };
+    x2 := T1 {{ 200 of y1 }};
+    y2 := T2 { f1:=321; f2:=x2; f3:=y1; f4:=true };
+    y3 := x1[57];
+    x1[68] := y2;
+    i := y1.f1;
+    y1.f1 := 456;
+    x3 := y1.f2;
+    y1.f2 := x2;
+    y3 := y1.f3;
+    y1.f3 := y2;
+    b := y1.f4;
+    y1.f4 := true;
+    i := x2[42].f1;
+    x2[42].f1 := 135;
+    x3 := x2[42].f2;
+    x2[42].f2 := x2;
+    y1 := x2[42].f3;
+    x2[42].f3 := y2;
+    b := x2[42].f4;
+    x2[42].f4 := true;
+    y2.f2[33] := y2.f2[44];
+    y2.f3.f2[55] := y2.f3.f2[66];
+    y2.f3.f3.f2[66].f3.f2[77].f3 := y2.f3.f3.f2[66].f3.f2[77].f3;
+    x1 := T1 {{ 5 of
+                 T2 { f1:=123;
+                      f2:=T1 {{ 6 of T2 { f1:=246;
+                                          f2:= T1 {{ 7 of y3 }};
+                                          f3:=y2;
+                                          f4:=false } }};
+                      f3:=T2 { f1:=357;
+                               f2:= T1 {{ 8 of y1 }};
+                               f3:=y2;
+                               f4:=false };
+                      f4:=true
+                    }
+             }};
+    y1 := T2 { f1:=431;
+               f2:= T1 {{ 9 of T2 { f1:=987; 
+                                    f2:= T1 {{ 10 of y3 }}; 
+                                    f3:=y1;
+                                    f4:=false } }};
+               f3:=T2 { f1:=789; 
+                        f2:= T1 {{ 11 of y2 }}; 
+                        f3:=y1;
+                        f4:=true };
+               f4:=true };
+
+  end;

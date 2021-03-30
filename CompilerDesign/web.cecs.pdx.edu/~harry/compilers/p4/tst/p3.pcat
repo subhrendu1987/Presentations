@@ -1,0 +1,24 @@
+(*** Test unary expressions ***)
+
+program is
+  begin
+    return -123;
+    return +123;
+    return not 123;
+    return -45.67;
+    return +45.67;
+    return not 45.67;
+    return not not not 123;
+    return - - - 123;
+    return + + + 45.67;
+    return
+      +
+      -
+      not
+      not
+      -
+      -
+      +
+      +
+      321;
+  end;

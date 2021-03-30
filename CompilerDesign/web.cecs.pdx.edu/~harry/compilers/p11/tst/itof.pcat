@@ -1,0 +1,15 @@
+(* This program tests integer-to-floating conversion. *)
+
+program is
+
+  var i: integer := 123;
+      j: integer := -321;
+      x: real := 0.0;
+      y: real := 0.0;
+
+begin
+  x := i;
+  write ("Should print 123...", x);
+  y := j;
+  write ("Should print -321...", y);
+end;

@@ -1,0 +1,31 @@
+(* This program tests IR code generation for various WRITE stmts. *)
+
+program is
+  var i,j,k : integer := 4321;
+  var x: real := 654.321;
+  var b1: boolean := false;
+  var b2: boolean := true;
+
+  begin
+    write ("Test printing constants...");
+    write ("Should print 1234...");
+    write (1234);
+    write ("Should print 1234...");
+    write (1234);
+    write ("Should print 123.456...");
+    write (123.456);
+    write ("Should print 0...");
+    write (0.0);
+    write ("Should print TRUE...");
+    write (true);
+    write ("Should print FALSE...");
+    write (false);
+    write ("Test printing variables...");
+    write ("Should print 654.321...");
+    write (x);
+    write ("Should print 4321...");
+    write (i);
+    write ("Should print b1 = FALSE, b2 = TRUE...");
+    write ("b1 = ", b1, ", b2 = ", b2);
+    write ("Test complete!");
+  end;

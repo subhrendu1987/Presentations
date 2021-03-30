@@ -1,0 +1,44 @@
+(* This program makes sure that the entire AST is walked and that expressions are
+   discovered wherever they might appear.  *)
+
+program is
+
+  type MyRecType is record
+                      field1: integer;
+                      field2: integer;
+                    end;
+       MyArrayType is array of integer;
+
+  var i: integer := 123;
+      j: integer := 456;
+      arr: MyArrayType := MyArrayType {{ i*j+10001 of i*j+10002, i*j+10003, i*j+10004 of i*j+10005 }};
+      rec: MyRecType := MyRecType { field1 := i*j+9999; field2 := i*j+10000 };
+
+  procedure foo (a: integer) : integer is
+    var k: integer := i*j+1111;
+    begin
+      if i=j then
+        while i=j do
+          write (i*j+2222, i*j+3333, i*j+4444);
+          write ();
+        end;
+      else
+        for i := i*j+5555 to i*j+6666 by i*j+7777 do
+          j := i*j+8888;
+          arr[i*j+10006] := arr[i*j+10007] + i*j+10008;
+          loop
+            read (arr[i*j+10009], arr[i*j+10010]);
+            arr := MyArrayType {{ i*j+10011 of i*j+10012, i*j+10013, i*j+10014 of i*j+10015 }};
+            rec := MyRecType { field1 := i*j+10016; field2 := i*j+10017 };
+            if arr=nil then
+              exit;
+            end;
+          end;
+        end;
+      end;
+      return i*j+10018;
+    end;
+
+  begin
+    i:= (i-3)*(i*j+10019);
+  end;

@@ -1,0 +1,37 @@
+(* This tests stuff relating to record constructors and dereferencing.
+**
+** This program contains 8 errors.
+** The last error elicits a redundant message, making 9 messages.
+*)
+
+program is
+  type MyArr is array of integer;
+       MyRec is record
+                  f1: integer;
+                  f2: real;
+                  f3: integer;
+                end;
+  var r: MyRec := nil;
+      i: integer := 0;
+      f: real := 0.0;
+
+begin
+
+  (*** Error: f5 is not in this record ***)
+  i := r.f5;
+  (*** Error: wrong type ***)
+  i := r.f2;
+  (*** Error: f is not a record ***)
+  i := f.f1;
+  (*** Error: MyArr is not a record. ***)
+  r := MyArr { f1 := 1 };
+  (*** Error: xxx not in record. ***)
+  r := MyRec { f1 := 1; f2 := 2.2; xxx := 444; f3 := 3 };
+  (*** Error: assignment to f3 is missing. ***)
+  r := MyRec { f1 := 1; f2 := 2.2 };
+  (*** Error: assignment to f3 is wrong type. ***)
+  r := MyRec { f1 := 1; f2 := 2.2; f3 := 3.5 };
+  (*** Error: f2 is assigned to twice. ***)
+  r := MyRec { f1 := 1; f2 := 2.2; f3 := 3; f2 := 22.22 };
+
+end;

@@ -1,0 +1,2813 @@
+(* This program tests IR generation for various logical combinations. *)
+
+program is
+  var
+    a,b,c,d: boolean := false;
+    x,i,j: integer := 0;
+  begin
+
+(*****  All expressions with one variable  *****)
+
+    a := b;
+    a := not b;
+    a := not not b;
+    a := not not not b;
+
+(*****  All expressions with two variables  *****)
+
+    a := b or c;
+    a := not b or c;
+    a := c or not b;
+    a := not b or not c;
+
+    a := not (b or c);
+    a := not (not b or c);
+    a := not (c or not b);
+    a := not (not b or not c);
+
+    a := b and c;
+    a := not b and c;
+    a := b and not c;
+    a := not b and not c;
+
+    a := not (b and c);
+    a := not (not b and c);
+    a := not (b and not c);
+    a := not (not b and not c);
+
+(*****  All expressions with two variables (double negations)  *****)
+
+    a := not not b or c;
+    a := c or not not b;
+    a := not not b or not not c;
+
+    a := not not (b or c);
+    a := not not (not not b or c);
+    a := not not (c or not not b);
+    a := not not (not not b or not not c);
+
+    a := b and c;
+    a := not not b and c;
+    a := b and not not c;
+    a := not not b and not not c;
+
+    a := not not (b and c);
+    a := not not (not not b and c);
+    a := not not (b and not not c);
+    a := not not (not not b and not not c);
+
+(*****  All expressions with: or or  *****)
+
+    a := (b or c) or d;
+    a := (not b or c) or d;
+    a := (b or not c) or d;
+    a := (b or c) or not d;
+    a := (not b or not c) or d;
+    a := (b or not c) or not d;
+    a := (not b or c) or not d;
+    a := (not b or not c) or not d;
+
+    a := (not (b or c)) or d;
+    a := (not (not b or c)) or d;
+    a := (not (b or not c)) or d;
+    a := (not (b or c)) or not d;
+    a := (not (not b or not c)) or d;
+    a := (not (b or not c)) or not d;
+    a := (not (not b or c)) or not d;
+    a := (not (not b or not c)) or not d;
+
+    a := b or (c or d);
+    a := not b or (c or d);
+    a := b or (not c or d);
+    a := b or (c or not d);
+    a := not b or (not c or d);
+    a := b or (not c or not d);
+    a := not b or (c or not d);
+    a := not b or (not c or not d);
+
+    a := b or (not (c or d));
+    a := not b or (not (c or d));
+    a := b or (not (not c or d));
+    a := b or (not (c or not d));
+    a := not b or (not (not c or d));
+    a := b or (not (not c or not d));
+    a := not b or (not (c or not d));
+    a := not b or (not (not c or not d));
+
+    a := not ((b or c) or d);
+    a := not ((not b or c) or d);
+    a := not ((b or not c) or d);
+    a := not ((b or c) or not d);
+    a := not ((not b or not c) or d);
+    a := not ((b or not c) or not d);
+    a := not ((not b or c) or not d);
+    a := not ((not b or not c) or not d);
+
+    a := not ((not (b or c)) or d);
+    a := not ((not (not b or c)) or d);
+    a := not ((not (b or not c)) or d);
+    a := not ((not (b or c)) or not d);
+    a := not ((not (not b or not c)) or d);
+    a := not ((not (b or not c)) or not d);
+    a := not ((not (not b or c)) or not d);
+    a := not ((not (not b or not c)) or not d);
+
+    a := not (b or (c or d));
+    a := not (not b or (c or d));
+    a := not (b or (not c or d));
+    a := not (b or (c or not d));
+    a := not (not b or (not c or d));
+    a := not (b or (not c or not d));
+    a := not (not b or (c or not d));
+    a := not (not b or (not c or not d));
+
+    a := not (b or (not (c or d)));
+    a := not (not b or (not (c or d)));
+    a := not (b or (not (not c or d)));
+    a := not (b or (not (c or not d)));
+    a := not (not b or (not (not c or d)));
+    a := not (b or (not (not c or not d)));
+    a := not (not b or (not (c or not d)));
+    a := not (not b or (not (not c or not d)));
+
+(*****  All expressions with: and and  *****)
+
+    a := (b and c) and d;
+    a := (not b and c) and d;
+    a := (b and not c) and d;
+    a := (b and c) and not d;
+    a := (not b and not c) and d;
+    a := (b and not c) and not d;
+    a := (not b and c) and not d;
+    a := (not b and not c) and not d;
+
+    a := (not (b and c)) and d;
+    a := (not (not b and c)) and d;
+    a := (not (b and not c)) and d;
+    a := (not (b and c)) and not d;
+    a := (not (not b and not c)) and d;
+    a := (not (b and not c)) and not d;
+    a := (not (not b and c)) and not d;
+    a := (not (not b and not c)) and not d;
+
+    a := b and (c and d);
+    a := not b and (c and d);
+    a := b and (not c and d);
+    a := b and (c and not d);
+    a := not b and (not c and d);
+    a := b and (not c and not d);
+    a := not b and (c and not d);
+    a := not b and (not c and not d);
+
+    a := b and (not (c and d));
+    a := not b and (not (c and d));
+    a := b and (not (not c and d));
+    a := b and (not (c and not d));
+    a := not b and (not (not c and d));
+    a := b and (not (not c and not d));
+    a := not b and (not (c and not d));
+    a := not b and (not (not c and not d));
+
+    a := not ((b and c) and d);
+    a := not ((not b and c) and d);
+    a := not ((b and not c) and d);
+    a := not ((b and c) and not d);
+    a := not ((not b and not c) and d);
+    a := not ((b and not c) and not d);
+    a := not ((not b and c) and not d);
+    a := not ((not b and not c) and not d);
+
+    a := not ((not (b and c)) and d);
+    a := not ((not (not b and c)) and d);
+    a := not ((not (b and not c)) and d);
+    a := not ((not (b and c)) and not d);
+    a := not ((not (not b and not c)) and d);
+    a := not ((not (b and not c)) and not d);
+    a := not ((not (not b and c)) and not d);
+    a := not ((not (not b and not c)) and not d);
+
+    a := not (b and (c and d));
+    a := not (not b and (c and d));
+    a := not (b and (not c and d));
+    a := not (b and (c and not d));
+    a := not (not b and (not c and d));
+    a := not (b and (not c and not d));
+    a := not (not b and (c and not d));
+    a := not (not b and (not c and not d));
+
+    a := not (b and (not (c and d)));
+    a := not (not b and (not (c and d)));
+    a := not (b and (not (not c and d)));
+    a := not (b and (not (c and not d)));
+    a := not (not b and (not (not c and d)));
+    a := not (b and (not (not c and not d)));
+    a := not (not b and (not (c and not d)));
+    a := not (not b and (not (not c and not d)));
+
+(*****  All expressions with: and or  *****)
+
+    a := (b and c) or d;
+    a := (not b and c) or d;
+    a := (b and not c) or d;
+    a := (b and c) or not d;
+    a := (not b and not c) or d;
+    a := (b and not c) or not d;
+    a := (not b and c) or not d;
+    a := (not b and not c) or not d;
+
+    a := (not (b and c)) or d;
+    a := (not (not b and c)) or d;
+    a := (not (b and not c)) or d;
+    a := (not (b and c)) or not d;
+    a := (not (not b and not c)) or d;
+    a := (not (b and not c)) or not d;
+    a := (not (not b and c)) or not d;
+    a := (not (not b and not c)) or not d;
+
+    a := b and (c or d);
+    a := not b and (c or d);
+    a := b and (not c or d);
+    a := b and (c or not d);
+    a := not b and (not c or d);
+    a := b and (not c or not d);
+    a := not b and (c or not d);
+    a := not b and (not c or not d);
+
+    a := b and (not (c or d));
+    a := not b and (not (c or d));
+    a := b and (not (not c or d));
+    a := b and (not (c or not d));
+    a := not b and (not (not c or d));
+    a := b and (not (not c or not d));
+    a := not b and (not (c or not d));
+    a := not b and (not (not c or not d));
+
+    a := not ((b and c) or d);
+    a := not ((not b and c) or d);
+    a := not ((b and not c) or d);
+    a := not ((b and c) or not d);
+    a := not ((not b and not c) or d);
+    a := not ((b and not c) or not d);
+    a := not ((not b and c) or not d);
+    a := not ((not b and not c) or not d);
+
+    a := not ((not (b and c)) or d);
+    a := not ((not (not b and c)) or d);
+    a := not ((not (b and not c)) or d);
+    a := not ((not (b and c)) or not d);
+    a := not ((not (not b and not c)) or d);
+    a := not ((not (b and not c)) or not d);
+    a := not ((not (not b and c)) or not d);
+    a := not ((not (not b and not c)) or not d);
+
+    a := not (b and (c or d));
+    a := not (not b and (c or d));
+    a := not (b and (not c or d));
+    a := not (b and (c or not d));
+    a := not (not b and (not c or d));
+    a := not (b and (not c or not d));
+    a := not (not b and (c or not d));
+    a := not (not b and (not c or not d));
+
+    a := not (b and (not (c or d)));
+    a := not (not b and (not (c or d)));
+    a := not (b and (not (not c or d)));
+    a := not (b and (not (c or not d)));
+    a := not (not b and (not (not c or d)));
+    a := not (b and (not (not c or not d)));
+    a := not (not b and (not (c or not d)));
+    a := not (not b and (not (not c or not d)));
+
+(*****  All expressions with: or and  *****)
+
+    a := (b or c) and d;
+    a := (not b or c) and d;
+    a := (b or not c) and d;
+    a := (b or c) and not d;
+    a := (not b or not c) and d;
+    a := (b or not c) and not d;
+    a := (not b or c) and not d;
+    a := (not b or not c) and not d;
+
+    a := (not (b or c)) and d;
+    a := (not (not b or c)) and d;
+    a := (not (b or not c)) and d;
+    a := (not (b or c)) and not d;
+    a := (not (not b or not c)) and d;
+    a := (not (b or not c)) and not d;
+    a := (not (not b or c)) and not d;
+    a := (not (not b or not c)) and not d;
+
+    a := b or (c and d);
+    a := not b or (c and d);
+    a := b or (not c and d);
+    a := b or (c and not d);
+    a := not b or (not c and d);
+    a := b or (not c and not d);
+    a := not b or (c and not d);
+    a := not b or (not c and not d);
+
+    a := b or (not (c and d));
+    a := not b or (not (c and d));
+    a := b or (not (not c and d));
+    a := b or (not (c and not d));
+    a := not b or (not (not c and d));
+    a := b or (not (not c and not d));
+    a := not b or (not (c and not d));
+    a := not b or (not (not c and not d));
+
+    a := not ((b or c) and d);
+    a := not ((not b or c) and d);
+    a := not ((b or not c) and d);
+    a := not ((b or c) and not d);
+    a := not ((not b or not c) and d);
+    a := not ((b or not c) and not d);
+    a := not ((not b or c) and not d);
+    a := not ((not b or not c) and not d);
+
+    a := not ((not (b or c)) and d);
+    a := not ((not (not b or c)) and d);
+    a := not ((not (b or not c)) and d);
+    a := not ((not (b or c)) and not d);
+    a := not ((not (not b or not c)) and d);
+    a := not ((not (b or not c)) and not d);
+    a := not ((not (not b or c)) and not d);
+    a := not ((not (not b or not c)) and not d);
+
+    a := not (b or (c and d));
+    a := not (not b or (c and d));
+    a := not (b or (not c and d));
+    a := not (b or (c and not d));
+    a := not (not b or (not c and d));
+    a := not (b or (not c and not d));
+    a := not (not b or (c and not d));
+    a := not (not b or (not c and not d));
+
+    a := not (b or (not (c and d)));
+    a := not (not b or (not (c and d)));
+    a := not (b or (not (not c and d)));
+    a := not (b or (not (c and not d)));
+    a := not (not b or (not (not c and d)));
+    a := not (b or (not (not c and not d)));
+    a := not (not b or (not (c and not d)));
+    a := not (not b or (not (not c and not d)));
+
+(*****  Same thing, only in the context of a while  *****)
+
+
+(*****  All expressions with one variable  *****)
+
+    while (b) do x:=123; end;
+    while (not b) do x:=123; end;
+    while (not not b) do x:=123; end;
+    while (not not not b) do x:=123; end;
+
+(*****  All expressions with two variables  *****)
+
+    while (b or c) do x:=123; end;
+    while (not b or c) do x:=123; end;
+    while (c or not b) do x:=123; end;
+    while (not b or not c) do x:=123; end;
+
+    while (not (b or c)) do x:=123; end;
+    while (not (not b or c)) do x:=123; end;
+    while (not (c or not b)) do x:=123; end;
+    while (not (not b or not c)) do x:=123; end;
+
+    while (b and c) do x:=123; end;
+    while (not b and c) do x:=123; end;
+    while (b and not c) do x:=123; end;
+    while (not b and not c) do x:=123; end;
+
+    while (not (b and c)) do x:=123; end;
+    while (not (not b and c)) do x:=123; end;
+    while (not (b and not c)) do x:=123; end;
+    while (not (not b and not c)) do x:=123; end;
+
+(*****  All expressions with two variables (double negations)  *****)
+
+    while (not not b or c) do x:=123; end;
+    while (c or not not b) do x:=123; end;
+    while (not not b or not not c) do x:=123; end;
+
+    while (not not (b or c)) do x:=123; end;
+    while (not not (not not b or c)) do x:=123; end;
+    while (not not (c or not not b)) do x:=123; end;
+    while (not not (not not b or not not c)) do x:=123; end;
+
+    while (b and c) do x:=123; end;
+    while (not not b and c) do x:=123; end;
+    while (b and not not c) do x:=123; end;
+    while (not not b and not not c) do x:=123; end;
+
+    while (not not (b and c)) do x:=123; end;
+    while (not not (not not b and c)) do x:=123; end;
+    while (not not (b and not not c)) do x:=123; end;
+    while (not not (not not b and not not c)) do x:=123; end;
+
+(*****  All expressions with: or or  *****)
+
+    while ((b or c) or d) do x:=123; end;
+    while ((not b or c) or d) do x:=123; end;
+    while ((b or not c) or d) do x:=123; end;
+    while ((b or c) or not d) do x:=123; end;
+    while ((not b or not c) or d) do x:=123; end;
+    while ((b or not c) or not d) do x:=123; end;
+    while ((not b or c) or not d) do x:=123; end;
+    while ((not b or not c) or not d) do x:=123; end;
+
+    while ((not (b or c)) or d) do x:=123; end;
+    while ((not (not b or c)) or d) do x:=123; end;
+    while ((not (b or not c)) or d) do x:=123; end;
+    while ((not (b or c)) or not d) do x:=123; end;
+    while ((not (not b or not c)) or d) do x:=123; end;
+    while ((not (b or not c)) or not d) do x:=123; end;
+    while ((not (not b or c)) or not d) do x:=123; end;
+    while ((not (not b or not c)) or not d) do x:=123; end;
+
+    while (b or (c or d)) do x:=123; end;
+    while (not b or (c or d)) do x:=123; end;
+    while (b or (not c or d)) do x:=123; end;
+    while (b or (c or not d)) do x:=123; end;
+    while (not b or (not c or d)) do x:=123; end;
+    while (b or (not c or not d)) do x:=123; end;
+    while (not b or (c or not d)) do x:=123; end;
+    while (not b or (not c or not d)) do x:=123; end;
+
+    while (b or (not (c or d))) do x:=123; end;
+    while (not b or (not (c or d))) do x:=123; end;
+    while (b or (not (not c or d))) do x:=123; end;
+    while (b or (not (c or not d))) do x:=123; end;
+    while (not b or (not (not c or d))) do x:=123; end;
+    while (b or (not (not c or not d))) do x:=123; end;
+    while (not b or (not (c or not d))) do x:=123; end;
+    while (not b or (not (not c or not d))) do x:=123; end;
+
+    while (not ((b or c) or d)) do x:=123; end;
+    while (not ((not b or c) or d)) do x:=123; end;
+    while (not ((b or not c) or d)) do x:=123; end;
+    while (not ((b or c) or not d)) do x:=123; end;
+    while (not ((not b or not c) or d)) do x:=123; end;
+    while (not ((b or not c) or not d)) do x:=123; end;
+    while (not ((not b or c) or not d)) do x:=123; end;
+    while (not ((not b or not c) or not d)) do x:=123; end;
+
+    while (not ((not (b or c)) or d)) do x:=123; end;
+    while (not ((not (not b or c)) or d)) do x:=123; end;
+    while (not ((not (b or not c)) or d)) do x:=123; end;
+    while (not ((not (b or c)) or not d)) do x:=123; end;
+    while (not ((not (not b or not c)) or d)) do x:=123; end;
+    while (not ((not (b or not c)) or not d)) do x:=123; end;
+    while (not ((not (not b or c)) or not d)) do x:=123; end;
+    while (not ((not (not b or not c)) or not d)) do x:=123; end;
+
+    while (not (b or (c or d))) do x:=123; end;
+    while (not (not b or (c or d))) do x:=123; end;
+    while (not (b or (not c or d))) do x:=123; end;
+    while (not (b or (c or not d))) do x:=123; end;
+    while (not (not b or (not c or d))) do x:=123; end;
+    while (not (b or (not c or not d))) do x:=123; end;
+    while (not (not b or (c or not d))) do x:=123; end;
+    while (not (not b or (not c or not d))) do x:=123; end;
+
+    while (not (b or (not (c or d)))) do x:=123; end;
+    while (not (not b or (not (c or d)))) do x:=123; end;
+    while (not (b or (not (not c or d)))) do x:=123; end;
+    while (not (b or (not (c or not d)))) do x:=123; end;
+    while (not (not b or (not (not c or d)))) do x:=123; end;
+    while (not (b or (not (not c or not d)))) do x:=123; end;
+    while (not (not b or (not (c or not d)))) do x:=123; end;
+    while (not (not b or (not (not c or not d)))) do x:=123; end;
+
+(*****  All expressions with: and and  *****)
+
+    while ((b and c) and d) do x:=123; end;
+    while ((not b and c) and d) do x:=123; end;
+    while ((b and not c) and d) do x:=123; end;
+    while ((b and c) and not d) do x:=123; end;
+    while ((not b and not c) and d) do x:=123; end;
+    while ((b and not c) and not d) do x:=123; end;
+    while ((not b and c) and not d) do x:=123; end;
+    while ((not b and not c) and not d) do x:=123; end;
+
+    while ((not (b and c)) and d) do x:=123; end;
+    while ((not (not b and c)) and d) do x:=123; end;
+    while ((not (b and not c)) and d) do x:=123; end;
+    while ((not (b and c)) and not d) do x:=123; end;
+    while ((not (not b and not c)) and d) do x:=123; end;
+    while ((not (b and not c)) and not d) do x:=123; end;
+    while ((not (not b and c)) and not d) do x:=123; end;
+    while ((not (not b and not c)) and not d) do x:=123; end;
+
+    while (b and (c and d)) do x:=123; end;
+    while (not b and (c and d)) do x:=123; end;
+    while (b and (not c and d)) do x:=123; end;
+    while (b and (c and not d)) do x:=123; end;
+    while (not b and (not c and d)) do x:=123; end;
+    while (b and (not c and not d)) do x:=123; end;
+    while (not b and (c and not d)) do x:=123; end;
+    while (not b and (not c and not d)) do x:=123; end;
+
+    while (b and (not (c and d))) do x:=123; end;
+    while (not b and (not (c and d))) do x:=123; end;
+    while (b and (not (not c and d))) do x:=123; end;
+    while (b and (not (c and not d))) do x:=123; end;
+    while (not b and (not (not c and d))) do x:=123; end;
+    while (b and (not (not c and not d))) do x:=123; end;
+    while (not b and (not (c and not d))) do x:=123; end;
+    while (not b and (not (not c and not d))) do x:=123; end;
+
+    while (not ((b and c) and d)) do x:=123; end;
+    while (not ((not b and c) and d)) do x:=123; end;
+    while (not ((b and not c) and d)) do x:=123; end;
+    while (not ((b and c) and not d)) do x:=123; end;
+    while (not ((not b and not c) and d)) do x:=123; end;
+    while (not ((b and not c) and not d)) do x:=123; end;
+    while (not ((not b and c) and not d)) do x:=123; end;
+    while (not ((not b and not c) and not d)) do x:=123; end;
+
+    while (not ((not (b and c)) and d)) do x:=123; end;
+    while (not ((not (not b and c)) and d)) do x:=123; end;
+    while (not ((not (b and not c)) and d)) do x:=123; end;
+    while (not ((not (b and c)) and not d)) do x:=123; end;
+    while (not ((not (not b and not c)) and d)) do x:=123; end;
+    while (not ((not (b and not c)) and not d)) do x:=123; end;
+    while (not ((not (not b and c)) and not d)) do x:=123; end;
+    while (not ((not (not b and not c)) and not d)) do x:=123; end;
+
+    while (not (b and (c and d))) do x:=123; end;
+    while (not (not b and (c and d))) do x:=123; end;
+    while (not (b and (not c and d))) do x:=123; end;
+    while (not (b and (c and not d))) do x:=123; end;
+    while (not (not b and (not c and d))) do x:=123; end;
+    while (not (b and (not c and not d))) do x:=123; end;
+    while (not (not b and (c and not d))) do x:=123; end;
+    while (not (not b and (not c and not d))) do x:=123; end;
+
+    while (not (b and (not (c and d)))) do x:=123; end;
+    while (not (not b and (not (c and d)))) do x:=123; end;
+    while (not (b and (not (not c and d)))) do x:=123; end;
+    while (not (b and (not (c and not d)))) do x:=123; end;
+    while (not (not b and (not (not c and d)))) do x:=123; end;
+    while (not (b and (not (not c and not d)))) do x:=123; end;
+    while (not (not b and (not (c and not d)))) do x:=123; end;
+    while (not (not b and (not (not c and not d)))) do x:=123; end;
+
+(*****  All expressions with: and or  *****)
+
+    while ((b and c) or d) do x:=123; end;
+    while ((not b and c) or d) do x:=123; end;
+    while ((b and not c) or d) do x:=123; end;
+    while ((b and c) or not d) do x:=123; end;
+    while ((not b and not c) or d) do x:=123; end;
+    while ((b and not c) or not d) do x:=123; end;
+    while ((not b and c) or not d) do x:=123; end;
+    while ((not b and not c) or not d) do x:=123; end;
+
+    while ((not (b and c)) or d) do x:=123; end;
+    while ((not (not b and c)) or d) do x:=123; end;
+    while ((not (b and not c)) or d) do x:=123; end;
+    while ((not (b and c)) or not d) do x:=123; end;
+    while ((not (not b and not c)) or d) do x:=123; end;
+    while ((not (b and not c)) or not d) do x:=123; end;
+    while ((not (not b and c)) or not d) do x:=123; end;
+    while ((not (not b and not c)) or not d) do x:=123; end;
+
+    while (b and (c or d)) do x:=123; end;
+    while (not b and (c or d)) do x:=123; end;
+    while (b and (not c or d)) do x:=123; end;
+    while (b and (c or not d)) do x:=123; end;
+    while (not b and (not c or d)) do x:=123; end;
+    while (b and (not c or not d)) do x:=123; end;
+    while (not b and (c or not d)) do x:=123; end;
+    while (not b and (not c or not d)) do x:=123; end;
+
+    while (b and (not (c or d))) do x:=123; end;
+    while (not b and (not (c or d))) do x:=123; end;
+    while (b and (not (not c or d))) do x:=123; end;
+    while (b and (not (c or not d))) do x:=123; end;
+    while (not b and (not (not c or d))) do x:=123; end;
+    while (b and (not (not c or not d))) do x:=123; end;
+    while (not b and (not (c or not d))) do x:=123; end;
+    while (not b and (not (not c or not d))) do x:=123; end;
+
+    while (not ((b and c) or d)) do x:=123; end;
+    while (not ((not b and c) or d)) do x:=123; end;
+    while (not ((b and not c) or d)) do x:=123; end;
+    while (not ((b and c) or not d)) do x:=123; end;
+    while (not ((not b and not c) or d)) do x:=123; end;
+    while (not ((b and not c) or not d)) do x:=123; end;
+    while (not ((not b and c) or not d)) do x:=123; end;
+    while (not ((not b and not c) or not d)) do x:=123; end;
+
+    while (not ((not (b and c)) or d)) do x:=123; end;
+    while (not ((not (not b and c)) or d)) do x:=123; end;
+    while (not ((not (b and not c)) or d)) do x:=123; end;
+    while (not ((not (b and c)) or not d)) do x:=123; end;
+    while (not ((not (not b and not c)) or d)) do x:=123; end;
+    while (not ((not (b and not c)) or not d)) do x:=123; end;
+    while (not ((not (not b and c)) or not d)) do x:=123; end;
+    while (not ((not (not b and not c)) or not d)) do x:=123; end;
+
+    while (not (b and (c or d))) do x:=123; end;
+    while (not (not b and (c or d))) do x:=123; end;
+    while (not (b and (not c or d))) do x:=123; end;
+    while (not (b and (c or not d))) do x:=123; end;
+    while (not (not b and (not c or d))) do x:=123; end;
+    while (not (b and (not c or not d))) do x:=123; end;
+    while (not (not b and (c or not d))) do x:=123; end;
+    while (not (not b and (not c or not d))) do x:=123; end;
+
+    while (not (b and (not (c or d)))) do x:=123; end;
+    while (not (not b and (not (c or d)))) do x:=123; end;
+    while (not (b and (not (not c or d)))) do x:=123; end;
+    while (not (b and (not (c or not d)))) do x:=123; end;
+    while (not (not b and (not (not c or d)))) do x:=123; end;
+    while (not (b and (not (not c or not d)))) do x:=123; end;
+    while (not (not b and (not (c or not d)))) do x:=123; end;
+    while (not (not b and (not (not c or not d)))) do x:=123; end;
+
+(*****  All expressions with: or and  *****)
+
+    while ((b or c) and d) do x:=123; end;
+    while ((not b or c) and d) do x:=123; end;
+    while ((b or not c) and d) do x:=123; end;
+    while ((b or c) and not d) do x:=123; end;
+    while ((not b or not c) and d) do x:=123; end;
+    while ((b or not c) and not d) do x:=123; end;
+    while ((not b or c) and not d) do x:=123; end;
+    while ((not b or not c) and not d) do x:=123; end;
+
+    while ((not (b or c)) and d) do x:=123; end;
+    while ((not (not b or c)) and d) do x:=123; end;
+    while ((not (b or not c)) and d) do x:=123; end;
+    while ((not (b or c)) and not d) do x:=123; end;
+    while ((not (not b or not c)) and d) do x:=123; end;
+    while ((not (b or not c)) and not d) do x:=123; end;
+    while ((not (not b or c)) and not d) do x:=123; end;
+    while ((not (not b or not c)) and not d) do x:=123; end;
+
+    while (b or (c and d)) do x:=123; end;
+    while (not b or (c and d)) do x:=123; end;
+    while (b or (not c and d)) do x:=123; end;
+    while (b or (c and not d)) do x:=123; end;
+    while (not b or (not c and d)) do x:=123; end;
+    while (b or (not c and not d)) do x:=123; end;
+    while (not b or (c and not d)) do x:=123; end;
+    while (not b or (not c and not d)) do x:=123; end;
+
+    while (b or (not (c and d))) do x:=123; end;
+    while (not b or (not (c and d))) do x:=123; end;
+    while (b or (not (not c and d))) do x:=123; end;
+    while (b or (not (c and not d))) do x:=123; end;
+    while (not b or (not (not c and d))) do x:=123; end;
+    while (b or (not (not c and not d))) do x:=123; end;
+    while (not b or (not (c and not d))) do x:=123; end;
+    while (not b or (not (not c and not d))) do x:=123; end;
+
+    while (not ((b or c) and d)) do x:=123; end;
+    while (not ((not b or c) and d)) do x:=123; end;
+    while (not ((b or not c) and d)) do x:=123; end;
+    while (not ((b or c) and not d)) do x:=123; end;
+    while (not ((not b or not c) and d)) do x:=123; end;
+    while (not ((b or not c) and not d)) do x:=123; end;
+    while (not ((not b or c) and not d)) do x:=123; end;
+    while (not ((not b or not c) and not d)) do x:=123; end;
+
+    while (not ((not (b or c)) and d)) do x:=123; end;
+    while (not ((not (not b or c)) and d)) do x:=123; end;
+    while (not ((not (b or not c)) and d)) do x:=123; end;
+    while (not ((not (b or c)) and not d)) do x:=123; end;
+    while (not ((not (not b or not c)) and d)) do x:=123; end;
+    while (not ((not (b or not c)) and not d)) do x:=123; end;
+    while (not ((not (not b or c)) and not d)) do x:=123; end;
+    while (not ((not (not b or not c)) and not d)) do x:=123; end;
+
+    while (not (b or (c and d))) do x:=123; end;
+    while (not (not b or (c and d))) do x:=123; end;
+    while (not (b or (not c and d))) do x:=123; end;
+    while (not (b or (c and not d))) do x:=123; end;
+    while (not (not b or (not c and d))) do x:=123; end;
+    while (not (b or (not c and not d))) do x:=123; end;
+    while (not (not b or (c and not d))) do x:=123; end;
+    while (not (not b or (not c and not d))) do x:=123; end;
+
+    while (not (b or (not (c and d)))) do x:=123; end;
+    while (not (not b or (not (c and d)))) do x:=123; end;
+    while (not (b or (not (not c and d)))) do x:=123; end;
+    while (not (b or (not (c and not d)))) do x:=123; end;
+    while (not (not b or (not (not c and d)))) do x:=123; end;
+    while (not (b or (not (not c and not d)))) do x:=123; end;
+    while (not (not b or (not (c and not d)))) do x:=123; end;
+    while (not (not b or (not (not c and not d)))) do x:=123; end;
+
+
+(*****  Same thing as above, except with <, <= relationals  *****)
+
+
+
+
+(*****  All expressions with one variables  *****)
+
+    a := (i<j);
+    a := not (i<j);
+    a := not not (i<j);
+    a := not not not (i<j);
+
+(*****  All expressions with two variables  *****)
+
+    a := (i<j) or (i<=j);
+    a := not (i<j) or (i<=j);
+    a := (i<=j) or not (i<j);
+    a := not (i<j) or not (i<=j);
+
+    a := not ((i<j) or (i<=j));
+    a := not (not (i<j) or (i<=j));
+    a := not ((i<=j) or not (i<j));
+    a := not (not (i<j) or not (i<=j));
+
+    a := (i<j) and (i<=j);
+    a := not (i<j) and (i<=j);
+    a := (i<j) and not (i<=j);
+    a := not (i<j) and not (i<=j);
+
+    a := not ((i<j) and (i<=j));
+    a := not (not (i<j) and (i<=j));
+    a := not ((i<j) and not (i<=j));
+    a := not (not (i<j) and not (i<=j));
+
+(*****  All expressions with two variables (double negations)  *****)
+
+    a := not not (i<j) or (i<=j);
+    a := (i<=j) or not not (i<j);
+    a := not not (i<j) or not not (i<=j);
+
+    a := not not ((i<j) or (i<=j));
+    a := not not (not not (i<j) or (i<=j));
+    a := not not ((i<=j) or not not (i<j));
+    a := not not (not not (i<j) or not not (i<=j));
+
+    a := (i<j) and (i<=j);
+    a := not not (i<j) and (i<=j);
+    a := (i<j) and not not (i<=j);
+    a := not not (i<j) and not not (i<=j);
+
+    a := not not ((i<j) and (i<=j));
+    a := not not (not not (i<j) and (i<=j));
+    a := not not ((i<j) and not not (i<=j));
+    a := not not (not not (i<j) and not not (i<=j));
+
+(*****  All expressions with: or or  *****)
+
+    a := ((i<j) or (i<=j)) or d;
+    a := (not (i<j) or (i<=j)) or d;
+    a := ((i<j) or not (i<=j)) or d;
+    a := ((i<j) or (i<=j)) or not d;
+    a := (not (i<j) or not (i<=j)) or d;
+    a := ((i<j) or not (i<=j)) or not d;
+    a := (not (i<j) or (i<=j)) or not d;
+    a := (not (i<j) or not (i<=j)) or not d;
+
+    a := (not ((i<j) or (i<=j))) or d;
+    a := (not (not (i<j) or (i<=j))) or d;
+    a := (not ((i<j) or not (i<=j))) or d;
+    a := (not ((i<j) or (i<=j))) or not d;
+    a := (not (not (i<j) or not (i<=j))) or d;
+    a := (not ((i<j) or not (i<=j))) or not d;
+    a := (not (not (i<j) or (i<=j))) or not d;
+    a := (not (not (i<j) or not (i<=j))) or not d;
+
+    a := (i<j) or ((i<=j) or d);
+    a := not (i<j) or ((i<=j) or d);
+    a := (i<j) or (not (i<=j) or d);
+    a := (i<j) or ((i<=j) or not d);
+    a := not (i<j) or (not (i<=j) or d);
+    a := (i<j) or (not (i<=j) or not d);
+    a := not (i<j) or ((i<=j) or not d);
+    a := not (i<j) or (not (i<=j) or not d);
+
+    a := (i<j) or (not ((i<=j) or d));
+    a := not (i<j) or (not ((i<=j) or d));
+    a := (i<j) or (not (not (i<=j) or d));
+    a := (i<j) or (not ((i<=j) or not d));
+    a := not (i<j) or (not (not (i<=j) or d));
+    a := (i<j) or (not (not (i<=j) or not d));
+    a := not (i<j) or (not ((i<=j) or not d));
+    a := not (i<j) or (not (not (i<=j) or not d));
+
+    a := not (((i<j) or (i<=j)) or d);
+    a := not ((not (i<j) or (i<=j)) or d);
+    a := not (((i<j) or not (i<=j)) or d);
+    a := not (((i<j) or (i<=j)) or not d);
+    a := not ((not (i<j) or not (i<=j)) or d);
+    a := not (((i<j) or not (i<=j)) or not d);
+    a := not ((not (i<j) or (i<=j)) or not d);
+    a := not ((not (i<j) or not (i<=j)) or not d);
+
+    a := not ((not ((i<j) or (i<=j))) or d);
+    a := not ((not (not (i<j) or (i<=j))) or d);
+    a := not ((not ((i<j) or not (i<=j))) or d);
+    a := not ((not ((i<j) or (i<=j))) or not d);
+    a := not ((not (not (i<j) or not (i<=j))) or d);
+    a := not ((not ((i<j) or not (i<=j))) or not d);
+    a := not ((not (not (i<j) or (i<=j))) or not d);
+    a := not ((not (not (i<j) or not (i<=j))) or not d);
+
+    a := not ((i<j) or ((i<=j) or d));
+    a := not (not (i<j) or ((i<=j) or d));
+    a := not ((i<j) or (not (i<=j) or d));
+    a := not ((i<j) or ((i<=j) or not d));
+    a := not (not (i<j) or (not (i<=j) or d));
+    a := not ((i<j) or (not (i<=j) or not d));
+    a := not (not (i<j) or ((i<=j) or not d));
+    a := not (not (i<j) or (not (i<=j) or not d));
+
+    a := not ((i<j) or (not ((i<=j) or d)));
+    a := not (not (i<j) or (not ((i<=j) or d)));
+    a := not ((i<j) or (not (not (i<=j) or d)));
+    a := not ((i<j) or (not ((i<=j) or not d)));
+    a := not (not (i<j) or (not (not (i<=j) or d)));
+    a := not ((i<j) or (not (not (i<=j) or not d)));
+    a := not (not (i<j) or (not ((i<=j) or not d)));
+    a := not (not (i<j) or (not (not (i<=j) or not d)));
+
+(*****  All expressions with: and and  *****)
+
+    a := ((i<j) and (i<=j)) and d;
+    a := (not (i<j) and (i<=j)) and d;
+    a := ((i<j) and not (i<=j)) and d;
+    a := ((i<j) and (i<=j)) and not d;
+    a := (not (i<j) and not (i<=j)) and d;
+    a := ((i<j) and not (i<=j)) and not d;
+    a := (not (i<j) and (i<=j)) and not d;
+    a := (not (i<j) and not (i<=j)) and not d;
+
+    a := (not ((i<j) and (i<=j))) and d;
+    a := (not (not (i<j) and (i<=j))) and d;
+    a := (not ((i<j) and not (i<=j))) and d;
+    a := (not ((i<j) and (i<=j))) and not d;
+    a := (not (not (i<j) and not (i<=j))) and d;
+    a := (not ((i<j) and not (i<=j))) and not d;
+    a := (not (not (i<j) and (i<=j))) and not d;
+    a := (not (not (i<j) and not (i<=j))) and not d;
+
+    a := (i<j) and ((i<=j) and d);
+    a := not (i<j) and ((i<=j) and d);
+    a := (i<j) and (not (i<=j) and d);
+    a := (i<j) and ((i<=j) and not d);
+    a := not (i<j) and (not (i<=j) and d);
+    a := (i<j) and (not (i<=j) and not d);
+    a := not (i<j) and ((i<=j) and not d);
+    a := not (i<j) and (not (i<=j) and not d);
+
+    a := (i<j) and (not ((i<=j) and d));
+    a := not (i<j) and (not ((i<=j) and d));
+    a := (i<j) and (not (not (i<=j) and d));
+    a := (i<j) and (not ((i<=j) and not d));
+    a := not (i<j) and (not (not (i<=j) and d));
+    a := (i<j) and (not (not (i<=j) and not d));
+    a := not (i<j) and (not ((i<=j) and not d));
+    a := not (i<j) and (not (not (i<=j) and not d));
+
+    a := not (((i<j) and (i<=j)) and d);
+    a := not ((not (i<j) and (i<=j)) and d);
+    a := not (((i<j) and not (i<=j)) and d);
+    a := not (((i<j) and (i<=j)) and not d);
+    a := not ((not (i<j) and not (i<=j)) and d);
+    a := not (((i<j) and not (i<=j)) and not d);
+    a := not ((not (i<j) and (i<=j)) and not d);
+    a := not ((not (i<j) and not (i<=j)) and not d);
+
+    a := not ((not ((i<j) and (i<=j))) and d);
+    a := not ((not (not (i<j) and (i<=j))) and d);
+    a := not ((not ((i<j) and not (i<=j))) and d);
+    a := not ((not ((i<j) and (i<=j))) and not d);
+    a := not ((not (not (i<j) and not (i<=j))) and d);
+    a := not ((not ((i<j) and not (i<=j))) and not d);
+    a := not ((not (not (i<j) and (i<=j))) and not d);
+    a := not ((not (not (i<j) and not (i<=j))) and not d);
+
+    a := not ((i<j) and ((i<=j) and d));
+    a := not (not (i<j) and ((i<=j) and d));
+    a := not ((i<j) and (not (i<=j) and d));
+    a := not ((i<j) and ((i<=j) and not d));
+    a := not (not (i<j) and (not (i<=j) and d));
+    a := not ((i<j) and (not (i<=j) and not d));
+    a := not (not (i<j) and ((i<=j) and not d));
+    a := not (not (i<j) and (not (i<=j) and not d));
+
+    a := not ((i<j) and (not ((i<=j) and d)));
+    a := not (not (i<j) and (not ((i<=j) and d)));
+    a := not ((i<j) and (not (not (i<=j) and d)));
+    a := not ((i<j) and (not ((i<=j) and not d)));
+    a := not (not (i<j) and (not (not (i<=j) and d)));
+    a := not ((i<j) and (not (not (i<=j) and not d)));
+    a := not (not (i<j) and (not ((i<=j) and not d)));
+    a := not (not (i<j) and (not (not (i<=j) and not d)));
+
+(*****  All expressions with: and or  *****)
+
+    a := ((i<j) and (i<=j)) or d;
+    a := (not (i<j) and (i<=j)) or d;
+    a := ((i<j) and not (i<=j)) or d;
+    a := ((i<j) and (i<=j)) or not d;
+    a := (not (i<j) and not (i<=j)) or d;
+    a := ((i<j) and not (i<=j)) or not d;
+    a := (not (i<j) and (i<=j)) or not d;
+    a := (not (i<j) and not (i<=j)) or not d;
+
+    a := (not ((i<j) and (i<=j))) or d;
+    a := (not (not (i<j) and (i<=j))) or d;
+    a := (not ((i<j) and not (i<=j))) or d;
+    a := (not ((i<j) and (i<=j))) or not d;
+    a := (not (not (i<j) and not (i<=j))) or d;
+    a := (not ((i<j) and not (i<=j))) or not d;
+    a := (not (not (i<j) and (i<=j))) or not d;
+    a := (not (not (i<j) and not (i<=j))) or not d;
+
+    a := (i<j) and ((i<=j) or d);
+    a := not (i<j) and ((i<=j) or d);
+    a := (i<j) and (not (i<=j) or d);
+    a := (i<j) and ((i<=j) or not d);
+    a := not (i<j) and (not (i<=j) or d);
+    a := (i<j) and (not (i<=j) or not d);
+    a := not (i<j) and ((i<=j) or not d);
+    a := not (i<j) and (not (i<=j) or not d);
+
+    a := (i<j) and (not ((i<=j) or d));
+    a := not (i<j) and (not ((i<=j) or d));
+    a := (i<j) and (not (not (i<=j) or d));
+    a := (i<j) and (not ((i<=j) or not d));
+    a := not (i<j) and (not (not (i<=j) or d));
+    a := (i<j) and (not (not (i<=j) or not d));
+    a := not (i<j) and (not ((i<=j) or not d));
+    a := not (i<j) and (not (not (i<=j) or not d));
+
+    a := not (((i<j) and (i<=j)) or d);
+    a := not ((not (i<j) and (i<=j)) or d);
+    a := not (((i<j) and not (i<=j)) or d);
+    a := not (((i<j) and (i<=j)) or not d);
+    a := not ((not (i<j) and not (i<=j)) or d);
+    a := not (((i<j) and not (i<=j)) or not d);
+    a := not ((not (i<j) and (i<=j)) or not d);
+    a := not ((not (i<j) and not (i<=j)) or not d);
+
+    a := not ((not ((i<j) and (i<=j))) or d);
+    a := not ((not (not (i<j) and (i<=j))) or d);
+    a := not ((not ((i<j) and not (i<=j))) or d);
+    a := not ((not ((i<j) and (i<=j))) or not d);
+    a := not ((not (not (i<j) and not (i<=j))) or d);
+    a := not ((not ((i<j) and not (i<=j))) or not d);
+    a := not ((not (not (i<j) and (i<=j))) or not d);
+    a := not ((not (not (i<j) and not (i<=j))) or not d);
+
+    a := not ((i<j) and ((i<=j) or d));
+    a := not (not (i<j) and ((i<=j) or d));
+    a := not ((i<j) and (not (i<=j) or d));
+    a := not ((i<j) and ((i<=j) or not d));
+    a := not (not (i<j) and (not (i<=j) or d));
+    a := not ((i<j) and (not (i<=j) or not d));
+    a := not (not (i<j) and ((i<=j) or not d));
+    a := not (not (i<j) and (not (i<=j) or not d));
+
+    a := not ((i<j) and (not ((i<=j) or d)));
+    a := not (not (i<j) and (not ((i<=j) or d)));
+    a := not ((i<j) and (not (not (i<=j) or d)));
+    a := not ((i<j) and (not ((i<=j) or not d)));
+    a := not (not (i<j) and (not (not (i<=j) or d)));
+    a := not ((i<j) and (not (not (i<=j) or not d)));
+    a := not (not (i<j) and (not ((i<=j) or not d)));
+    a := not (not (i<j) and (not (not (i<=j) or not d)));
+
+(*****  All expressions with: or and  *****)
+
+    a := ((i<j) or (i<=j)) and d;
+    a := (not (i<j) or (i<=j)) and d;
+    a := ((i<j) or not (i<=j)) and d;
+    a := ((i<j) or (i<=j)) and not d;
+    a := (not (i<j) or not (i<=j)) and d;
+    a := ((i<j) or not (i<=j)) and not d;
+    a := (not (i<j) or (i<=j)) and not d;
+    a := (not (i<j) or not (i<=j)) and not d;
+
+    a := (not ((i<j) or (i<=j))) and d;
+    a := (not (not (i<j) or (i<=j))) and d;
+    a := (not ((i<j) or not (i<=j))) and d;
+    a := (not ((i<j) or (i<=j))) and not d;
+    a := (not (not (i<j) or not (i<=j))) and d;
+    a := (not ((i<j) or not (i<=j))) and not d;
+    a := (not (not (i<j) or (i<=j))) and not d;
+    a := (not (not (i<j) or not (i<=j))) and not d;
+
+    a := (i<j) or ((i<=j) and d);
+    a := not (i<j) or ((i<=j) and d);
+    a := (i<j) or (not (i<=j) and d);
+    a := (i<j) or ((i<=j) and not d);
+    a := not (i<j) or (not (i<=j) and d);
+    a := (i<j) or (not (i<=j) and not d);
+    a := not (i<j) or ((i<=j) and not d);
+    a := not (i<j) or (not (i<=j) and not d);
+
+    a := (i<j) or (not ((i<=j) and d));
+    a := not (i<j) or (not ((i<=j) and d));
+    a := (i<j) or (not (not (i<=j) and d));
+    a := (i<j) or (not ((i<=j) and not d));
+    a := not (i<j) or (not (not (i<=j) and d));
+    a := (i<j) or (not (not (i<=j) and not d));
+    a := not (i<j) or (not ((i<=j) and not d));
+    a := not (i<j) or (not (not (i<=j) and not d));
+
+    a := not (((i<j) or (i<=j)) and d);
+    a := not ((not (i<j) or (i<=j)) and d);
+    a := not (((i<j) or not (i<=j)) and d);
+    a := not (((i<j) or (i<=j)) and not d);
+    a := not ((not (i<j) or not (i<=j)) and d);
+    a := not (((i<j) or not (i<=j)) and not d);
+    a := not ((not (i<j) or (i<=j)) and not d);
+    a := not ((not (i<j) or not (i<=j)) and not d);
+
+    a := not ((not ((i<j) or (i<=j))) and d);
+    a := not ((not (not (i<j) or (i<=j))) and d);
+    a := not ((not ((i<j) or not (i<=j))) and d);
+    a := not ((not ((i<j) or (i<=j))) and not d);
+    a := not ((not (not (i<j) or not (i<=j))) and d);
+    a := not ((not ((i<j) or not (i<=j))) and not d);
+    a := not ((not (not (i<j) or (i<=j))) and not d);
+    a := not ((not (not (i<j) or not (i<=j))) and not d);
+
+    a := not ((i<j) or ((i<=j) and d));
+    a := not (not (i<j) or ((i<=j) and d));
+    a := not ((i<j) or (not (i<=j) and d));
+    a := not ((i<j) or ((i<=j) and not d));
+    a := not (not (i<j) or (not (i<=j) and d));
+    a := not ((i<j) or (not (i<=j) and not d));
+    a := not (not (i<j) or ((i<=j) and not d));
+    a := not (not (i<j) or (not (i<=j) and not d));
+
+    a := not ((i<j) or (not ((i<=j) and d)));
+    a := not (not (i<j) or (not ((i<=j) and d)));
+    a := not ((i<j) or (not (not (i<=j) and d)));
+    a := not ((i<j) or (not ((i<=j) and not d)));
+    a := not (not (i<j) or (not (not (i<=j) and d)));
+    a := not ((i<j) or (not (not (i<=j) and not d)));
+    a := not (not (i<j) or (not ((i<=j) and not d)));
+    a := not (not (i<j) or (not (not (i<=j) and not d)));
+
+(*****  Same thing, only in the context of a while  *****)
+
+
+(*****  All expressions with one variables  *****)
+
+    while ((i<j)) do x:=123; end;
+    while (not (i<j)) do x:=123; end;
+    while (not not (i<j)) do x:=123; end;
+    while (not not not (i<j)) do x:=123; end;
+
+(*****  All expressions with two variables  *****)
+
+    while ((i<j) or (i<=j)) do x:=123; end;
+    while (not (i<j) or (i<=j)) do x:=123; end;
+    while ((i<=j) or not (i<j)) do x:=123; end;
+    while (not (i<j) or not (i<=j)) do x:=123; end;
+
+    while (not ((i<j) or (i<=j))) do x:=123; end;
+    while (not (not (i<j) or (i<=j))) do x:=123; end;
+    while (not ((i<=j) or not (i<j))) do x:=123; end;
+    while (not (not (i<j) or not (i<=j))) do x:=123; end;
+
+    while ((i<j) and (i<=j)) do x:=123; end;
+    while (not (i<j) and (i<=j)) do x:=123; end;
+    while ((i<j) and not (i<=j)) do x:=123; end;
+    while (not (i<j) and not (i<=j)) do x:=123; end;
+
+    while (not ((i<j) and (i<=j))) do x:=123; end;
+    while (not (not (i<j) and (i<=j))) do x:=123; end;
+    while (not ((i<j) and not (i<=j))) do x:=123; end;
+    while (not (not (i<j) and not (i<=j))) do x:=123; end;
+
+(*****  All expressions with two variables (double negations)  *****)
+
+    while (not not (i<j) or (i<=j)) do x:=123; end;
+    while ((i<=j) or not not (i<j)) do x:=123; end;
+    while (not not (i<j) or not not (i<=j)) do x:=123; end;
+
+    while (not not ((i<j) or (i<=j))) do x:=123; end;
+    while (not not (not not (i<j) or (i<=j))) do x:=123; end;
+    while (not not ((i<=j) or not not (i<j))) do x:=123; end;
+    while (not not (not not (i<j) or not not (i<=j))) do x:=123; end;
+
+    while ((i<j) and (i<=j)) do x:=123; end;
+    while (not not (i<j) and (i<=j)) do x:=123; end;
+    while ((i<j) and not not (i<=j)) do x:=123; end;
+    while (not not (i<j) and not not (i<=j)) do x:=123; end;
+
+    while (not not ((i<j) and (i<=j))) do x:=123; end;
+    while (not not (not not (i<j) and (i<=j))) do x:=123; end;
+    while (not not ((i<j) and not not (i<=j))) do x:=123; end;
+    while (not not (not not (i<j) and not not (i<=j))) do x:=123; end;
+
+(*****  All expressions with: or or  *****)
+
+    while (((i<j) or (i<=j)) or d) do x:=123; end;
+    while ((not (i<j) or (i<=j)) or d) do x:=123; end;
+    while (((i<j) or not (i<=j)) or d) do x:=123; end;
+    while (((i<j) or (i<=j)) or not d) do x:=123; end;
+    while ((not (i<j) or not (i<=j)) or d) do x:=123; end;
+    while (((i<j) or not (i<=j)) or not d) do x:=123; end;
+    while ((not (i<j) or (i<=j)) or not d) do x:=123; end;
+    while ((not (i<j) or not (i<=j)) or not d) do x:=123; end;
+
+    while ((not ((i<j) or (i<=j))) or d) do x:=123; end;
+    while ((not (not (i<j) or (i<=j))) or d) do x:=123; end;
+    while ((not ((i<j) or not (i<=j))) or d) do x:=123; end;
+    while ((not ((i<j) or (i<=j))) or not d) do x:=123; end;
+    while ((not (not (i<j) or not (i<=j))) or d) do x:=123; end;
+    while ((not ((i<j) or not (i<=j))) or not d) do x:=123; end;
+    while ((not (not (i<j) or (i<=j))) or not d) do x:=123; end;
+    while ((not (not (i<j) or not (i<=j))) or not d) do x:=123; end;
+
+    while ((i<j) or ((i<=j) or d)) do x:=123; end;
+    while (not (i<j) or ((i<=j) or d)) do x:=123; end;
+    while ((i<j) or (not (i<=j) or d)) do x:=123; end;
+    while ((i<j) or ((i<=j) or not d)) do x:=123; end;
+    while (not (i<j) or (not (i<=j) or d)) do x:=123; end;
+    while ((i<j) or (not (i<=j) or not d)) do x:=123; end;
+    while (not (i<j) or ((i<=j) or not d)) do x:=123; end;
+    while (not (i<j) or (not (i<=j) or not d)) do x:=123; end;
+
+    while ((i<j) or (not ((i<=j) or d))) do x:=123; end;
+    while (not (i<j) or (not ((i<=j) or d))) do x:=123; end;
+    while ((i<j) or (not (not (i<=j) or d))) do x:=123; end;
+    while ((i<j) or (not ((i<=j) or not d))) do x:=123; end;
+    while (not (i<j) or (not (not (i<=j) or d))) do x:=123; end;
+    while ((i<j) or (not (not (i<=j) or not d))) do x:=123; end;
+    while (not (i<j) or (not ((i<=j) or not d))) do x:=123; end;
+    while (not (i<j) or (not (not (i<=j) or not d))) do x:=123; end;
+
+    while (not (((i<j) or (i<=j)) or d)) do x:=123; end;
+    while (not ((not (i<j) or (i<=j)) or d)) do x:=123; end;
+    while (not (((i<j) or not (i<=j)) or d)) do x:=123; end;
+    while (not (((i<j) or (i<=j)) or not d)) do x:=123; end;
+    while (not ((not (i<j) or not (i<=j)) or d)) do x:=123; end;
+    while (not (((i<j) or not (i<=j)) or not d)) do x:=123; end;
+    while (not ((not (i<j) or (i<=j)) or not d)) do x:=123; end;
+    while (not ((not (i<j) or not (i<=j)) or not d)) do x:=123; end;
+
+    while (not ((not ((i<j) or (i<=j))) or d)) do x:=123; end;
+    while (not ((not (not (i<j) or (i<=j))) or d)) do x:=123; end;
+    while (not ((not ((i<j) or not (i<=j))) or d)) do x:=123; end;
+    while (not ((not ((i<j) or (i<=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i<j) or not (i<=j))) or d)) do x:=123; end;
+    while (not ((not ((i<j) or not (i<=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i<j) or (i<=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i<j) or not (i<=j))) or not d)) do x:=123; end;
+
+    while (not ((i<j) or ((i<=j) or d))) do x:=123; end;
+    while (not (not (i<j) or ((i<=j) or d))) do x:=123; end;
+    while (not ((i<j) or (not (i<=j) or d))) do x:=123; end;
+    while (not ((i<j) or ((i<=j) or not d))) do x:=123; end;
+    while (not (not (i<j) or (not (i<=j) or d))) do x:=123; end;
+    while (not ((i<j) or (not (i<=j) or not d))) do x:=123; end;
+    while (not (not (i<j) or ((i<=j) or not d))) do x:=123; end;
+    while (not (not (i<j) or (not (i<=j) or not d))) do x:=123; end;
+
+    while (not ((i<j) or (not ((i<=j) or d)))) do x:=123; end;
+    while (not (not (i<j) or (not ((i<=j) or d)))) do x:=123; end;
+    while (not ((i<j) or (not (not (i<=j) or d)))) do x:=123; end;
+    while (not ((i<j) or (not ((i<=j) or not d)))) do x:=123; end;
+    while (not (not (i<j) or (not (not (i<=j) or d)))) do x:=123; end;
+    while (not ((i<j) or (not (not (i<=j) or not d)))) do x:=123; end;
+    while (not (not (i<j) or (not ((i<=j) or not d)))) do x:=123; end;
+    while (not (not (i<j) or (not (not (i<=j) or not d)))) do x:=123; end;
+
+(*****  All expressions with: and and  *****)
+
+    while (((i<j) and (i<=j)) and d) do x:=123; end;
+    while ((not (i<j) and (i<=j)) and d) do x:=123; end;
+    while (((i<j) and not (i<=j)) and d) do x:=123; end;
+    while (((i<j) and (i<=j)) and not d) do x:=123; end;
+    while ((not (i<j) and not (i<=j)) and d) do x:=123; end;
+    while (((i<j) and not (i<=j)) and not d) do x:=123; end;
+    while ((not (i<j) and (i<=j)) and not d) do x:=123; end;
+    while ((not (i<j) and not (i<=j)) and not d) do x:=123; end;
+
+    while ((not ((i<j) and (i<=j))) and d) do x:=123; end;
+    while ((not (not (i<j) and (i<=j))) and d) do x:=123; end;
+    while ((not ((i<j) and not (i<=j))) and d) do x:=123; end;
+    while ((not ((i<j) and (i<=j))) and not d) do x:=123; end;
+    while ((not (not (i<j) and not (i<=j))) and d) do x:=123; end;
+    while ((not ((i<j) and not (i<=j))) and not d) do x:=123; end;
+    while ((not (not (i<j) and (i<=j))) and not d) do x:=123; end;
+    while ((not (not (i<j) and not (i<=j))) and not d) do x:=123; end;
+
+    while ((i<j) and ((i<=j) and d)) do x:=123; end;
+    while (not (i<j) and ((i<=j) and d)) do x:=123; end;
+    while ((i<j) and (not (i<=j) and d)) do x:=123; end;
+    while ((i<j) and ((i<=j) and not d)) do x:=123; end;
+    while (not (i<j) and (not (i<=j) and d)) do x:=123; end;
+    while ((i<j) and (not (i<=j) and not d)) do x:=123; end;
+    while (not (i<j) and ((i<=j) and not d)) do x:=123; end;
+    while (not (i<j) and (not (i<=j) and not d)) do x:=123; end;
+
+    while ((i<j) and (not ((i<=j) and d))) do x:=123; end;
+    while (not (i<j) and (not ((i<=j) and d))) do x:=123; end;
+    while ((i<j) and (not (not (i<=j) and d))) do x:=123; end;
+    while ((i<j) and (not ((i<=j) and not d))) do x:=123; end;
+    while (not (i<j) and (not (not (i<=j) and d))) do x:=123; end;
+    while ((i<j) and (not (not (i<=j) and not d))) do x:=123; end;
+    while (not (i<j) and (not ((i<=j) and not d))) do x:=123; end;
+    while (not (i<j) and (not (not (i<=j) and not d))) do x:=123; end;
+
+    while (not (((i<j) and (i<=j)) and d)) do x:=123; end;
+    while (not ((not (i<j) and (i<=j)) and d)) do x:=123; end;
+    while (not (((i<j) and not (i<=j)) and d)) do x:=123; end;
+    while (not (((i<j) and (i<=j)) and not d)) do x:=123; end;
+    while (not ((not (i<j) and not (i<=j)) and d)) do x:=123; end;
+    while (not (((i<j) and not (i<=j)) and not d)) do x:=123; end;
+    while (not ((not (i<j) and (i<=j)) and not d)) do x:=123; end;
+    while (not ((not (i<j) and not (i<=j)) and not d)) do x:=123; end;
+
+    while (not ((not ((i<j) and (i<=j))) and d)) do x:=123; end;
+    while (not ((not (not (i<j) and (i<=j))) and d)) do x:=123; end;
+    while (not ((not ((i<j) and not (i<=j))) and d)) do x:=123; end;
+    while (not ((not ((i<j) and (i<=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i<j) and not (i<=j))) and d)) do x:=123; end;
+    while (not ((not ((i<j) and not (i<=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i<j) and (i<=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i<j) and not (i<=j))) and not d)) do x:=123; end;
+
+    while (not ((i<j) and ((i<=j) and d))) do x:=123; end;
+    while (not (not (i<j) and ((i<=j) and d))) do x:=123; end;
+    while (not ((i<j) and (not (i<=j) and d))) do x:=123; end;
+    while (not ((i<j) and ((i<=j) and not d))) do x:=123; end;
+    while (not (not (i<j) and (not (i<=j) and d))) do x:=123; end;
+    while (not ((i<j) and (not (i<=j) and not d))) do x:=123; end;
+    while (not (not (i<j) and ((i<=j) and not d))) do x:=123; end;
+    while (not (not (i<j) and (not (i<=j) and not d))) do x:=123; end;
+
+    while (not ((i<j) and (not ((i<=j) and d)))) do x:=123; end;
+    while (not (not (i<j) and (not ((i<=j) and d)))) do x:=123; end;
+    while (not ((i<j) and (not (not (i<=j) and d)))) do x:=123; end;
+    while (not ((i<j) and (not ((i<=j) and not d)))) do x:=123; end;
+    while (not (not (i<j) and (not (not (i<=j) and d)))) do x:=123; end;
+    while (not ((i<j) and (not (not (i<=j) and not d)))) do x:=123; end;
+    while (not (not (i<j) and (not ((i<=j) and not d)))) do x:=123; end;
+    while (not (not (i<j) and (not (not (i<=j) and not d)))) do x:=123; end;
+
+(*****  All expressions with: and or  *****)
+
+    while (((i<j) and (i<=j)) or d) do x:=123; end;
+    while ((not (i<j) and (i<=j)) or d) do x:=123; end;
+    while (((i<j) and not (i<=j)) or d) do x:=123; end;
+    while (((i<j) and (i<=j)) or not d) do x:=123; end;
+    while ((not (i<j) and not (i<=j)) or d) do x:=123; end;
+    while (((i<j) and not (i<=j)) or not d) do x:=123; end;
+    while ((not (i<j) and (i<=j)) or not d) do x:=123; end;
+    while ((not (i<j) and not (i<=j)) or not d) do x:=123; end;
+
+    while ((not ((i<j) and (i<=j))) or d) do x:=123; end;
+    while ((not (not (i<j) and (i<=j))) or d) do x:=123; end;
+    while ((not ((i<j) and not (i<=j))) or d) do x:=123; end;
+    while ((not ((i<j) and (i<=j))) or not d) do x:=123; end;
+    while ((not (not (i<j) and not (i<=j))) or d) do x:=123; end;
+    while ((not ((i<j) and not (i<=j))) or not d) do x:=123; end;
+    while ((not (not (i<j) and (i<=j))) or not d) do x:=123; end;
+    while ((not (not (i<j) and not (i<=j))) or not d) do x:=123; end;
+
+    while ((i<j) and ((i<=j) or d)) do x:=123; end;
+    while (not (i<j) and ((i<=j) or d)) do x:=123; end;
+    while ((i<j) and (not (i<=j) or d)) do x:=123; end;
+    while ((i<j) and ((i<=j) or not d)) do x:=123; end;
+    while (not (i<j) and (not (i<=j) or d)) do x:=123; end;
+    while ((i<j) and (not (i<=j) or not d)) do x:=123; end;
+    while (not (i<j) and ((i<=j) or not d)) do x:=123; end;
+    while (not (i<j) and (not (i<=j) or not d)) do x:=123; end;
+
+    while ((i<j) and (not ((i<=j) or d))) do x:=123; end;
+    while (not (i<j) and (not ((i<=j) or d))) do x:=123; end;
+    while ((i<j) and (not (not (i<=j) or d))) do x:=123; end;
+    while ((i<j) and (not ((i<=j) or not d))) do x:=123; end;
+    while (not (i<j) and (not (not (i<=j) or d))) do x:=123; end;
+    while ((i<j) and (not (not (i<=j) or not d))) do x:=123; end;
+    while (not (i<j) and (not ((i<=j) or not d))) do x:=123; end;
+    while (not (i<j) and (not (not (i<=j) or not d))) do x:=123; end;
+
+    while (not (((i<j) and (i<=j)) or d)) do x:=123; end;
+    while (not ((not (i<j) and (i<=j)) or d)) do x:=123; end;
+    while (not (((i<j) and not (i<=j)) or d)) do x:=123; end;
+    while (not (((i<j) and (i<=j)) or not d)) do x:=123; end;
+    while (not ((not (i<j) and not (i<=j)) or d)) do x:=123; end;
+    while (not (((i<j) and not (i<=j)) or not d)) do x:=123; end;
+    while (not ((not (i<j) and (i<=j)) or not d)) do x:=123; end;
+    while (not ((not (i<j) and not (i<=j)) or not d)) do x:=123; end;
+
+    while (not ((not ((i<j) and (i<=j))) or d)) do x:=123; end;
+    while (not ((not (not (i<j) and (i<=j))) or d)) do x:=123; end;
+    while (not ((not ((i<j) and not (i<=j))) or d)) do x:=123; end;
+    while (not ((not ((i<j) and (i<=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i<j) and not (i<=j))) or d)) do x:=123; end;
+    while (not ((not ((i<j) and not (i<=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i<j) and (i<=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i<j) and not (i<=j))) or not d)) do x:=123; end;
+
+    while (not ((i<j) and ((i<=j) or d))) do x:=123; end;
+    while (not (not (i<j) and ((i<=j) or d))) do x:=123; end;
+    while (not ((i<j) and (not (i<=j) or d))) do x:=123; end;
+    while (not ((i<j) and ((i<=j) or not d))) do x:=123; end;
+    while (not (not (i<j) and (not (i<=j) or d))) do x:=123; end;
+    while (not ((i<j) and (not (i<=j) or not d))) do x:=123; end;
+    while (not (not (i<j) and ((i<=j) or not d))) do x:=123; end;
+    while (not (not (i<j) and (not (i<=j) or not d))) do x:=123; end;
+
+    while (not ((i<j) and (not ((i<=j) or d)))) do x:=123; end;
+    while (not (not (i<j) and (not ((i<=j) or d)))) do x:=123; end;
+    while (not ((i<j) and (not (not (i<=j) or d)))) do x:=123; end;
+    while (not ((i<j) and (not ((i<=j) or not d)))) do x:=123; end;
+    while (not (not (i<j) and (not (not (i<=j) or d)))) do x:=123; end;
+    while (not ((i<j) and (not (not (i<=j) or not d)))) do x:=123; end;
+    while (not (not (i<j) and (not ((i<=j) or not d)))) do x:=123; end;
+    while (not (not (i<j) and (not (not (i<=j) or not d)))) do x:=123; end;
+
+(*****  All expressions with: or and  *****)
+
+    while (((i<j) or (i<=j)) and d) do x:=123; end;
+    while ((not (i<j) or (i<=j)) and d) do x:=123; end;
+    while (((i<j) or not (i<=j)) and d) do x:=123; end;
+    while (((i<j) or (i<=j)) and not d) do x:=123; end;
+    while ((not (i<j) or not (i<=j)) and d) do x:=123; end;
+    while (((i<j) or not (i<=j)) and not d) do x:=123; end;
+    while ((not (i<j) or (i<=j)) and not d) do x:=123; end;
+    while ((not (i<j) or not (i<=j)) and not d) do x:=123; end;
+
+    while ((not ((i<j) or (i<=j))) and d) do x:=123; end;
+    while ((not (not (i<j) or (i<=j))) and d) do x:=123; end;
+    while ((not ((i<j) or not (i<=j))) and d) do x:=123; end;
+    while ((not ((i<j) or (i<=j))) and not d) do x:=123; end;
+    while ((not (not (i<j) or not (i<=j))) and d) do x:=123; end;
+    while ((not ((i<j) or not (i<=j))) and not d) do x:=123; end;
+    while ((not (not (i<j) or (i<=j))) and not d) do x:=123; end;
+    while ((not (not (i<j) or not (i<=j))) and not d) do x:=123; end;
+
+    while ((i<j) or ((i<=j) and d)) do x:=123; end;
+    while (not (i<j) or ((i<=j) and d)) do x:=123; end;
+    while ((i<j) or (not (i<=j) and d)) do x:=123; end;
+    while ((i<j) or ((i<=j) and not d)) do x:=123; end;
+    while (not (i<j) or (not (i<=j) and d)) do x:=123; end;
+    while ((i<j) or (not (i<=j) and not d)) do x:=123; end;
+    while (not (i<j) or ((i<=j) and not d)) do x:=123; end;
+    while (not (i<j) or (not (i<=j) and not d)) do x:=123; end;
+
+    while ((i<j) or (not ((i<=j) and d))) do x:=123; end;
+    while (not (i<j) or (not ((i<=j) and d))) do x:=123; end;
+    while ((i<j) or (not (not (i<=j) and d))) do x:=123; end;
+    while ((i<j) or (not ((i<=j) and not d))) do x:=123; end;
+    while (not (i<j) or (not (not (i<=j) and d))) do x:=123; end;
+    while ((i<j) or (not (not (i<=j) and not d))) do x:=123; end;
+    while (not (i<j) or (not ((i<=j) and not d))) do x:=123; end;
+    while (not (i<j) or (not (not (i<=j) and not d))) do x:=123; end;
+
+    while (not (((i<j) or (i<=j)) and d)) do x:=123; end;
+    while (not ((not (i<j) or (i<=j)) and d)) do x:=123; end;
+    while (not (((i<j) or not (i<=j)) and d)) do x:=123; end;
+    while (not (((i<j) or (i<=j)) and not d)) do x:=123; end;
+    while (not ((not (i<j) or not (i<=j)) and d)) do x:=123; end;
+    while (not (((i<j) or not (i<=j)) and not d)) do x:=123; end;
+    while (not ((not (i<j) or (i<=j)) and not d)) do x:=123; end;
+    while (not ((not (i<j) or not (i<=j)) and not d)) do x:=123; end;
+
+    while (not ((not ((i<j) or (i<=j))) and d)) do x:=123; end;
+    while (not ((not (not (i<j) or (i<=j))) and d)) do x:=123; end;
+    while (not ((not ((i<j) or not (i<=j))) and d)) do x:=123; end;
+    while (not ((not ((i<j) or (i<=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i<j) or not (i<=j))) and d)) do x:=123; end;
+    while (not ((not ((i<j) or not (i<=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i<j) or (i<=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i<j) or not (i<=j))) and not d)) do x:=123; end;
+
+    while (not ((i<j) or ((i<=j) and d))) do x:=123; end;
+    while (not (not (i<j) or ((i<=j) and d))) do x:=123; end;
+    while (not ((i<j) or (not (i<=j) and d))) do x:=123; end;
+    while (not ((i<j) or ((i<=j) and not d))) do x:=123; end;
+    while (not (not (i<j) or (not (i<=j) and d))) do x:=123; end;
+    while (not ((i<j) or (not (i<=j) and not d))) do x:=123; end;
+    while (not (not (i<j) or ((i<=j) and not d))) do x:=123; end;
+    while (not (not (i<j) or (not (i<=j) and not d))) do x:=123; end;
+
+    while (not ((i<j) or (not ((i<=j) and d)))) do x:=123; end;
+    while (not (not (i<j) or (not ((i<=j) and d)))) do x:=123; end;
+    while (not ((i<j) or (not (not (i<=j) and d)))) do x:=123; end;
+    while (not ((i<j) or (not ((i<=j) and not d)))) do x:=123; end;
+    while (not (not (i<j) or (not (not (i<=j) and d)))) do x:=123; end;
+    while (not ((i<j) or (not (not (i<=j) and not d)))) do x:=123; end;
+    while (not (not (i<j) or (not ((i<=j) and not d)))) do x:=123; end;
+    while (not (not (i<j) or (not (not (i<=j) and not d)))) do x:=123; end;
+
+
+
+
+(*****  Same thing as above, except with >, >= relationals  *****)
+
+
+
+
+(*****  All expressions with one variables  *****)
+
+    a := (i>j);
+    a := not (i>j);
+    a := not not (i>j);
+    a := not not not (i>j);
+
+(*****  All expressions with two variables  *****)
+
+    a := (i>j) or (i>=j);
+    a := not (i>j) or (i>=j);
+    a := (i>=j) or not (i>j);
+    a := not (i>j) or not (i>=j);
+
+    a := not ((i>j) or (i>=j));
+    a := not (not (i>j) or (i>=j));
+    a := not ((i>=j) or not (i>j));
+    a := not (not (i>j) or not (i>=j));
+
+    a := (i>j) and (i>=j);
+    a := not (i>j) and (i>=j);
+    a := (i>j) and not (i>=j);
+    a := not (i>j) and not (i>=j);
+
+    a := not ((i>j) and (i>=j));
+    a := not (not (i>j) and (i>=j));
+    a := not ((i>j) and not (i>=j));
+    a := not (not (i>j) and not (i>=j));
+
+(*****  All expressions with two variables (double negations)  *****)
+
+    a := not not (i>j) or (i>=j);
+    a := (i>=j) or not not (i>j);
+    a := not not (i>j) or not not (i>=j);
+
+    a := not not ((i>j) or (i>=j));
+    a := not not (not not (i>j) or (i>=j));
+    a := not not ((i>=j) or not not (i>j));
+    a := not not (not not (i>j) or not not (i>=j));
+
+    a := (i>j) and (i>=j);
+    a := not not (i>j) and (i>=j);
+    a := (i>j) and not not (i>=j);
+    a := not not (i>j) and not not (i>=j);
+
+    a := not not ((i>j) and (i>=j));
+    a := not not (not not (i>j) and (i>=j));
+    a := not not ((i>j) and not not (i>=j));
+    a := not not (not not (i>j) and not not (i>=j));
+
+(*****  All expressions with: or or  *****)
+
+    a := ((i>j) or (i>=j)) or d;
+    a := (not (i>j) or (i>=j)) or d;
+    a := ((i>j) or not (i>=j)) or d;
+    a := ((i>j) or (i>=j)) or not d;
+    a := (not (i>j) or not (i>=j)) or d;
+    a := ((i>j) or not (i>=j)) or not d;
+    a := (not (i>j) or (i>=j)) or not d;
+    a := (not (i>j) or not (i>=j)) or not d;
+
+    a := (not ((i>j) or (i>=j))) or d;
+    a := (not (not (i>j) or (i>=j))) or d;
+    a := (not ((i>j) or not (i>=j))) or d;
+    a := (not ((i>j) or (i>=j))) or not d;
+    a := (not (not (i>j) or not (i>=j))) or d;
+    a := (not ((i>j) or not (i>=j))) or not d;
+    a := (not (not (i>j) or (i>=j))) or not d;
+    a := (not (not (i>j) or not (i>=j))) or not d;
+
+    a := (i>j) or ((i>=j) or d);
+    a := not (i>j) or ((i>=j) or d);
+    a := (i>j) or (not (i>=j) or d);
+    a := (i>j) or ((i>=j) or not d);
+    a := not (i>j) or (not (i>=j) or d);
+    a := (i>j) or (not (i>=j) or not d);
+    a := not (i>j) or ((i>=j) or not d);
+    a := not (i>j) or (not (i>=j) or not d);
+
+    a := (i>j) or (not ((i>=j) or d));
+    a := not (i>j) or (not ((i>=j) or d));
+    a := (i>j) or (not (not (i>=j) or d));
+    a := (i>j) or (not ((i>=j) or not d));
+    a := not (i>j) or (not (not (i>=j) or d));
+    a := (i>j) or (not (not (i>=j) or not d));
+    a := not (i>j) or (not ((i>=j) or not d));
+    a := not (i>j) or (not (not (i>=j) or not d));
+
+    a := not (((i>j) or (i>=j)) or d);
+    a := not ((not (i>j) or (i>=j)) or d);
+    a := not (((i>j) or not (i>=j)) or d);
+    a := not (((i>j) or (i>=j)) or not d);
+    a := not ((not (i>j) or not (i>=j)) or d);
+    a := not (((i>j) or not (i>=j)) or not d);
+    a := not ((not (i>j) or (i>=j)) or not d);
+    a := not ((not (i>j) or not (i>=j)) or not d);
+
+    a := not ((not ((i>j) or (i>=j))) or d);
+    a := not ((not (not (i>j) or (i>=j))) or d);
+    a := not ((not ((i>j) or not (i>=j))) or d);
+    a := not ((not ((i>j) or (i>=j))) or not d);
+    a := not ((not (not (i>j) or not (i>=j))) or d);
+    a := not ((not ((i>j) or not (i>=j))) or not d);
+    a := not ((not (not (i>j) or (i>=j))) or not d);
+    a := not ((not (not (i>j) or not (i>=j))) or not d);
+
+    a := not ((i>j) or ((i>=j) or d));
+    a := not (not (i>j) or ((i>=j) or d));
+    a := not ((i>j) or (not (i>=j) or d));
+    a := not ((i>j) or ((i>=j) or not d));
+    a := not (not (i>j) or (not (i>=j) or d));
+    a := not ((i>j) or (not (i>=j) or not d));
+    a := not (not (i>j) or ((i>=j) or not d));
+    a := not (not (i>j) or (not (i>=j) or not d));
+
+    a := not ((i>j) or (not ((i>=j) or d)));
+    a := not (not (i>j) or (not ((i>=j) or d)));
+    a := not ((i>j) or (not (not (i>=j) or d)));
+    a := not ((i>j) or (not ((i>=j) or not d)));
+    a := not (not (i>j) or (not (not (i>=j) or d)));
+    a := not ((i>j) or (not (not (i>=j) or not d)));
+    a := not (not (i>j) or (not ((i>=j) or not d)));
+    a := not (not (i>j) or (not (not (i>=j) or not d)));
+
+(*****  All expressions with: and and  *****)
+
+    a := ((i>j) and (i>=j)) and d;
+    a := (not (i>j) and (i>=j)) and d;
+    a := ((i>j) and not (i>=j)) and d;
+    a := ((i>j) and (i>=j)) and not d;
+    a := (not (i>j) and not (i>=j)) and d;
+    a := ((i>j) and not (i>=j)) and not d;
+    a := (not (i>j) and (i>=j)) and not d;
+    a := (not (i>j) and not (i>=j)) and not d;
+
+    a := (not ((i>j) and (i>=j))) and d;
+    a := (not (not (i>j) and (i>=j))) and d;
+    a := (not ((i>j) and not (i>=j))) and d;
+    a := (not ((i>j) and (i>=j))) and not d;
+    a := (not (not (i>j) and not (i>=j))) and d;
+    a := (not ((i>j) and not (i>=j))) and not d;
+    a := (not (not (i>j) and (i>=j))) and not d;
+    a := (not (not (i>j) and not (i>=j))) and not d;
+
+    a := (i>j) and ((i>=j) and d);
+    a := not (i>j) and ((i>=j) and d);
+    a := (i>j) and (not (i>=j) and d);
+    a := (i>j) and ((i>=j) and not d);
+    a := not (i>j) and (not (i>=j) and d);
+    a := (i>j) and (not (i>=j) and not d);
+    a := not (i>j) and ((i>=j) and not d);
+    a := not (i>j) and (not (i>=j) and not d);
+
+    a := (i>j) and (not ((i>=j) and d));
+    a := not (i>j) and (not ((i>=j) and d));
+    a := (i>j) and (not (not (i>=j) and d));
+    a := (i>j) and (not ((i>=j) and not d));
+    a := not (i>j) and (not (not (i>=j) and d));
+    a := (i>j) and (not (not (i>=j) and not d));
+    a := not (i>j) and (not ((i>=j) and not d));
+    a := not (i>j) and (not (not (i>=j) and not d));
+
+    a := not (((i>j) and (i>=j)) and d);
+    a := not ((not (i>j) and (i>=j)) and d);
+    a := not (((i>j) and not (i>=j)) and d);
+    a := not (((i>j) and (i>=j)) and not d);
+    a := not ((not (i>j) and not (i>=j)) and d);
+    a := not (((i>j) and not (i>=j)) and not d);
+    a := not ((not (i>j) and (i>=j)) and not d);
+    a := not ((not (i>j) and not (i>=j)) and not d);
+
+    a := not ((not ((i>j) and (i>=j))) and d);
+    a := not ((not (not (i>j) and (i>=j))) and d);
+    a := not ((not ((i>j) and not (i>=j))) and d);
+    a := not ((not ((i>j) and (i>=j))) and not d);
+    a := not ((not (not (i>j) and not (i>=j))) and d);
+    a := not ((not ((i>j) and not (i>=j))) and not d);
+    a := not ((not (not (i>j) and (i>=j))) and not d);
+    a := not ((not (not (i>j) and not (i>=j))) and not d);
+
+    a := not ((i>j) and ((i>=j) and d));
+    a := not (not (i>j) and ((i>=j) and d));
+    a := not ((i>j) and (not (i>=j) and d));
+    a := not ((i>j) and ((i>=j) and not d));
+    a := not (not (i>j) and (not (i>=j) and d));
+    a := not ((i>j) and (not (i>=j) and not d));
+    a := not (not (i>j) and ((i>=j) and not d));
+    a := not (not (i>j) and (not (i>=j) and not d));
+
+    a := not ((i>j) and (not ((i>=j) and d)));
+    a := not (not (i>j) and (not ((i>=j) and d)));
+    a := not ((i>j) and (not (not (i>=j) and d)));
+    a := not ((i>j) and (not ((i>=j) and not d)));
+    a := not (not (i>j) and (not (not (i>=j) and d)));
+    a := not ((i>j) and (not (not (i>=j) and not d)));
+    a := not (not (i>j) and (not ((i>=j) and not d)));
+    a := not (not (i>j) and (not (not (i>=j) and not d)));
+
+(*****  All expressions with: and or  *****)
+
+    a := ((i>j) and (i>=j)) or d;
+    a := (not (i>j) and (i>=j)) or d;
+    a := ((i>j) and not (i>=j)) or d;
+    a := ((i>j) and (i>=j)) or not d;
+    a := (not (i>j) and not (i>=j)) or d;
+    a := ((i>j) and not (i>=j)) or not d;
+    a := (not (i>j) and (i>=j)) or not d;
+    a := (not (i>j) and not (i>=j)) or not d;
+
+    a := (not ((i>j) and (i>=j))) or d;
+    a := (not (not (i>j) and (i>=j))) or d;
+    a := (not ((i>j) and not (i>=j))) or d;
+    a := (not ((i>j) and (i>=j))) or not d;
+    a := (not (not (i>j) and not (i>=j))) or d;
+    a := (not ((i>j) and not (i>=j))) or not d;
+    a := (not (not (i>j) and (i>=j))) or not d;
+    a := (not (not (i>j) and not (i>=j))) or not d;
+
+    a := (i>j) and ((i>=j) or d);
+    a := not (i>j) and ((i>=j) or d);
+    a := (i>j) and (not (i>=j) or d);
+    a := (i>j) and ((i>=j) or not d);
+    a := not (i>j) and (not (i>=j) or d);
+    a := (i>j) and (not (i>=j) or not d);
+    a := not (i>j) and ((i>=j) or not d);
+    a := not (i>j) and (not (i>=j) or not d);
+
+    a := (i>j) and (not ((i>=j) or d));
+    a := not (i>j) and (not ((i>=j) or d));
+    a := (i>j) and (not (not (i>=j) or d));
+    a := (i>j) and (not ((i>=j) or not d));
+    a := not (i>j) and (not (not (i>=j) or d));
+    a := (i>j) and (not (not (i>=j) or not d));
+    a := not (i>j) and (not ((i>=j) or not d));
+    a := not (i>j) and (not (not (i>=j) or not d));
+
+    a := not (((i>j) and (i>=j)) or d);
+    a := not ((not (i>j) and (i>=j)) or d);
+    a := not (((i>j) and not (i>=j)) or d);
+    a := not (((i>j) and (i>=j)) or not d);
+    a := not ((not (i>j) and not (i>=j)) or d);
+    a := not (((i>j) and not (i>=j)) or not d);
+    a := not ((not (i>j) and (i>=j)) or not d);
+    a := not ((not (i>j) and not (i>=j)) or not d);
+
+    a := not ((not ((i>j) and (i>=j))) or d);
+    a := not ((not (not (i>j) and (i>=j))) or d);
+    a := not ((not ((i>j) and not (i>=j))) or d);
+    a := not ((not ((i>j) and (i>=j))) or not d);
+    a := not ((not (not (i>j) and not (i>=j))) or d);
+    a := not ((not ((i>j) and not (i>=j))) or not d);
+    a := not ((not (not (i>j) and (i>=j))) or not d);
+    a := not ((not (not (i>j) and not (i>=j))) or not d);
+
+    a := not ((i>j) and ((i>=j) or d));
+    a := not (not (i>j) and ((i>=j) or d));
+    a := not ((i>j) and (not (i>=j) or d));
+    a := not ((i>j) and ((i>=j) or not d));
+    a := not (not (i>j) and (not (i>=j) or d));
+    a := not ((i>j) and (not (i>=j) or not d));
+    a := not (not (i>j) and ((i>=j) or not d));
+    a := not (not (i>j) and (not (i>=j) or not d));
+
+    a := not ((i>j) and (not ((i>=j) or d)));
+    a := not (not (i>j) and (not ((i>=j) or d)));
+    a := not ((i>j) and (not (not (i>=j) or d)));
+    a := not ((i>j) and (not ((i>=j) or not d)));
+    a := not (not (i>j) and (not (not (i>=j) or d)));
+    a := not ((i>j) and (not (not (i>=j) or not d)));
+    a := not (not (i>j) and (not ((i>=j) or not d)));
+    a := not (not (i>j) and (not (not (i>=j) or not d)));
+
+(*****  All expressions with: or and  *****)
+
+    a := ((i>j) or (i>=j)) and d;
+    a := (not (i>j) or (i>=j)) and d;
+    a := ((i>j) or not (i>=j)) and d;
+    a := ((i>j) or (i>=j)) and not d;
+    a := (not (i>j) or not (i>=j)) and d;
+    a := ((i>j) or not (i>=j)) and not d;
+    a := (not (i>j) or (i>=j)) and not d;
+    a := (not (i>j) or not (i>=j)) and not d;
+
+    a := (not ((i>j) or (i>=j))) and d;
+    a := (not (not (i>j) or (i>=j))) and d;
+    a := (not ((i>j) or not (i>=j))) and d;
+    a := (not ((i>j) or (i>=j))) and not d;
+    a := (not (not (i>j) or not (i>=j))) and d;
+    a := (not ((i>j) or not (i>=j))) and not d;
+    a := (not (not (i>j) or (i>=j))) and not d;
+    a := (not (not (i>j) or not (i>=j))) and not d;
+
+    a := (i>j) or ((i>=j) and d);
+    a := not (i>j) or ((i>=j) and d);
+    a := (i>j) or (not (i>=j) and d);
+    a := (i>j) or ((i>=j) and not d);
+    a := not (i>j) or (not (i>=j) and d);
+    a := (i>j) or (not (i>=j) and not d);
+    a := not (i>j) or ((i>=j) and not d);
+    a := not (i>j) or (not (i>=j) and not d);
+
+    a := (i>j) or (not ((i>=j) and d));
+    a := not (i>j) or (not ((i>=j) and d));
+    a := (i>j) or (not (not (i>=j) and d));
+    a := (i>j) or (not ((i>=j) and not d));
+    a := not (i>j) or (not (not (i>=j) and d));
+    a := (i>j) or (not (not (i>=j) and not d));
+    a := not (i>j) or (not ((i>=j) and not d));
+    a := not (i>j) or (not (not (i>=j) and not d));
+
+    a := not (((i>j) or (i>=j)) and d);
+    a := not ((not (i>j) or (i>=j)) and d);
+    a := not (((i>j) or not (i>=j)) and d);
+    a := not (((i>j) or (i>=j)) and not d);
+    a := not ((not (i>j) or not (i>=j)) and d);
+    a := not (((i>j) or not (i>=j)) and not d);
+    a := not ((not (i>j) or (i>=j)) and not d);
+    a := not ((not (i>j) or not (i>=j)) and not d);
+
+    a := not ((not ((i>j) or (i>=j))) and d);
+    a := not ((not (not (i>j) or (i>=j))) and d);
+    a := not ((not ((i>j) or not (i>=j))) and d);
+    a := not ((not ((i>j) or (i>=j))) and not d);
+    a := not ((not (not (i>j) or not (i>=j))) and d);
+    a := not ((not ((i>j) or not (i>=j))) and not d);
+    a := not ((not (not (i>j) or (i>=j))) and not d);
+    a := not ((not (not (i>j) or not (i>=j))) and not d);
+
+    a := not ((i>j) or ((i>=j) and d));
+    a := not (not (i>j) or ((i>=j) and d));
+    a := not ((i>j) or (not (i>=j) and d));
+    a := not ((i>j) or ((i>=j) and not d));
+    a := not (not (i>j) or (not (i>=j) and d));
+    a := not ((i>j) or (not (i>=j) and not d));
+    a := not (not (i>j) or ((i>=j) and not d));
+    a := not (not (i>j) or (not (i>=j) and not d));
+
+    a := not ((i>j) or (not ((i>=j) and d)));
+    a := not (not (i>j) or (not ((i>=j) and d)));
+    a := not ((i>j) or (not (not (i>=j) and d)));
+    a := not ((i>j) or (not ((i>=j) and not d)));
+    a := not (not (i>j) or (not (not (i>=j) and d)));
+    a := not ((i>j) or (not (not (i>=j) and not d)));
+    a := not (not (i>j) or (not ((i>=j) and not d)));
+    a := not (not (i>j) or (not (not (i>=j) and not d)));
+
+(*****  Same thing, only in the context of a while  *****)
+
+
+(*****  All expressions with one variables  *****)
+
+    while ((i>j)) do x:=123; end;
+    while (not (i>j)) do x:=123; end;
+    while (not not (i>j)) do x:=123; end;
+    while (not not not (i>j)) do x:=123; end;
+
+(*****  All expressions with two variables  *****)
+
+    while ((i>j) or (i>=j)) do x:=123; end;
+    while (not (i>j) or (i>=j)) do x:=123; end;
+    while ((i>=j) or not (i>j)) do x:=123; end;
+    while (not (i>j) or not (i>=j)) do x:=123; end;
+
+    while (not ((i>j) or (i>=j))) do x:=123; end;
+    while (not (not (i>j) or (i>=j))) do x:=123; end;
+    while (not ((i>=j) or not (i>j))) do x:=123; end;
+    while (not (not (i>j) or not (i>=j))) do x:=123; end;
+
+    while ((i>j) and (i>=j)) do x:=123; end;
+    while (not (i>j) and (i>=j)) do x:=123; end;
+    while ((i>j) and not (i>=j)) do x:=123; end;
+    while (not (i>j) and not (i>=j)) do x:=123; end;
+
+    while (not ((i>j) and (i>=j))) do x:=123; end;
+    while (not (not (i>j) and (i>=j))) do x:=123; end;
+    while (not ((i>j) and not (i>=j))) do x:=123; end;
+    while (not (not (i>j) and not (i>=j))) do x:=123; end;
+
+(*****  All expressions with two variables (double negations)  *****)
+
+    while (not not (i>j) or (i>=j)) do x:=123; end;
+    while ((i>=j) or not not (i>j)) do x:=123; end;
+    while (not not (i>j) or not not (i>=j)) do x:=123; end;
+
+    while (not not ((i>j) or (i>=j))) do x:=123; end;
+    while (not not (not not (i>j) or (i>=j))) do x:=123; end;
+    while (not not ((i>=j) or not not (i>j))) do x:=123; end;
+    while (not not (not not (i>j) or not not (i>=j))) do x:=123; end;
+
+    while ((i>j) and (i>=j)) do x:=123; end;
+    while (not not (i>j) and (i>=j)) do x:=123; end;
+    while ((i>j) and not not (i>=j)) do x:=123; end;
+    while (not not (i>j) and not not (i>=j)) do x:=123; end;
+
+    while (not not ((i>j) and (i>=j))) do x:=123; end;
+    while (not not (not not (i>j) and (i>=j))) do x:=123; end;
+    while (not not ((i>j) and not not (i>=j))) do x:=123; end;
+    while (not not (not not (i>j) and not not (i>=j))) do x:=123; end;
+
+(*****  All expressions with: or or  *****)
+
+    while (((i>j) or (i>=j)) or d) do x:=123; end;
+    while ((not (i>j) or (i>=j)) or d) do x:=123; end;
+    while (((i>j) or not (i>=j)) or d) do x:=123; end;
+    while (((i>j) or (i>=j)) or not d) do x:=123; end;
+    while ((not (i>j) or not (i>=j)) or d) do x:=123; end;
+    while (((i>j) or not (i>=j)) or not d) do x:=123; end;
+    while ((not (i>j) or (i>=j)) or not d) do x:=123; end;
+    while ((not (i>j) or not (i>=j)) or not d) do x:=123; end;
+
+    while ((not ((i>j) or (i>=j))) or d) do x:=123; end;
+    while ((not (not (i>j) or (i>=j))) or d) do x:=123; end;
+    while ((not ((i>j) or not (i>=j))) or d) do x:=123; end;
+    while ((not ((i>j) or (i>=j))) or not d) do x:=123; end;
+    while ((not (not (i>j) or not (i>=j))) or d) do x:=123; end;
+    while ((not ((i>j) or not (i>=j))) or not d) do x:=123; end;
+    while ((not (not (i>j) or (i>=j))) or not d) do x:=123; end;
+    while ((not (not (i>j) or not (i>=j))) or not d) do x:=123; end;
+
+    while ((i>j) or ((i>=j) or d)) do x:=123; end;
+    while (not (i>j) or ((i>=j) or d)) do x:=123; end;
+    while ((i>j) or (not (i>=j) or d)) do x:=123; end;
+    while ((i>j) or ((i>=j) or not d)) do x:=123; end;
+    while (not (i>j) or (not (i>=j) or d)) do x:=123; end;
+    while ((i>j) or (not (i>=j) or not d)) do x:=123; end;
+    while (not (i>j) or ((i>=j) or not d)) do x:=123; end;
+    while (not (i>j) or (not (i>=j) or not d)) do x:=123; end;
+
+    while ((i>j) or (not ((i>=j) or d))) do x:=123; end;
+    while (not (i>j) or (not ((i>=j) or d))) do x:=123; end;
+    while ((i>j) or (not (not (i>=j) or d))) do x:=123; end;
+    while ((i>j) or (not ((i>=j) or not d))) do x:=123; end;
+    while (not (i>j) or (not (not (i>=j) or d))) do x:=123; end;
+    while ((i>j) or (not (not (i>=j) or not d))) do x:=123; end;
+    while (not (i>j) or (not ((i>=j) or not d))) do x:=123; end;
+    while (not (i>j) or (not (not (i>=j) or not d))) do x:=123; end;
+
+    while (not (((i>j) or (i>=j)) or d)) do x:=123; end;
+    while (not ((not (i>j) or (i>=j)) or d)) do x:=123; end;
+    while (not (((i>j) or not (i>=j)) or d)) do x:=123; end;
+    while (not (((i>j) or (i>=j)) or not d)) do x:=123; end;
+    while (not ((not (i>j) or not (i>=j)) or d)) do x:=123; end;
+    while (not (((i>j) or not (i>=j)) or not d)) do x:=123; end;
+    while (not ((not (i>j) or (i>=j)) or not d)) do x:=123; end;
+    while (not ((not (i>j) or not (i>=j)) or not d)) do x:=123; end;
+
+    while (not ((not ((i>j) or (i>=j))) or d)) do x:=123; end;
+    while (not ((not (not (i>j) or (i>=j))) or d)) do x:=123; end;
+    while (not ((not ((i>j) or not (i>=j))) or d)) do x:=123; end;
+    while (not ((not ((i>j) or (i>=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i>j) or not (i>=j))) or d)) do x:=123; end;
+    while (not ((not ((i>j) or not (i>=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i>j) or (i>=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i>j) or not (i>=j))) or not d)) do x:=123; end;
+
+    while (not ((i>j) or ((i>=j) or d))) do x:=123; end;
+    while (not (not (i>j) or ((i>=j) or d))) do x:=123; end;
+    while (not ((i>j) or (not (i>=j) or d))) do x:=123; end;
+    while (not ((i>j) or ((i>=j) or not d))) do x:=123; end;
+    while (not (not (i>j) or (not (i>=j) or d))) do x:=123; end;
+    while (not ((i>j) or (not (i>=j) or not d))) do x:=123; end;
+    while (not (not (i>j) or ((i>=j) or not d))) do x:=123; end;
+    while (not (not (i>j) or (not (i>=j) or not d))) do x:=123; end;
+
+    while (not ((i>j) or (not ((i>=j) or d)))) do x:=123; end;
+    while (not (not (i>j) or (not ((i>=j) or d)))) do x:=123; end;
+    while (not ((i>j) or (not (not (i>=j) or d)))) do x:=123; end;
+    while (not ((i>j) or (not ((i>=j) or not d)))) do x:=123; end;
+    while (not (not (i>j) or (not (not (i>=j) or d)))) do x:=123; end;
+    while (not ((i>j) or (not (not (i>=j) or not d)))) do x:=123; end;
+    while (not (not (i>j) or (not ((i>=j) or not d)))) do x:=123; end;
+    while (not (not (i>j) or (not (not (i>=j) or not d)))) do x:=123; end;
+
+(*****  All expressions with: and and  *****)
+
+    while (((i>j) and (i>=j)) and d) do x:=123; end;
+    while ((not (i>j) and (i>=j)) and d) do x:=123; end;
+    while (((i>j) and not (i>=j)) and d) do x:=123; end;
+    while (((i>j) and (i>=j)) and not d) do x:=123; end;
+    while ((not (i>j) and not (i>=j)) and d) do x:=123; end;
+    while (((i>j) and not (i>=j)) and not d) do x:=123; end;
+    while ((not (i>j) and (i>=j)) and not d) do x:=123; end;
+    while ((not (i>j) and not (i>=j)) and not d) do x:=123; end;
+
+    while ((not ((i>j) and (i>=j))) and d) do x:=123; end;
+    while ((not (not (i>j) and (i>=j))) and d) do x:=123; end;
+    while ((not ((i>j) and not (i>=j))) and d) do x:=123; end;
+    while ((not ((i>j) and (i>=j))) and not d) do x:=123; end;
+    while ((not (not (i>j) and not (i>=j))) and d) do x:=123; end;
+    while ((not ((i>j) and not (i>=j))) and not d) do x:=123; end;
+    while ((not (not (i>j) and (i>=j))) and not d) do x:=123; end;
+    while ((not (not (i>j) and not (i>=j))) and not d) do x:=123; end;
+
+    while ((i>j) and ((i>=j) and d)) do x:=123; end;
+    while (not (i>j) and ((i>=j) and d)) do x:=123; end;
+    while ((i>j) and (not (i>=j) and d)) do x:=123; end;
+    while ((i>j) and ((i>=j) and not d)) do x:=123; end;
+    while (not (i>j) and (not (i>=j) and d)) do x:=123; end;
+    while ((i>j) and (not (i>=j) and not d)) do x:=123; end;
+    while (not (i>j) and ((i>=j) and not d)) do x:=123; end;
+    while (not (i>j) and (not (i>=j) and not d)) do x:=123; end;
+
+    while ((i>j) and (not ((i>=j) and d))) do x:=123; end;
+    while (not (i>j) and (not ((i>=j) and d))) do x:=123; end;
+    while ((i>j) and (not (not (i>=j) and d))) do x:=123; end;
+    while ((i>j) and (not ((i>=j) and not d))) do x:=123; end;
+    while (not (i>j) and (not (not (i>=j) and d))) do x:=123; end;
+    while ((i>j) and (not (not (i>=j) and not d))) do x:=123; end;
+    while (not (i>j) and (not ((i>=j) and not d))) do x:=123; end;
+    while (not (i>j) and (not (not (i>=j) and not d))) do x:=123; end;
+
+    while (not (((i>j) and (i>=j)) and d)) do x:=123; end;
+    while (not ((not (i>j) and (i>=j)) and d)) do x:=123; end;
+    while (not (((i>j) and not (i>=j)) and d)) do x:=123; end;
+    while (not (((i>j) and (i>=j)) and not d)) do x:=123; end;
+    while (not ((not (i>j) and not (i>=j)) and d)) do x:=123; end;
+    while (not (((i>j) and not (i>=j)) and not d)) do x:=123; end;
+    while (not ((not (i>j) and (i>=j)) and not d)) do x:=123; end;
+    while (not ((not (i>j) and not (i>=j)) and not d)) do x:=123; end;
+
+    while (not ((not ((i>j) and (i>=j))) and d)) do x:=123; end;
+    while (not ((not (not (i>j) and (i>=j))) and d)) do x:=123; end;
+    while (not ((not ((i>j) and not (i>=j))) and d)) do x:=123; end;
+    while (not ((not ((i>j) and (i>=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i>j) and not (i>=j))) and d)) do x:=123; end;
+    while (not ((not ((i>j) and not (i>=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i>j) and (i>=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i>j) and not (i>=j))) and not d)) do x:=123; end;
+
+    while (not ((i>j) and ((i>=j) and d))) do x:=123; end;
+    while (not (not (i>j) and ((i>=j) and d))) do x:=123; end;
+    while (not ((i>j) and (not (i>=j) and d))) do x:=123; end;
+    while (not ((i>j) and ((i>=j) and not d))) do x:=123; end;
+    while (not (not (i>j) and (not (i>=j) and d))) do x:=123; end;
+    while (not ((i>j) and (not (i>=j) and not d))) do x:=123; end;
+    while (not (not (i>j) and ((i>=j) and not d))) do x:=123; end;
+    while (not (not (i>j) and (not (i>=j) and not d))) do x:=123; end;
+
+    while (not ((i>j) and (not ((i>=j) and d)))) do x:=123; end;
+    while (not (not (i>j) and (not ((i>=j) and d)))) do x:=123; end;
+    while (not ((i>j) and (not (not (i>=j) and d)))) do x:=123; end;
+    while (not ((i>j) and (not ((i>=j) and not d)))) do x:=123; end;
+    while (not (not (i>j) and (not (not (i>=j) and d)))) do x:=123; end;
+    while (not ((i>j) and (not (not (i>=j) and not d)))) do x:=123; end;
+    while (not (not (i>j) and (not ((i>=j) and not d)))) do x:=123; end;
+    while (not (not (i>j) and (not (not (i>=j) and not d)))) do x:=123; end;
+
+(*****  All expressions with: and or  *****)
+
+    while (((i>j) and (i>=j)) or d) do x:=123; end;
+    while ((not (i>j) and (i>=j)) or d) do x:=123; end;
+    while (((i>j) and not (i>=j)) or d) do x:=123; end;
+    while (((i>j) and (i>=j)) or not d) do x:=123; end;
+    while ((not (i>j) and not (i>=j)) or d) do x:=123; end;
+    while (((i>j) and not (i>=j)) or not d) do x:=123; end;
+    while ((not (i>j) and (i>=j)) or not d) do x:=123; end;
+    while ((not (i>j) and not (i>=j)) or not d) do x:=123; end;
+
+    while ((not ((i>j) and (i>=j))) or d) do x:=123; end;
+    while ((not (not (i>j) and (i>=j))) or d) do x:=123; end;
+    while ((not ((i>j) and not (i>=j))) or d) do x:=123; end;
+    while ((not ((i>j) and (i>=j))) or not d) do x:=123; end;
+    while ((not (not (i>j) and not (i>=j))) or d) do x:=123; end;
+    while ((not ((i>j) and not (i>=j))) or not d) do x:=123; end;
+    while ((not (not (i>j) and (i>=j))) or not d) do x:=123; end;
+    while ((not (not (i>j) and not (i>=j))) or not d) do x:=123; end;
+
+    while ((i>j) and ((i>=j) or d)) do x:=123; end;
+    while (not (i>j) and ((i>=j) or d)) do x:=123; end;
+    while ((i>j) and (not (i>=j) or d)) do x:=123; end;
+    while ((i>j) and ((i>=j) or not d)) do x:=123; end;
+    while (not (i>j) and (not (i>=j) or d)) do x:=123; end;
+    while ((i>j) and (not (i>=j) or not d)) do x:=123; end;
+    while (not (i>j) and ((i>=j) or not d)) do x:=123; end;
+    while (not (i>j) and (not (i>=j) or not d)) do x:=123; end;
+
+    while ((i>j) and (not ((i>=j) or d))) do x:=123; end;
+    while (not (i>j) and (not ((i>=j) or d))) do x:=123; end;
+    while ((i>j) and (not (not (i>=j) or d))) do x:=123; end;
+    while ((i>j) and (not ((i>=j) or not d))) do x:=123; end;
+    while (not (i>j) and (not (not (i>=j) or d))) do x:=123; end;
+    while ((i>j) and (not (not (i>=j) or not d))) do x:=123; end;
+    while (not (i>j) and (not ((i>=j) or not d))) do x:=123; end;
+    while (not (i>j) and (not (not (i>=j) or not d))) do x:=123; end;
+
+    while (not (((i>j) and (i>=j)) or d)) do x:=123; end;
+    while (not ((not (i>j) and (i>=j)) or d)) do x:=123; end;
+    while (not (((i>j) and not (i>=j)) or d)) do x:=123; end;
+    while (not (((i>j) and (i>=j)) or not d)) do x:=123; end;
+    while (not ((not (i>j) and not (i>=j)) or d)) do x:=123; end;
+    while (not (((i>j) and not (i>=j)) or not d)) do x:=123; end;
+    while (not ((not (i>j) and (i>=j)) or not d)) do x:=123; end;
+    while (not ((not (i>j) and not (i>=j)) or not d)) do x:=123; end;
+
+    while (not ((not ((i>j) and (i>=j))) or d)) do x:=123; end;
+    while (not ((not (not (i>j) and (i>=j))) or d)) do x:=123; end;
+    while (not ((not ((i>j) and not (i>=j))) or d)) do x:=123; end;
+    while (not ((not ((i>j) and (i>=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i>j) and not (i>=j))) or d)) do x:=123; end;
+    while (not ((not ((i>j) and not (i>=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i>j) and (i>=j))) or not d)) do x:=123; end;
+    while (not ((not (not (i>j) and not (i>=j))) or not d)) do x:=123; end;
+
+    while (not ((i>j) and ((i>=j) or d))) do x:=123; end;
+    while (not (not (i>j) and ((i>=j) or d))) do x:=123; end;
+    while (not ((i>j) and (not (i>=j) or d))) do x:=123; end;
+    while (not ((i>j) and ((i>=j) or not d))) do x:=123; end;
+    while (not (not (i>j) and (not (i>=j) or d))) do x:=123; end;
+    while (not ((i>j) and (not (i>=j) or not d))) do x:=123; end;
+    while (not (not (i>j) and ((i>=j) or not d))) do x:=123; end;
+    while (not (not (i>j) and (not (i>=j) or not d))) do x:=123; end;
+
+    while (not ((i>j) and (not ((i>=j) or d)))) do x:=123; end;
+    while (not (not (i>j) and (not ((i>=j) or d)))) do x:=123; end;
+    while (not ((i>j) and (not (not (i>=j) or d)))) do x:=123; end;
+    while (not ((i>j) and (not ((i>=j) or not d)))) do x:=123; end;
+    while (not (not (i>j) and (not (not (i>=j) or d)))) do x:=123; end;
+    while (not ((i>j) and (not (not (i>=j) or not d)))) do x:=123; end;
+    while (not (not (i>j) and (not ((i>=j) or not d)))) do x:=123; end;
+    while (not (not (i>j) and (not (not (i>=j) or not d)))) do x:=123; end;
+
+(*****  All expressions with: or and  *****)
+
+    while (((i>j) or (i>=j)) and d) do x:=123; end;
+    while ((not (i>j) or (i>=j)) and d) do x:=123; end;
+    while (((i>j) or not (i>=j)) and d) do x:=123; end;
+    while (((i>j) or (i>=j)) and not d) do x:=123; end;
+    while ((not (i>j) or not (i>=j)) and d) do x:=123; end;
+    while (((i>j) or not (i>=j)) and not d) do x:=123; end;
+    while ((not (i>j) or (i>=j)) and not d) do x:=123; end;
+    while ((not (i>j) or not (i>=j)) and not d) do x:=123; end;
+
+    while ((not ((i>j) or (i>=j))) and d) do x:=123; end;
+    while ((not (not (i>j) or (i>=j))) and d) do x:=123; end;
+    while ((not ((i>j) or not (i>=j))) and d) do x:=123; end;
+    while ((not ((i>j) or (i>=j))) and not d) do x:=123; end;
+    while ((not (not (i>j) or not (i>=j))) and d) do x:=123; end;
+    while ((not ((i>j) or not (i>=j))) and not d) do x:=123; end;
+    while ((not (not (i>j) or (i>=j))) and not d) do x:=123; end;
+    while ((not (not (i>j) or not (i>=j))) and not d) do x:=123; end;
+
+    while ((i>j) or ((i>=j) and d)) do x:=123; end;
+    while (not (i>j) or ((i>=j) and d)) do x:=123; end;
+    while ((i>j) or (not (i>=j) and d)) do x:=123; end;
+    while ((i>j) or ((i>=j) and not d)) do x:=123; end;
+    while (not (i>j) or (not (i>=j) and d)) do x:=123; end;
+    while ((i>j) or (not (i>=j) and not d)) do x:=123; end;
+    while (not (i>j) or ((i>=j) and not d)) do x:=123; end;
+    while (not (i>j) or (not (i>=j) and not d)) do x:=123; end;
+
+    while ((i>j) or (not ((i>=j) and d))) do x:=123; end;
+    while (not (i>j) or (not ((i>=j) and d))) do x:=123; end;
+    while ((i>j) or (not (not (i>=j) and d))) do x:=123; end;
+    while ((i>j) or (not ((i>=j) and not d))) do x:=123; end;
+    while (not (i>j) or (not (not (i>=j) and d))) do x:=123; end;
+    while ((i>j) or (not (not (i>=j) and not d))) do x:=123; end;
+    while (not (i>j) or (not ((i>=j) and not d))) do x:=123; end;
+    while (not (i>j) or (not (not (i>=j) and not d))) do x:=123; end;
+
+    while (not (((i>j) or (i>=j)) and d)) do x:=123; end;
+    while (not ((not (i>j) or (i>=j)) and d)) do x:=123; end;
+    while (not (((i>j) or not (i>=j)) and d)) do x:=123; end;
+    while (not (((i>j) or (i>=j)) and not d)) do x:=123; end;
+    while (not ((not (i>j) or not (i>=j)) and d)) do x:=123; end;
+    while (not (((i>j) or not (i>=j)) and not d)) do x:=123; end;
+    while (not ((not (i>j) or (i>=j)) and not d)) do x:=123; end;
+    while (not ((not (i>j) or not (i>=j)) and not d)) do x:=123; end;
+
+    while (not ((not ((i>j) or (i>=j))) and d)) do x:=123; end;
+    while (not ((not (not (i>j) or (i>=j))) and d)) do x:=123; end;
+    while (not ((not ((i>j) or not (i>=j))) and d)) do x:=123; end;
+    while (not ((not ((i>j) or (i>=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i>j) or not (i>=j))) and d)) do x:=123; end;
+    while (not ((not ((i>j) or not (i>=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i>j) or (i>=j))) and not d)) do x:=123; end;
+    while (not ((not (not (i>j) or not (i>=j))) and not d)) do x:=123; end;
+
+    while (not ((i>j) or ((i>=j) and d))) do x:=123; end;
+    while (not (not (i>j) or ((i>=j) and d))) do x:=123; end;
+    while (not ((i>j) or (not (i>=j) and d))) do x:=123; end;
+    while (not ((i>j) or ((i>=j) and not d))) do x:=123; end;
+    while (not (not (i>j) or (not (i>=j) and d))) do x:=123; end;
+    while (not ((i>j) or (not (i>=j) and not d))) do x:=123; end;
+    while (not (not (i>j) or ((i>=j) and not d))) do x:=123; end;
+    while (not (not (i>j) or (not (i>=j) and not d))) do x:=123; end;
+
+    while (not ((i>j) or (not ((i>=j) and d)))) do x:=123; end;
+    while (not (not (i>j) or (not ((i>=j) and d)))) do x:=123; end;
+    while (not ((i>j) or (not (not (i>=j) and d)))) do x:=123; end;
+    while (not ((i>j) or (not ((i>=j) and not d)))) do x:=123; end;
+    while (not (not (i>j) or (not (not (i>=j) and d)))) do x:=123; end;
+    while (not ((i>j) or (not (not (i>=j) and not d)))) do x:=123; end;
+    while (not (not (i>j) or (not ((i>=j) and not d)))) do x:=123; end;
+    while (not (not (i>j) or (not (not (i>=j) and not d)))) do x:=123; end;
+
+
+
+
+
+
+(*****  Same thing as above, except with ==, <> relationals  *****)
+
+
+
+
+(*****  All expressions with one variables  *****)
+
+    a := (i=j);
+    a := not (i=j);
+    a := not not (i=j);
+    a := not not not (i=j);
+
+(*****  All expressions with two variables  *****)
+
+    a := (i=j) or (i<>j);
+    a := not (i=j) or (i<>j);
+    a := (i<>j) or not (i=j);
+    a := not (i=j) or not (i<>j);
+
+    a := not ((i=j) or (i<>j));
+    a := not (not (i=j) or (i<>j));
+    a := not ((i<>j) or not (i=j));
+    a := not (not (i=j) or not (i<>j));
+
+    a := (i=j) and (i<>j);
+    a := not (i=j) and (i<>j);
+    a := (i=j) and not (i<>j);
+    a := not (i=j) and not (i<>j);
+
+    a := not ((i=j) and (i<>j));
+    a := not (not (i=j) and (i<>j));
+    a := not ((i=j) and not (i<>j));
+    a := not (not (i=j) and not (i<>j));
+
+(*****  All expressions with two variables (double negations)  *****)
+
+    a := not not (i=j) or (i<>j);
+    a := (i<>j) or not not (i=j);
+    a := not not (i=j) or not not (i<>j);
+
+    a := not not ((i=j) or (i<>j));
+    a := not not (not not (i=j) or (i<>j));
+    a := not not ((i<>j) or not not (i=j));
+    a := not not (not not (i=j) or not not (i<>j));
+
+    a := (i=j) and (i<>j);
+    a := not not (i=j) and (i<>j);
+    a := (i=j) and not not (i<>j);
+    a := not not (i=j) and not not (i<>j);
+
+    a := not not ((i=j) and (i<>j));
+    a := not not (not not (i=j) and (i<>j));
+    a := not not ((i=j) and not not (i<>j));
+    a := not not (not not (i=j) and not not (i<>j));
+
+(*****  All expressions with: or or  *****)
+
+    a := ((i=j) or (i<>j)) or d;
+    a := (not (i=j) or (i<>j)) or d;
+    a := ((i=j) or not (i<>j)) or d;
+    a := ((i=j) or (i<>j)) or not d;
+    a := (not (i=j) or not (i<>j)) or d;
+    a := ((i=j) or not (i<>j)) or not d;
+    a := (not (i=j) or (i<>j)) or not d;
+    a := (not (i=j) or not (i<>j)) or not d;
+
+    a := (not ((i=j) or (i<>j))) or d;
+    a := (not (not (i=j) or (i<>j))) or d;
+    a := (not ((i=j) or not (i<>j))) or d;
+    a := (not ((i=j) or (i<>j))) or not d;
+    a := (not (not (i=j) or not (i<>j))) or d;
+    a := (not ((i=j) or not (i<>j))) or not d;
+    a := (not (not (i=j) or (i<>j))) or not d;
+    a := (not (not (i=j) or not (i<>j))) or not d;
+
+    a := (i=j) or ((i<>j) or d);
+    a := not (i=j) or ((i<>j) or d);
+    a := (i=j) or (not (i<>j) or d);
+    a := (i=j) or ((i<>j) or not d);
+    a := not (i=j) or (not (i<>j) or d);
+    a := (i=j) or (not (i<>j) or not d);
+    a := not (i=j) or ((i<>j) or not d);
+    a := not (i=j) or (not (i<>j) or not d);
+
+    a := (i=j) or (not ((i<>j) or d));
+    a := not (i=j) or (not ((i<>j) or d));
+    a := (i=j) or (not (not (i<>j) or d));
+    a := (i=j) or (not ((i<>j) or not d));
+    a := not (i=j) or (not (not (i<>j) or d));
+    a := (i=j) or (not (not (i<>j) or not d));
+    a := not (i=j) or (not ((i<>j) or not d));
+    a := not (i=j) or (not (not (i<>j) or not d));
+
+    a := not (((i=j) or (i<>j)) or d);
+    a := not ((not (i=j) or (i<>j)) or d);
+    a := not (((i=j) or not (i<>j)) or d);
+    a := not (((i=j) or (i<>j)) or not d);
+    a := not ((not (i=j) or not (i<>j)) or d);
+    a := not (((i=j) or not (i<>j)) or not d);
+    a := not ((not (i=j) or (i<>j)) or not d);
+    a := not ((not (i=j) or not (i<>j)) or not d);
+
+    a := not ((not ((i=j) or (i<>j))) or d);
+    a := not ((not (not (i=j) or (i<>j))) or d);
+    a := not ((not ((i=j) or not (i<>j))) or d);
+    a := not ((not ((i=j) or (i<>j))) or not d);
+    a := not ((not (not (i=j) or not (i<>j))) or d);
+    a := not ((not ((i=j) or not (i<>j))) or not d);
+    a := not ((not (not (i=j) or (i<>j))) or not d);
+    a := not ((not (not (i=j) or not (i<>j))) or not d);
+
+    a := not ((i=j) or ((i<>j) or d));
+    a := not (not (i=j) or ((i<>j) or d));
+    a := not ((i=j) or (not (i<>j) or d));
+    a := not ((i=j) or ((i<>j) or not d));
+    a := not (not (i=j) or (not (i<>j) or d));
+    a := not ((i=j) or (not (i<>j) or not d));
+    a := not (not (i=j) or ((i<>j) or not d));
+    a := not (not (i=j) or (not (i<>j) or not d));
+
+    a := not ((i=j) or (not ((i<>j) or d)));
+    a := not (not (i=j) or (not ((i<>j) or d)));
+    a := not ((i=j) or (not (not (i<>j) or d)));
+    a := not ((i=j) or (not ((i<>j) or not d)));
+    a := not (not (i=j) or (not (not (i<>j) or d)));
+    a := not ((i=j) or (not (not (i<>j) or not d)));
+    a := not (not (i=j) or (not ((i<>j) or not d)));
+    a := not (not (i=j) or (not (not (i<>j) or not d)));
+
+(*****  All expressions with: and and  *****)
+
+    a := ((i=j) and (i<>j)) and d;
+    a := (not (i=j) and (i<>j)) and d;
+    a := ((i=j) and not (i<>j)) and d;
+    a := ((i=j) and (i<>j)) and not d;
+    a := (not (i=j) and not (i<>j)) and d;
+    a := ((i=j) and not (i<>j)) and not d;
+    a := (not (i=j) and (i<>j)) and not d;
+    a := (not (i=j) and not (i<>j)) and not d;
+
+    a := (not ((i=j) and (i<>j))) and d;
+    a := (not (not (i=j) and (i<>j))) and d;
+    a := (not ((i=j) and not (i<>j))) and d;
+    a := (not ((i=j) and (i<>j))) and not d;
+    a := (not (not (i=j) and not (i<>j))) and d;
+    a := (not ((i=j) and not (i<>j))) and not d;
+    a := (not (not (i=j) and (i<>j))) and not d;
+    a := (not (not (i=j) and not (i<>j))) and not d;
+
+    a := (i=j) and ((i<>j) and d);
+    a := not (i=j) and ((i<>j) and d);
+    a := (i=j) and (not (i<>j) and d);
+    a := (i=j) and ((i<>j) and not d);
+    a := not (i=j) and (not (i<>j) and d);
+    a := (i=j) and (not (i<>j) and not d);
+    a := not (i=j) and ((i<>j) and not d);
+    a := not (i=j) and (not (i<>j) and not d);
+
+    a := (i=j) and (not ((i<>j) and d));
+    a := not (i=j) and (not ((i<>j) and d));
+    a := (i=j) and (not (not (i<>j) and d));
+    a := (i=j) and (not ((i<>j) and not d));
+    a := not (i=j) and (not (not (i<>j) and d));
+    a := (i=j) and (not (not (i<>j) and not d));
+    a := not (i=j) and (not ((i<>j) and not d));
+    a := not (i=j) and (not (not (i<>j) and not d));
+
+    a := not (((i=j) and (i<>j)) and d);
+    a := not ((not (i=j) and (i<>j)) and d);
+    a := not (((i=j) and not (i<>j)) and d);
+    a := not (((i=j) and (i<>j)) and not d);
+    a := not ((not (i=j) and not (i<>j)) and d);
+    a := not (((i=j) and not (i<>j)) and not d);
+    a := not ((not (i=j) and (i<>j)) and not d);
+    a := not ((not (i=j) and not (i<>j)) and not d);
+
+    a := not ((not ((i=j) and (i<>j))) and d);
+    a := not ((not (not (i=j) and (i<>j))) and d);
+    a := not ((not ((i=j) and not (i<>j))) and d);
+    a := not ((not ((i=j) and (i<>j))) and not d);
+    a := not ((not (not (i=j) and not (i<>j))) and d);
+    a := not ((not ((i=j) and not (i<>j))) and not d);
+    a := not ((not (not (i=j) and (i<>j))) and not d);
+    a := not ((not (not (i=j) and not (i<>j))) and not d);
+
+    a := not ((i=j) and ((i<>j) and d));
+    a := not (not (i=j) and ((i<>j) and d));
+    a := not ((i=j) and (not (i<>j) and d));
+    a := not ((i=j) and ((i<>j) and not d));
+    a := not (not (i=j) and (not (i<>j) and d));
+    a := not ((i=j) and (not (i<>j) and not d));
+    a := not (not (i=j) and ((i<>j) and not d));
+    a := not (not (i=j) and (not (i<>j) and not d));
+
+    a := not ((i=j) and (not ((i<>j) and d)));
+    a := not (not (i=j) and (not ((i<>j) and d)));
+    a := not ((i=j) and (not (not (i<>j) and d)));
+    a := not ((i=j) and (not ((i<>j) and not d)));
+    a := not (not (i=j) and (not (not (i<>j) and d)));
+    a := not ((i=j) and (not (not (i<>j) and not d)));
+    a := not (not (i=j) and (not ((i<>j) and not d)));
+    a := not (not (i=j) and (not (not (i<>j) and not d)));
+
+(*****  All expressions with: and or  *****)
+
+    a := ((i=j) and (i<>j)) or d;
+    a := (not (i=j) and (i<>j)) or d;
+    a := ((i=j) and not (i<>j)) or d;
+    a := ((i=j) and (i<>j)) or not d;
+    a := (not (i=j) and not (i<>j)) or d;
+    a := ((i=j) and not (i<>j)) or not d;
+    a := (not (i=j) and (i<>j)) or not d;
+    a := (not (i=j) and not (i<>j)) or not d;
+
+    a := (not ((i=j) and (i<>j))) or d;
+    a := (not (not (i=j) and (i<>j))) or d;
+    a := (not ((i=j) and not (i<>j))) or d;
+    a := (not ((i=j) and (i<>j))) or not d;
+    a := (not (not (i=j) and not (i<>j))) or d;
+    a := (not ((i=j) and not (i<>j))) or not d;
+    a := (not (not (i=j) and (i<>j))) or not d;
+    a := (not (not (i=j) and not (i<>j))) or not d;
+
+    a := (i=j) and ((i<>j) or d);
+    a := not (i=j) and ((i<>j) or d);
+    a := (i=j) and (not (i<>j) or d);
+    a := (i=j) and ((i<>j) or not d);
+    a := not (i=j) and (not (i<>j) or d);
+    a := (i=j) and (not (i<>j) or not d);
+    a := not (i=j) and ((i<>j) or not d);
+    a := not (i=j) and (not (i<>j) or not d);
+
+    a := (i=j) and (not ((i<>j) or d));
+    a := not (i=j) and (not ((i<>j) or d));
+    a := (i=j) and (not (not (i<>j) or d));
+    a := (i=j) and (not ((i<>j) or not d));
+    a := not (i=j) and (not (not (i<>j) or d));
+    a := (i=j) and (not (not (i<>j) or not d));
+    a := not (i=j) and (not ((i<>j) or not d));
+    a := not (i=j) and (not (not (i<>j) or not d));
+
+    a := not (((i=j) and (i<>j)) or d);
+    a := not ((not (i=j) and (i<>j)) or d);
+    a := not (((i=j) and not (i<>j)) or d);
+    a := not (((i=j) and (i<>j)) or not d);
+    a := not ((not (i=j) and not (i<>j)) or d);
+    a := not (((i=j) and not (i<>j)) or not d);
+    a := not ((not (i=j) and (i<>j)) or not d);
+    a := not ((not (i=j) and not (i<>j)) or not d);
+
+    a := not ((not ((i=j) and (i<>j))) or d);
+    a := not ((not (not (i=j) and (i<>j))) or d);
+    a := not ((not ((i=j) and not (i<>j))) or d);
+    a := not ((not ((i=j) and (i<>j))) or not d);
+    a := not ((not (not (i=j) and not (i<>j))) or d);
+    a := not ((not ((i=j) and not (i<>j))) or not d);
+    a := not ((not (not (i=j) and (i<>j))) or not d);
+    a := not ((not (not (i=j) and not (i<>j))) or not d);
+
+    a := not ((i=j) and ((i<>j) or d));
+    a := not (not (i=j) and ((i<>j) or d));
+    a := not ((i=j) and (not (i<>j) or d));
+    a := not ((i=j) and ((i<>j) or not d));
+    a := not (not (i=j) and (not (i<>j) or d));
+    a := not ((i=j) and (not (i<>j) or not d));
+    a := not (not (i=j) and ((i<>j) or not d));
+    a := not (not (i=j) and (not (i<>j) or not d));
+
+    a := not ((i=j) and (not ((i<>j) or d)));
+    a := not (not (i=j) and (not ((i<>j) or d)));
+    a := not ((i=j) and (not (not (i<>j) or d)));
+    a := not ((i=j) and (not ((i<>j) or not d)));
+    a := not (not (i=j) and (not (not (i<>j) or d)));
+    a := not ((i=j) and (not (not (i<>j) or not d)));
+    a := not (not (i=j) and (not ((i<>j) or not d)));
+    a := not (not (i=j) and (not (not (i<>j) or not d)));
+
+(*****  All expressions with: or and  *****)
+
+    a := ((i=j) or (i<>j)) and d;
+    a := (not (i=j) or (i<>j)) and d;
+    a := ((i=j) or not (i<>j)) and d;
+    a := ((i=j) or (i<>j)) and not d;
+    a := (not (i=j) or not (i<>j)) and d;
+    a := ((i=j) or not (i<>j)) and not d;
+    a := (not (i=j) or (i<>j)) and not d;
+    a := (not (i=j) or not (i<>j)) and not d;
+
+    a := (not ((i=j) or (i<>j))) and d;
+    a := (not (not (i=j) or (i<>j))) and d;
+    a := (not ((i=j) or not (i<>j))) and d;
+    a := (not ((i=j) or (i<>j))) and not d;
+    a := (not (not (i=j) or not (i<>j))) and d;
+    a := (not ((i=j) or not (i<>j))) and not d;
+    a := (not (not (i=j) or (i<>j))) and not d;
+    a := (not (not (i=j) or not (i<>j))) and not d;
+
+    a := (i=j) or ((i<>j) and d);
+    a := not (i=j) or ((i<>j) and d);
+    a := (i=j) or (not (i<>j) and d);
+    a := (i=j) or ((i<>j) and not d);
+    a := not (i=j) or (not (i<>j) and d);
+    a := (i=j) or (not (i<>j) and not d);
+    a := not (i=j) or ((i<>j) and not d);
+    a := not (i=j) or (not (i<>j) and not d);
+
+    a := (i=j) or (not ((i<>j) and d));
+    a := not (i=j) or (not ((i<>j) and d));
+    a := (i=j) or (not (not (i<>j) and d));
+    a := (i=j) or (not ((i<>j) and not d));
+    a := not (i=j) or (not (not (i<>j) and d));
+    a := (i=j) or (not (not (i<>j) and not d));
+    a := not (i=j) or (not ((i<>j) and not d));
+    a := not (i=j) or (not (not (i<>j) and not d));
+
+    a := not (((i=j) or (i<>j)) and d);
+    a := not ((not (i=j) or (i<>j)) and d);
+    a := not (((i=j) or not (i<>j)) and d);
+    a := not (((i=j) or (i<>j)) and not d);
+    a := not ((not (i=j) or not (i<>j)) and d);
+    a := not (((i=j) or not (i<>j)) and not d);
+    a := not ((not (i=j) or (i<>j)) and not d);
+    a := not ((not (i=j) or not (i<>j)) and not d);
+
+    a := not ((not ((i=j) or (i<>j))) and d);
+    a := not ((not (not (i=j) or (i<>j))) and d);
+    a := not ((not ((i=j) or not (i<>j))) and d);
+    a := not ((not ((i=j) or (i<>j))) and not d);
+    a := not ((not (not (i=j) or not (i<>j))) and d);
+    a := not ((not ((i=j) or not (i<>j))) and not d);
+    a := not ((not (not (i=j) or (i<>j))) and not d);
+    a := not ((not (not (i=j) or not (i<>j))) and not d);
+
+    a := not ((i=j) or ((i<>j) and d));
+    a := not (not (i=j) or ((i<>j) and d));
+    a := not ((i=j) or (not (i<>j) and d));
+    a := not ((i=j) or ((i<>j) and not d));
+    a := not (not (i=j) or (not (i<>j) and d));
+    a := not ((i=j) or (not (i<>j) and not d));
+    a := not (not (i=j) or ((i<>j) and not d));
+    a := not (not (i=j) or (not (i<>j) and not d));
+
+    a := not ((i=j) or (not ((i<>j) and d)));
+    a := not (not (i=j) or (not ((i<>j) and d)));
+    a := not ((i=j) or (not (not (i<>j) and d)));
+    a := not ((i=j) or (not ((i<>j) and not d)));
+    a := not (not (i=j) or (not (not (i<>j) and d)));
+    a := not ((i=j) or (not (not (i<>j) and not d)));
+    a := not (not (i=j) or (not ((i<>j) and not d)));
+    a := not (not (i=j) or (not (not (i<>j) and not d)));
+
+(*****  Same thing, only in the context of a while  *****)
+
+
+(*****  All expressions with one variables  *****)
+
+    while ((i=j)) do x:=123; end;
+    while (not (i=j)) do x:=123; end;
+    while (not not (i=j)) do x:=123; end;
+    while (not not not (i=j)) do x:=123; end;
+
+(*****  All expressions with two variables  *****)
+
+    while ((i=j) or (i<>j)) do x:=123; end;
+    while (not (i=j) or (i<>j)) do x:=123; end;
+    while ((i<>j) or not (i=j)) do x:=123; end;
+    while (not (i=j) or not (i<>j)) do x:=123; end;
+
+    while (not ((i=j) or (i<>j))) do x:=123; end;
+    while (not (not (i=j) or (i<>j))) do x:=123; end;
+    while (not ((i<>j) or not (i=j))) do x:=123; end;
+    while (not (not (i=j) or not (i<>j))) do x:=123; end;
+
+    while ((i=j) and (i<>j)) do x:=123; end;
+    while (not (i=j) and (i<>j)) do x:=123; end;
+    while ((i=j) and not (i<>j)) do x:=123; end;
+    while (not (i=j) and not (i<>j)) do x:=123; end;
+
+    while (not ((i=j) and (i<>j))) do x:=123; end;
+    while (not (not (i=j) and (i<>j))) do x:=123; end;
+    while (not ((i=j) and not (i<>j))) do x:=123; end;
+    while (not (not (i=j) and not (i<>j))) do x:=123; end;
+
+(*****  All expressions with two variables (double negations)  *****)
+
+    while (not not (i=j) or (i<>j)) do x:=123; end;
+    while ((i<>j) or not not (i=j)) do x:=123; end;
+    while (not not (i=j) or not not (i<>j)) do x:=123; end;
+
+    while (not not ((i=j) or (i<>j))) do x:=123; end;
+    while (not not (not not (i=j) or (i<>j))) do x:=123; end;
+    while (not not ((i<>j) or not not (i=j))) do x:=123; end;
+    while (not not (not not (i=j) or not not (i<>j))) do x:=123; end;
+
+    while ((i=j) and (i<>j)) do x:=123; end;
+    while (not not (i=j) and (i<>j)) do x:=123; end;
+    while ((i=j) and not not (i<>j)) do x:=123; end;
+    while (not not (i=j) and not not (i<>j)) do x:=123; end;
+
+    while (not not ((i=j) and (i<>j))) do x:=123; end;
+    while (not not (not not (i=j) and (i<>j))) do x:=123; end;
+    while (not not ((i=j) and not not (i<>j))) do x:=123; end;
+    while (not not (not not (i=j) and not not (i<>j))) do x:=123; end;
+
+(*****  All expressions with: or or  *****)
+
+    while (((i=j) or (i<>j)) or d) do x:=123; end;
+    while ((not (i=j) or (i<>j)) or d) do x:=123; end;
+    while (((i=j) or not (i<>j)) or d) do x:=123; end;
+    while (((i=j) or (i<>j)) or not d) do x:=123; end;
+    while ((not (i=j) or not (i<>j)) or d) do x:=123; end;
+    while (((i=j) or not (i<>j)) or not d) do x:=123; end;
+    while ((not (i=j) or (i<>j)) or not d) do x:=123; end;
+    while ((not (i=j) or not (i<>j)) or not d) do x:=123; end;
+
+    while ((not ((i=j) or (i<>j))) or d) do x:=123; end;
+    while ((not (not (i=j) or (i<>j))) or d) do x:=123; end;
+    while ((not ((i=j) or not (i<>j))) or d) do x:=123; end;
+    while ((not ((i=j) or (i<>j))) or not d) do x:=123; end;
+    while ((not (not (i=j) or not (i<>j))) or d) do x:=123; end;
+    while ((not ((i=j) or not (i<>j))) or not d) do x:=123; end;
+    while ((not (not (i=j) or (i<>j))) or not d) do x:=123; end;
+    while ((not (not (i=j) or not (i<>j))) or not d) do x:=123; end;
+
+    while ((i=j) or ((i<>j) or d)) do x:=123; end;
+    while (not (i=j) or ((i<>j) or d)) do x:=123; end;
+    while ((i=j) or (not (i<>j) or d)) do x:=123; end;
+    while ((i=j) or ((i<>j) or not d)) do x:=123; end;
+    while (not (i=j) or (not (i<>j) or d)) do x:=123; end;
+    while ((i=j) or (not (i<>j) or not d)) do x:=123; end;
+    while (not (i=j) or ((i<>j) or not d)) do x:=123; end;
+    while (not (i=j) or (not (i<>j) or not d)) do x:=123; end;
+
+    while ((i=j) or (not ((i<>j) or d))) do x:=123; end;
+    while (not (i=j) or (not ((i<>j) or d))) do x:=123; end;
+    while ((i=j) or (not (not (i<>j) or d))) do x:=123; end;
+    while ((i=j) or (not ((i<>j) or not d))) do x:=123; end;
+    while (not (i=j) or (not (not (i<>j) or d))) do x:=123; end;
+    while ((i=j) or (not (not (i<>j) or not d))) do x:=123; end;
+    while (not (i=j) or (not ((i<>j) or not d))) do x:=123; end;
+    while (not (i=j) or (not (not (i<>j) or not d))) do x:=123; end;
+
+    while (not (((i=j) or (i<>j)) or d)) do x:=123; end;
+    while (not ((not (i=j) or (i<>j)) or d)) do x:=123; end;
+    while (not (((i=j) or not (i<>j)) or d)) do x:=123; end;
+    while (not (((i=j) or (i<>j)) or not d)) do x:=123; end;
+    while (not ((not (i=j) or not (i<>j)) or d)) do x:=123; end;
+    while (not (((i=j) or not (i<>j)) or not d)) do x:=123; end;
+    while (not ((not (i=j) or (i<>j)) or not d)) do x:=123; end;
+    while (not ((not (i=j) or not (i<>j)) or not d)) do x:=123; end;
+
+    while (not ((not ((i=j) or (i<>j))) or d)) do x:=123; end;
+    while (not ((not (not (i=j) or (i<>j))) or d)) do x:=123; end;
+    while (not ((not ((i=j) or not (i<>j))) or d)) do x:=123; end;
+    while (not ((not ((i=j) or (i<>j))) or not d)) do x:=123; end;
+    while (not ((not (not (i=j) or not (i<>j))) or d)) do x:=123; end;
+    while (not ((not ((i=j) or not (i<>j))) or not d)) do x:=123; end;
+    while (not ((not (not (i=j) or (i<>j))) or not d)) do x:=123; end;
+    while (not ((not (not (i=j) or not (i<>j))) or not d)) do x:=123; end;
+
+    while (not ((i=j) or ((i<>j) or d))) do x:=123; end;
+    while (not (not (i=j) or ((i<>j) or d))) do x:=123; end;
+    while (not ((i=j) or (not (i<>j) or d))) do x:=123; end;
+    while (not ((i=j) or ((i<>j) or not d))) do x:=123; end;
+    while (not (not (i=j) or (not (i<>j) or d))) do x:=123; end;
+    while (not ((i=j) or (not (i<>j) or not d))) do x:=123; end;
+    while (not (not (i=j) or ((i<>j) or not d))) do x:=123; end;
+    while (not (not (i=j) or (not (i<>j) or not d))) do x:=123; end;
+
+    while (not ((i=j) or (not ((i<>j) or d)))) do x:=123; end;
+    while (not (not (i=j) or (not ((i<>j) or d)))) do x:=123; end;
+    while (not ((i=j) or (not (not (i<>j) or d)))) do x:=123; end;
+    while (not ((i=j) or (not ((i<>j) or not d)))) do x:=123; end;
+    while (not (not (i=j) or (not (not (i<>j) or d)))) do x:=123; end;
+    while (not ((i=j) or (not (not (i<>j) or not d)))) do x:=123; end;
+    while (not (not (i=j) or (not ((i<>j) or not d)))) do x:=123; end;
+    while (not (not (i=j) or (not (not (i<>j) or not d)))) do x:=123; end;
+
+(*****  All expressions with: and and  *****)
+
+    while (((i=j) and (i<>j)) and d) do x:=123; end;
+    while ((not (i=j) and (i<>j)) and d) do x:=123; end;
+    while (((i=j) and not (i<>j)) and d) do x:=123; end;
+    while (((i=j) and (i<>j)) and not d) do x:=123; end;
+    while ((not (i=j) and not (i<>j)) and d) do x:=123; end;
+    while (((i=j) and not (i<>j)) and not d) do x:=123; end;
+    while ((not (i=j) and (i<>j)) and not d) do x:=123; end;
+    while ((not (i=j) and not (i<>j)) and not d) do x:=123; end;
+
+    while ((not ((i=j) and (i<>j))) and d) do x:=123; end;
+    while ((not (not (i=j) and (i<>j))) and d) do x:=123; end;
+    while ((not ((i=j) and not (i<>j))) and d) do x:=123; end;
+    while ((not ((i=j) and (i<>j))) and not d) do x:=123; end;
+    while ((not (not (i=j) and not (i<>j))) and d) do x:=123; end;
+    while ((not ((i=j) and not (i<>j))) and not d) do x:=123; end;
+    while ((not (not (i=j) and (i<>j))) and not d) do x:=123; end;
+    while ((not (not (i=j) and not (i<>j))) and not d) do x:=123; end;
+
+    while ((i=j) and ((i<>j) and d)) do x:=123; end;
+    while (not (i=j) and ((i<>j) and d)) do x:=123; end;
+    while ((i=j) and (not (i<>j) and d)) do x:=123; end;
+    while ((i=j) and ((i<>j) and not d)) do x:=123; end;
+    while (not (i=j) and (not (i<>j) and d)) do x:=123; end;
+    while ((i=j) and (not (i<>j) and not d)) do x:=123; end;
+    while (not (i=j) and ((i<>j) and not d)) do x:=123; end;
+    while (not (i=j) and (not (i<>j) and not d)) do x:=123; end;
+
+    while ((i=j) and (not ((i<>j) and d))) do x:=123; end;
+    while (not (i=j) and (not ((i<>j) and d))) do x:=123; end;
+    while ((i=j) and (not (not (i<>j) and d))) do x:=123; end;
+    while ((i=j) and (not ((i<>j) and not d))) do x:=123; end;
+    while (not (i=j) and (not (not (i<>j) and d))) do x:=123; end;
+    while ((i=j) and (not (not (i<>j) and not d))) do x:=123; end;
+    while (not (i=j) and (not ((i<>j) and not d))) do x:=123; end;
+    while (not (i=j) and (not (not (i<>j) and not d))) do x:=123; end;
+
+    while (not (((i=j) and (i<>j)) and d)) do x:=123; end;
+    while (not ((not (i=j) and (i<>j)) and d)) do x:=123; end;
+    while (not (((i=j) and not (i<>j)) and d)) do x:=123; end;
+    while (not (((i=j) and (i<>j)) and not d)) do x:=123; end;
+    while (not ((not (i=j) and not (i<>j)) and d)) do x:=123; end;
+    while (not (((i=j) and not (i<>j)) and not d)) do x:=123; end;
+    while (not ((not (i=j) and (i<>j)) and not d)) do x:=123; end;
+    while (not ((not (i=j) and not (i<>j)) and not d)) do x:=123; end;
+
+    while (not ((not ((i=j) and (i<>j))) and d)) do x:=123; end;
+    while (not ((not (not (i=j) and (i<>j))) and d)) do x:=123; end;
+    while (not ((not ((i=j) and not (i<>j))) and d)) do x:=123; end;
+    while (not ((not ((i=j) and (i<>j))) and not d)) do x:=123; end;
+    while (not ((not (not (i=j) and not (i<>j))) and d)) do x:=123; end;
+    while (not ((not ((i=j) and not (i<>j))) and not d)) do x:=123; end;
+    while (not ((not (not (i=j) and (i<>j))) and not d)) do x:=123; end;
+    while (not ((not (not (i=j) and not (i<>j))) and not d)) do x:=123; end;
+
+    while (not ((i=j) and ((i<>j) and d))) do x:=123; end;
+    while (not (not (i=j) and ((i<>j) and d))) do x:=123; end;
+    while (not ((i=j) and (not (i<>j) and d))) do x:=123; end;
+    while (not ((i=j) and ((i<>j) and not d))) do x:=123; end;
+    while (not (not (i=j) and (not (i<>j) and d))) do x:=123; end;
+    while (not ((i=j) and (not (i<>j) and not d))) do x:=123; end;
+    while (not (not (i=j) and ((i<>j) and not d))) do x:=123; end;
+    while (not (not (i=j) and (not (i<>j) and not d))) do x:=123; end;
+
+    while (not ((i=j) and (not ((i<>j) and d)))) do x:=123; end;
+    while (not (not (i=j) and (not ((i<>j) and d)))) do x:=123; end;
+    while (not ((i=j) and (not (not (i<>j) and d)))) do x:=123; end;
+    while (not ((i=j) and (not ((i<>j) and not d)))) do x:=123; end;
+    while (not (not (i=j) and (not (not (i<>j) and d)))) do x:=123; end;
+    while (not ((i=j) and (not (not (i<>j) and not d)))) do x:=123; end;
+    while (not (not (i=j) and (not ((i<>j) and not d)))) do x:=123; end;
+    while (not (not (i=j) and (not (not (i<>j) and not d)))) do x:=123; end;
+
+(*****  All expressions with: and or  *****)
+
+    while (((i=j) and (i<>j)) or d) do x:=123; end;
+    while ((not (i=j) and (i<>j)) or d) do x:=123; end;
+    while (((i=j) and not (i<>j)) or d) do x:=123; end;
+    while (((i=j) and (i<>j)) or not d) do x:=123; end;
+    while ((not (i=j) and not (i<>j)) or d) do x:=123; end;
+    while (((i=j) and not (i<>j)) or not d) do x:=123; end;
+    while ((not (i=j) and (i<>j)) or not d) do x:=123; end;
+    while ((not (i=j) and not (i<>j)) or not d) do x:=123; end;
+
+    while ((not ((i=j) and (i<>j))) or d) do x:=123; end;
+    while ((not (not (i=j) and (i<>j))) or d) do x:=123; end;
+    while ((not ((i=j) and not (i<>j))) or d) do x:=123; end;
+    while ((not ((i=j) and (i<>j))) or not d) do x:=123; end;
+    while ((not (not (i=j) and not (i<>j))) or d) do x:=123; end;
+    while ((not ((i=j) and not (i<>j))) or not d) do x:=123; end;
+    while ((not (not (i=j) and (i<>j))) or not d) do x:=123; end;
+    while ((not (not (i=j) and not (i<>j))) or not d) do x:=123; end;
+
+    while ((i=j) and ((i<>j) or d)) do x:=123; end;
+    while (not (i=j) and ((i<>j) or d)) do x:=123; end;
+    while ((i=j) and (not (i<>j) or d)) do x:=123; end;
+    while ((i=j) and ((i<>j) or not d)) do x:=123; end;
+    while (not (i=j) and (not (i<>j) or d)) do x:=123; end;
+    while ((i=j) and (not (i<>j) or not d)) do x:=123; end;
+    while (not (i=j) and ((i<>j) or not d)) do x:=123; end;
+    while (not (i=j) and (not (i<>j) or not d)) do x:=123; end;
+
+    while ((i=j) and (not ((i<>j) or d))) do x:=123; end;
+    while (not (i=j) and (not ((i<>j) or d))) do x:=123; end;
+    while ((i=j) and (not (not (i<>j) or d))) do x:=123; end;
+    while ((i=j) and (not ((i<>j) or not d))) do x:=123; end;
+    while (not (i=j) and (not (not (i<>j) or d))) do x:=123; end;
+    while ((i=j) and (not (not (i<>j) or not d))) do x:=123; end;
+    while (not (i=j) and (not ((i<>j) or not d))) do x:=123; end;
+    while (not (i=j) and (not (not (i<>j) or not d))) do x:=123; end;
+
+    while (not (((i=j) and (i<>j)) or d)) do x:=123; end;
+    while (not ((not (i=j) and (i<>j)) or d)) do x:=123; end;
+    while (not (((i=j) and not (i<>j)) or d)) do x:=123; end;
+    while (not (((i=j) and (i<>j)) or not d)) do x:=123; end;
+    while (not ((not (i=j) and not (i<>j)) or d)) do x:=123; end;
+    while (not (((i=j) and not (i<>j)) or not d)) do x:=123; end;
+    while (not ((not (i=j) and (i<>j)) or not d)) do x:=123; end;
+    while (not ((not (i=j) and not (i<>j)) or not d)) do x:=123; end;
+
+    while (not ((not ((i=j) and (i<>j))) or d)) do x:=123; end;
+    while (not ((not (not (i=j) and (i<>j))) or d)) do x:=123; end;
+    while (not ((not ((i=j) and not (i<>j))) or d)) do x:=123; end;
+    while (not ((not ((i=j) and (i<>j))) or not d)) do x:=123; end;
+    while (not ((not (not (i=j) and not (i<>j))) or d)) do x:=123; end;
+    while (not ((not ((i=j) and not (i<>j))) or not d)) do x:=123; end;
+    while (not ((not (not (i=j) and (i<>j))) or not d)) do x:=123; end;
+    while (not ((not (not (i=j) and not (i<>j))) or not d)) do x:=123; end;
+
+    while (not ((i=j) and ((i<>j) or d))) do x:=123; end;
+    while (not (not (i=j) and ((i<>j) or d))) do x:=123; end;
+    while (not ((i=j) and (not (i<>j) or d))) do x:=123; end;
+    while (not ((i=j) and ((i<>j) or not d))) do x:=123; end;
+    while (not (not (i=j) and (not (i<>j) or d))) do x:=123; end;
+    while (not ((i=j) and (not (i<>j) or not d))) do x:=123; end;
+    while (not (not (i=j) and ((i<>j) or not d))) do x:=123; end;
+    while (not (not (i=j) and (not (i<>j) or not d))) do x:=123; end;
+
+    while (not ((i=j) and (not ((i<>j) or d)))) do x:=123; end;
+    while (not (not (i=j) and (not ((i<>j) or d)))) do x:=123; end;
+    while (not ((i=j) and (not (not (i<>j) or d)))) do x:=123; end;
+    while (not ((i=j) and (not ((i<>j) or not d)))) do x:=123; end;
+    while (not (not (i=j) and (not (not (i<>j) or d)))) do x:=123; end;
+    while (not ((i=j) and (not (not (i<>j) or not d)))) do x:=123; end;
+    while (not (not (i=j) and (not ((i<>j) or not d)))) do x:=123; end;
+    while (not (not (i=j) and (not (not (i<>j) or not d)))) do x:=123; end;
+
+(*****  All expressions with: or and  *****)
+
+    while (((i=j) or (i<>j)) and d) do x:=123; end;
+    while ((not (i=j) or (i<>j)) and d) do x:=123; end;
+    while (((i=j) or not (i<>j)) and d) do x:=123; end;
+    while (((i=j) or (i<>j)) and not d) do x:=123; end;
+    while ((not (i=j) or not (i<>j)) and d) do x:=123; end;
+    while (((i=j) or not (i<>j)) and not d) do x:=123; end;
+    while ((not (i=j) or (i<>j)) and not d) do x:=123; end;
+    while ((not (i=j) or not (i<>j)) and not d) do x:=123; end;
+
+    while ((not ((i=j) or (i<>j))) and d) do x:=123; end;
+    while ((not (not (i=j) or (i<>j))) and d) do x:=123; end;
+    while ((not ((i=j) or not (i<>j))) and d) do x:=123; end;
+    while ((not ((i=j) or (i<>j))) and not d) do x:=123; end;
+    while ((not (not (i=j) or not (i<>j))) and d) do x:=123; end;
+    while ((not ((i=j) or not (i<>j))) and not d) do x:=123; end;
+    while ((not (not (i=j) or (i<>j))) and not d) do x:=123; end;
+    while ((not (not (i=j) or not (i<>j))) and not d) do x:=123; end;
+
+    while ((i=j) or ((i<>j) and d)) do x:=123; end;
+    while (not (i=j) or ((i<>j) and d)) do x:=123; end;
+    while ((i=j) or (not (i<>j) and d)) do x:=123; end;
+    while ((i=j) or ((i<>j) and not d)) do x:=123; end;
+    while (not (i=j) or (not (i<>j) and d)) do x:=123; end;
+    while ((i=j) or (not (i<>j) and not d)) do x:=123; end;
+    while (not (i=j) or ((i<>j) and not d)) do x:=123; end;
+    while (not (i=j) or (not (i<>j) and not d)) do x:=123; end;
+
+    while ((i=j) or (not ((i<>j) and d))) do x:=123; end;
+    while (not (i=j) or (not ((i<>j) and d))) do x:=123; end;
+    while ((i=j) or (not (not (i<>j) and d))) do x:=123; end;
+    while ((i=j) or (not ((i<>j) and not d))) do x:=123; end;
+    while (not (i=j) or (not (not (i<>j) and d))) do x:=123; end;
+    while ((i=j) or (not (not (i<>j) and not d))) do x:=123; end;
+    while (not (i=j) or (not ((i<>j) and not d))) do x:=123; end;
+    while (not (i=j) or (not (not (i<>j) and not d))) do x:=123; end;
+
+    while (not (((i=j) or (i<>j)) and d)) do x:=123; end;
+    while (not ((not (i=j) or (i<>j)) and d)) do x:=123; end;
+    while (not (((i=j) or not (i<>j)) and d)) do x:=123; end;
+    while (not (((i=j) or (i<>j)) and not d)) do x:=123; end;
+    while (not ((not (i=j) or not (i<>j)) and d)) do x:=123; end;
+    while (not (((i=j) or not (i<>j)) and not d)) do x:=123; end;
+    while (not ((not (i=j) or (i<>j)) and not d)) do x:=123; end;
+    while (not ((not (i=j) or not (i<>j)) and not d)) do x:=123; end;
+
+    while (not ((not ((i=j) or (i<>j))) and d)) do x:=123; end;
+    while (not ((not (not (i=j) or (i<>j))) and d)) do x:=123; end;
+    while (not ((not ((i=j) or not (i<>j))) and d)) do x:=123; end;
+    while (not ((not ((i=j) or (i<>j))) and not d)) do x:=123; end;
+    while (not ((not (not (i=j) or not (i<>j))) and d)) do x:=123; end;
+    while (not ((not ((i=j) or not (i<>j))) and not d)) do x:=123; end;
+    while (not ((not (not (i=j) or (i<>j))) and not d)) do x:=123; end;
+    while (not ((not (not (i=j) or not (i<>j))) and not d)) do x:=123; end;
+
+    while (not ((i=j) or ((i<>j) and d))) do x:=123; end;
+    while (not (not (i=j) or ((i<>j) and d))) do x:=123; end;
+    while (not ((i=j) or (not (i<>j) and d))) do x:=123; end;
+    while (not ((i=j) or ((i<>j) and not d))) do x:=123; end;
+    while (not (not (i=j) or (not (i<>j) and d))) do x:=123; end;
+    while (not ((i=j) or (not (i<>j) and not d))) do x:=123; end;
+    while (not (not (i=j) or ((i<>j) and not d))) do x:=123; end;
+    while (not (not (i=j) or (not (i<>j) and not d))) do x:=123; end;
+
+    while (not ((i=j) or (not ((i<>j) and d)))) do x:=123; end;
+    while (not (not (i=j) or (not ((i<>j) and d)))) do x:=123; end;
+    while (not ((i=j) or (not (not (i<>j) and d)))) do x:=123; end;
+    while (not ((i=j) or (not ((i<>j) and not d)))) do x:=123; end;
+    while (not (not (i=j) or (not (not (i<>j) and d)))) do x:=123; end;
+    while (not ((i=j) or (not (not (i<>j) and not d)))) do x:=123; end;
+    while (not (not (i=j) or (not ((i<>j) and not d)))) do x:=123; end;
+    while (not (not (i=j) or (not (not (i<>j) and not d)))) do x:=123; end;
+
+end;

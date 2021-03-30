@@ -1,0 +1,60 @@
+(***  This program tests a varied collection of error conditions and
+      should produce a number of different messages.  ***)
+
+program is
+  var  x, y := 111;
+  type t1 is array of ttt1;
+       myRec is record
+               f3: integer;
+               f2: real;
+               f1: boolean;
+             end;
+       myRec2 is record
+               f3: integer;
+               f2: real;
+               f3: boolean;
+               f4: t1;
+               f3: tttasd;
+             end;
+  var  x, z := 222;
+  procedure f1 (a,b: integer; c,b: real) : boolean is
+    var y := 333;
+    procedure f1 () is begin end;
+    procedure f2 (a,i: integer; c,j: real) : boolean is
+      type t2 is array of ttt222;
+      type t5 is array of ttt5;
+      type t5 is array of ttt555;
+      type t3 is array of ttt333;
+      var q,r,s := 555;
+      var q,r,s := 9999;
+      type t6 is array of ttt6;
+      begin
+      end;
+    type t6 is array of ttt666;
+    var w := 444;
+    begin
+    end;
+  procedure f3 (a3,b3: integer; x,y3: real; aaa, bbb: ttuuvv) : boolean is
+    var x,y := 555;
+    procedure f4 (a4,i4: integer; x4,y: real) : ttuuvv is
+      type t5 is array of ttt5;
+      var q,r,s := 888;
+      type t1 is array of ttt111;
+      begin
+      end;
+    type t6 is array of ttt6;
+    var w := 444;
+    begin
+    end;
+  type t3 is array of ttt3;
+       t2 is array of ttt4;
+  procedure f1 () is begin end;
+  
+begin
+  x := asd;
+  x := myArr {{ 1,2,3 }};
+  x := myRec {f1:=111; f2:=222; f3:=333; f2:=23232; ffasd:=343434; f4:=444};
+  x := myRecxxxx {f1:=123; f2:=456};
+  foobar (1,2,3);
+  x := foobar2 (3,2,1);
+end;

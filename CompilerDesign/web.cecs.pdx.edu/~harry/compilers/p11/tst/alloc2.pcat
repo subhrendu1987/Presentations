@@ -1,0 +1,48 @@
+(* This program tests IRallocate, IRloadIndirect, and IRstore. *)
+
+program is
+
+  type R is record
+              f1: integer;
+              f2: real;
+              f3: boolean;
+              f4: integer;
+              f5: real;
+              f6: R2;
+            end;
+  type R2 is record
+              f1: integer;
+              f2: real;
+              f3: boolean;
+              f4: integer;
+              f5: real;
+            end;
+  var p: R := nil;
+
+begin
+
+  p := R {f1 := 123;
+          f2 := 123.456;
+          f3 := true;
+          f4 := 321;
+          f5 := 654.321;
+          f6 := R2 {f1 := 111;
+                    f2 := 222.333;
+                    f3 := false;
+                    f4 := 444;
+                    f5 := 555.666
+                   }
+         };
+  write ("Should print 123...", p.f1);
+  write ("Should print 123.456...", p.f2);
+  write ("Should print TRUE...", p.f3);
+  write ("Should print 321...", p.f4);
+  write ("Should print 654.321...", p.f5);
+  write ("Should print 111...", p.f6.f1);
+  write ("Should print 222.333...", p.f6.f2);
+  write ("Should print FALSE...", p.f6.f3);
+  write ("Should print 444...", p.f6.f4);
+  write ("Should print 555.666...", p.f6.f5);
+
+end;
+

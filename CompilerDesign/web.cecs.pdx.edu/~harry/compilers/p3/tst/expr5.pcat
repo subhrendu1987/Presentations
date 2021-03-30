@@ -1,0 +1,9 @@
+program is
+  var x : boolean := true; y:= false;
+  begin
+    write (x," ",  not x, " ", x and x, " ", x or x);
+    write (y," ",  not y, " ", y and y, " ", y or y);
+    write (x and y, " ", x or y, " ", y and x, " ", y or x);
+    write (x and not (x or x and x));
+  end;
+

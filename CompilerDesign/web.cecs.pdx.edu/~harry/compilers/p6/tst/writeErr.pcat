@@ -1,0 +1,27 @@
+(* Test WRITE statements.
+**
+** This program contains 5 errors.
+*)
+
+program is
+  type t is record
+              f: t;
+            end;
+
+  var i: integer := 0;
+      b: boolean := false;
+      r: t := nil;
+      a: MyArr1 := nil;
+
+  type MyArr1 is array of MyArr2;
+       MyArr2 is array of integer;
+
+begin
+
+  write (nil); 
+  write (r);
+  write (r.f);
+  write (a [2]);
+  write (a [1] [2+false]);
+
+end;

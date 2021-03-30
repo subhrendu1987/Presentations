@@ -1,0 +1,16 @@
+(* This program tests returning results. *)
+
+program is
+  procedure foo1 (): integer is
+      begin
+        return 123;
+      end;
+  procedure foo2 (): real is
+      begin
+        return 43.21;
+      end;
+
+  begin
+    write ("Should print 123...", foo1());
+    write ("Should print 43.21...", foo2());
+  end;

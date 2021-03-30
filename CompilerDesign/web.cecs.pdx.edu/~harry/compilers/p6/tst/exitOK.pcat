@@ -1,0 +1,53 @@
+(*  This program tests the linking of returns and exits to
+**  their PROC_DECLs and loop statements.
+**
+** It contains no errors.
+*)
+
+program is
+  var i := 0;
+
+  procedure foo1 () is
+      procedure foo2 () is
+        begin
+          loop
+            while true do
+              for i := 1 to 10 do
+                if true then
+                  if i=1 then return; end;
+                  exit;
+                else
+                  if i=1 then return; end;
+                  if i=1 then exit; end;
+                end;
+                if i=2 then exit; end;
+              end;
+              if i=2 then exit; end;
+            end;
+            if i=2 then exit; end;
+          end;
+          return;
+        end;   (*foo2*)
+    begin
+      return;
+    end;  (*foo1*)
+
+begin
+  loop
+    while true do
+      if i=1 then exit; end;
+      for i := 1 to 10 do
+        if i=1 then exit; end;
+        if i=1 then exit; end;
+      end;
+      if true then
+        i := 1;
+        exit;
+      else
+        if i=1 then exit; end;
+      end;
+      if i=1 then exit; end;
+    end;
+    if i=1 then exit; end;
+  end;
+end;

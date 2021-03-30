@@ -1,0 +1,19 @@
+(* Test basic type checking involving...
+**    integer, real, boolean
+**    assignments
+**
+** It contains no errors.
+*)
+
+program is
+
+var f: real := 0.0;
+    i: integer := 0;
+    b: boolean := false;
+
+begin
+  i := 123;
+  f := 1.234;
+  b := true;
+  b := false;
+end;

@@ -1,0 +1,6 @@
+(***   should print: expecting do in while statement following expr   ***)
+program is
+begin
+  while x begin
+  end;
+end;

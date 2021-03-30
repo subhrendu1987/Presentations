@@ -1,0 +1,29 @@
+program is
+
+(***   Test proc_decls   ***)
+
+procedure foo1 () is begin end;
+
+procedure
+  foo2 (x,y,z:integer; a,b,c: real) : boolean is
+    var x1 := 1;
+    type t1 is array of integer;
+
+    procedure nestedFoo1 () is begin end;
+
+    var x2 := 1;
+    type t2 is array of integer;
+
+    procedure nestedFoo2 () is begin end;
+
+    begin
+      x := 123;
+      loop y := 456; end;
+      return 2;
+    end;
+
+  foo3 () is begin return; end;
+
+procedure foo4 (x:integer) is begin end;
+
+begin end;

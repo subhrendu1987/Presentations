@@ -1,0 +1,117 @@
+(* This program tests access to locals, formals, and non-locals. *)
+
+program is
+
+  var x1: integer := 100;
+      x2: integer := 200;
+      x3: integer := 300;
+      a: integer := 1000;
+      b: integer := 1100;
+      d: integer := 1200;
+
+  procedure foo1 (b,c: integer) is
+    var x2: integer := 400;
+        y1: integer := 500;
+        y2: integer := 600;
+
+    procedure foo2 (c,d: integer) is
+      var x3: integer := 700;
+          y2: integer := 800;
+          z1: integer := 900;
+
+      begin (*foo2*)
+        x1 := x1 + 1;
+        x2 := x2 + 1;
+        x3 := x3 + 1;
+        y1 := y1 + 1;
+        y2 := y2 + 1;
+        z1 := z1 + 1;
+        a  := a + 1;
+        b  := b + 1;
+        c  := c + 1;
+        d  := d + 1;
+
+        write ("=== foo2 ===");
+
+        write ("x1 = ", x1);
+        if (x1 <> 103) then write ("*****  Error: should be 103  *****"); end;
+        write ("x2 = ", x2);
+        if (x2 <> 402) then write ("*****  Error: should be 402  *****"); end;
+        write ("x3 = ", x3);
+        if (x3 <> 701) then write ("*****  Error: should be 701  *****"); end;
+        write ("y1 = ", y1);
+        if (y1 <> 502) then write ("*****  Error: should be 502  *****"); end;
+        write ("y2 = ", y2);
+        if (y2 <> 801) then write ("*****  Error: should be 801  *****"); end;
+        write ("z1 = ", z1);
+        if (z1 <> 901) then write ("*****  Error: should be 901  *****"); end;
+        write ("a  = ", a);
+        if (a  <> 1003) then write ("*****  Error: should be 1003  *****"); end;
+        write ("b  = ", b);
+        if (b  <> 1302) then write ("*****  Error: should be 1302  *****"); end;
+        write ("c  = ", c);
+        if (c  <> 1501) then write ("*****  Error: should be 1501  *****"); end;
+        write ("d  = ", d);
+        if (d  <> 1601) then write ("*****  Error: should be 1601  *****"); end;
+        return;
+      end;
+
+    begin (*foo1*)
+      x1 := x1 + 1;
+      x2 := x2 + 1;
+      x3 := x3 + 1;
+      y1 := y1 + 1;
+      y2 := y2 + 1;
+      a  := a + 1;
+      b  := b + 1;
+      c  := c + 1;
+      d  := d + 1;
+
+      foo2 (1500,1600);
+
+      write ("=== foo1 ===");
+      write ("x1 = ", x1);
+      if (x1 <> 103) then write ("*****  Error: should be 103  *****"); end;
+      write ("x2 = ", x2);
+      if (x2 <> 402) then write ("*****  Error: should be 402  *****"); end;
+      write ("x3 = ", x3);
+      if (x3 <> 302) then write ("*****  Error: should be 302  *****"); end;
+      write ("y1 = ", y1);
+      if (y1 <> 502) then write ("*****  Error: should be 502  *****"); end;
+      write ("y2 = ", y2);
+      if (y2 <> 601) then write ("*****  Error: should be 601  *****"); end;
+      write ("a  = ", a);
+      if (a  <> 1003) then write ("*****  Error: should be 1003  *****"); end;
+      write ("b  = ", b);
+      if (b  <> 1302) then write ("*****  Error: should be 1302  *****"); end;
+      write ("c  = ", c);
+      if (c  <> 1401) then write ("*****  Error: should be 1401  *****"); end;
+      write ("d  = ", d);
+      if (d  <> 1202) then write ("*****  Error: should be 1202  *****"); end;
+      return;
+    end;
+
+  begin  (*main*)
+    x1 := x1 + 1;
+    x2 := x2 + 1;
+    x3 := x3 + 1;
+    a := a + 1;
+    b := b + 1;
+    d := d + 1;
+
+    foo1 (1300,1400);
+
+    write ("=== main ===");
+    write ("x1 = ", x1);
+    if (x1 <> 103) then write ("*****  Error: should be 103  *****"); end;
+    write ("x2 = ", x2);
+    if (x2 <> 201) then write ("*****  Error: should be 201  *****"); end;
+    write ("x3 = ", x3);
+    if (x3 <> 302) then write ("*****  Error: should be 302  *****"); end;
+    write ("a  = ", a);
+    if (a  <> 1003) then write ("*****  Error: should be 1003  *****"); end;
+    write ("b  = ", b);
+    if (b  <> 1101) then write ("*****  Error: should be 1101  *****"); end;
+    write ("d  = ", d);
+    if (d  <> 1202) then write ("*****  Error: should be 1202  *****"); end;
+  end;

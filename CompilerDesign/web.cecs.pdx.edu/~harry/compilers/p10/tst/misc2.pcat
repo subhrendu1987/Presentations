@@ -1,0 +1,412 @@
+(*****
+
+This file contains a number of various tests.
+
+(1)  More thorough testing of frameSize computations.
+
+(2)  More thorough testing of record dereferencing.
+
+(3)  Use of arrays of booleans.
+
+(4)  Additional testing of "true" and "false" constants.
+
+(5)  Additional testing of formals and non-locals.
+
+*****)
+
+program is
+
+    var r1: R1 := nil;
+        r2: R2 := nil;
+        r3: R3 := nil;
+        r4: R4 := nil;
+        r5: R5 := nil;
+        r6: R6 := nil;
+        r7: R7 := nil;
+        i: integer := 0;
+        b: boolean := false;
+        arr1: A1 := nil;
+        arr2: A2 := nil;
+        arr3: A3 := nil;
+    type R1 is record
+                 f1: R1;
+                 f2: R2;
+                 f3: R5;
+                 f4: R4;
+                end;
+         R2 is record
+                 f1: R5;
+                 f2: integer;
+                 f3: R2;
+                 f4: integer;
+               end;
+         R3 is record
+                 h1: integer;
+                 h2: integer;
+               end;
+         R4 is record
+                 e1: integer;
+                 e2: R3;
+                 e3: integer;
+                 e4: R4;
+               end;
+         R5 is record
+                 g1: R3;
+                 g2: integer;
+                 g3: integer;
+                 g4: R3;
+               end;
+         R6 is record
+                 f1: R7;
+                 f2: boolean;
+               end;
+         R7 is record
+                 g1: boolean;
+                 g2: R6;
+               end;
+         A1 is array of boolean;
+         A2 is array of A1;
+         A3 is array of A2;
+
+
+  procedure frameTest1 () is
+    begin
+      return;
+    end;
+
+  procedure frameTest2 (a: integer) is
+    begin
+      return;
+    end;
+
+  procedure frameTest3 (a,b: integer) is
+    begin
+      return;
+    end;
+
+  procedure frameTest4 (a,b,c: integer) is
+    begin
+      return;
+    end;
+
+  procedure frameTest5 (a,b,c,d,e,f,g,h,i: integer) is
+    begin
+      return;
+    end;
+
+  procedure frameTest6 () is
+    var x: integer := 0;
+    begin
+      return;
+    end;
+
+  procedure frameTest7 () is
+    var x,y: integer := 0;
+    begin
+      return;
+    end;
+
+  procedure frameTest8 () is
+    var x,y,z: integer := 0;
+    begin
+      return;
+    end;
+
+  procedure frameTest9 () is
+    var x,y,z,w: integer := 0;
+    begin
+      return;
+    end;
+
+  procedure frameTest10 (a: integer) is
+    var x: integer := 0;
+    begin
+      bar4 (1,2,3,4);
+      bar3 (1,2,3);
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest11 (a,b: integer) is
+    var x: integer := 0;
+    begin
+      bar4 (1,2,3,4);
+      bar3 (1,2,3);
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest12 (a: integer) is
+    var x,y: integer := 0;
+    begin
+      bar4 (1,2,3,4);
+      bar3 (1,2,3);
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest13 (a,b: integer) is
+    var x,y: integer := 0;
+    begin
+      bar4 (1,2,3,4);
+      bar3 (1,2,3);
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest14 (a: integer) is
+    var x: integer := 0;
+    begin
+      bar3 (1,2,3);
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest15 (a,b: integer) is
+    var x: integer := 0;
+    begin
+      bar3 (1,2,3);
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest16 (a: integer) is
+    var x,y: integer := 0;
+    begin
+      bar3 (1,2,3);
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest17 (a,b: integer) is
+    var x,y: integer := 0;
+    begin
+      bar3 (1,2,3);
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest18 (a: integer) is
+    var x: integer := 0;
+    begin
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest19 (a,b: integer) is
+    var x: integer := 0;
+    begin
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest20 (a: integer) is
+    var x,y: integer := 0;
+    begin
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest21 (a,b: integer) is
+    var x,y: integer := 0;
+    begin
+      bar2 (1,2);
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest22 (a: integer) is
+    var x: integer := 0;
+    begin
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest23 (a,b: integer) is
+    var x: integer := 0;
+    begin
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest24 (a: integer) is
+    var x,y: integer := 0;
+    begin
+      bar1 (1);
+      return;
+    end;
+
+  procedure frameTest25 (a,b: integer) is
+    var x,y: integer := 0;
+    begin
+      bar1 (1);
+      return;
+    end;
+
+  procedure bar1 (a: integer) is
+    begin
+      return;
+    end;
+
+  procedure bar2 (a,b: integer) is
+    begin
+      return;
+    end;
+
+  procedure bar3 (a,b,c: integer) is
+    begin
+      return;
+    end;
+  
+  procedure bar4 (a,b,c,d: integer) is
+    begin
+      return;
+    end;
+
+  var a1,b1,c1,d1: integer := 0;
+  var w1,x1,y1,z1: integer := 0;
+
+  procedure testFormals1 (a1,b2,c2,d2: integer) is
+    var w1,x2,y2,z2: integer := 0;
+    procedure testFormals2 (a1,b2,c3,d3: integer) is
+      var w1,x2,y3,z3: integer := 0;
+      procedure testFormals3 (a1,b2,c3,d4: integer) is
+        var w1,x2,y3,z4: integer := 0;
+        begin
+          a1 := a1 + b1 + c1 + d1
+                   + b2 + c2 + d2
+                        + c3 + d3
+                             + d4
+              + w1 + x1 + y1 + z1
+                   + x2 + y2 + z2
+                        + y3 + z3
+                             + z4;
+          return;
+        end;
+      begin
+        a1 := a1 + b1 + c1 + d1
+                 + b2 + c2 + d2
+                      + c3 + d3
+            + w1 + x1 + y1 + z1
+                 + x2 + y2 + z2
+                      + y3 + z3;
+        return;
+      end;
+    begin
+      a1 := a1 + b1 + c1 + d1
+               + b2 + c2 + d2
+          + w1 + x1 + y1 + z1
+               + x2 + y2 + z2;
+      return;
+    end;
+
+  begin
+    i := r3.h1;
+    i := r3.h2;
+    i := r4.e1;
+    i := r4.e3;
+    i := r4.e4.e4.e4.e3;
+    i := r4.e4.e4.e4.e2.h1;
+    i := r4.e4.e4.e4.e2.h2;
+    i := r5.g2;
+    i := r5.g3;
+    i := r5.g1.h1;
+    i := r5.g1.h2;
+    i := r5.g4.h1;
+    i := r5.g4.h2;
+    i := r2.f2;
+    i := r2.f4;
+    i := r2.f3.f2;
+    i := r2.f3.f3.f3.f3.f2;
+    i := r2.f1.g1.h1;
+    i := r2.f1.g4.h2;
+    i := r1.f1.f1.f1.f2.f3.f3.f3.f2;
+    i := r1.f2.f1.g1.h1;
+    i := r1.f3.g2;
+    i := r1.f4.e4.e3;
+
+    r3.h1 := 123;
+    r3.h2 := 123;
+    r4.e1 := 123;
+    r4.e3 := 123;
+    r4.e4.e4.e4.e3 := 123;
+    r4.e4.e4.e4.e2.h1 := 123;
+    r4.e4.e4.e4.e2.h2 := 123;
+    r5.g2 := 123;
+    r5.g3 := 123;
+    r5.g1.h1 := 123;
+    r5.g1.h2 := 123;
+    r5.g4.h1 := 123;
+    r5.g4.h2 := 123;
+    r2.f2 := 123;
+    r2.f4 := 123;
+    r2.f3.f2 := 123;
+    r2.f3.f3.f3.f3.f2 := 123;
+    r2.f1.g1.h1 := 123;
+    r2.f1.g4.h2 := 123;
+    r1.f1.f1.f1.f2.f3.f3.f3.f2 := 123;
+    r1.f2.f1.g1.h1 := 123;
+    r1.f3.g2 := 123;
+    r1.f4.e4.e3 := 123;
+
+    b := r6.f2;
+    b := r6.f1.g1;
+    b := r6.f1.g2.f2;
+    b := r6.f1.g2.f1.g1;
+    b := r7.g1;
+    b := r7.g2.f2;
+    b := r7.g2.f1.g1;
+    b := r7.g2.f1.g2.f2;
+    b := r7.g2.f1.g2.f1.g1;
+
+    if (r6.f2) then i:=123456; end;
+    if (r6.f1.g1) then i:=123456; end;
+    if (r6.f1.g2.f2) then i:=123456; end;
+    if (r6.f1.g2.f1.g1) then i:=123456; end;
+    if (r7.g1) then i:=123456; end;
+    if (r7.g2.f2) then i:=123456; end;
+    if (r7.g2.f1.g1) then i:=123456; end;
+    if (r7.g2.f1.g2.f2) then i:=123456; end;
+    if (r7.g2.f1.g2.f1.g1) then i:=123456; end;
+
+    b := arr1 [100];
+    b := arr2 [100] [200];
+    b := arr3 [100] [200] [300];
+
+    if (arr1 [100]) then i:=123456; end;
+    if (arr2 [100] [200]) then i:=123456; end;
+    if (arr3 [100] [200] [300]) then i:=123456; end;
+
+    b := true;
+    b := false;
+    b := true and true;
+    b := true and false;
+    b := false and true;
+    b := false and false;
+    b := true or true;
+    b := true or false;
+    b := false or true;
+    b := false or false;
+
+    if (true) then i:=123456; end;
+    if (false) then i:=123456; end;
+    if (true and true) then i:=123456; end;
+    if (true and false) then i:=123456; end;
+    if (false and true) then i:=123456; end;
+    if (false and false) then i:=123456; end;
+    if (true or true) then i:=123456; end;
+    if (true or false) then i:=123456; end;
+    if (false or true) then i:=123456; end;
+    if (false or false) then i:=123456; end;
+  end;

@@ -1,0 +1,2106 @@
+(* This program tests that variables and formals are assigned correct offsets
+   and that the framesize computation is correct. *)
+
+program is
+  var g1,g2,g3,g4,g5,g6,g7,g8,g9,g10: integer := 0;
+
+  (*** Here are some procedures with lots of parameters.  ***)
+  procedure bar5 (x1,x2,x3,x4,x5: integer) is
+    begin return; end;
+  procedure bar6 (x1,x2,x3,x4,x5,x6: integer) is
+    begin return; end;
+  procedure bar7 (x1,x2,x3,x4,x5,x6,x7: integer) is
+    begin return; end;
+  procedure bar8 (x1,x2,x3,x4,x5,x6,x7,x8: integer) is
+    begin return; end;
+  procedure bar9 (x1,x2,x3,x4,x5,x6,x7,x8,x9: integer) is
+    begin return; end;
+
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+
+(***  Try routines that call bar5 ***)
+  (***  Try all combinations of different number of parameters and locals ***)
+  procedure foo511 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo512 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo513 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo514 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo521 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo522 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo523 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo524 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo531 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo532 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo533 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo534 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo541 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo542 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo543 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+
+  procedure foo144 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar5 (1,2,3,4,5);
+      return;
+    end;
+  (********)
+
+(***  Try routines that call bar6 ***)
+  (***  Try all combinations of different number of parameters and locals ***)
+  procedure foo611 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo612 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo613 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo614 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo621 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo622 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo623 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo624 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo631 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo632 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo633 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo634 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo641 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo642 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo643 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+
+  procedure foo644 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar6 (1,2,3,4,5,6);
+      return;
+    end;
+  (********)
+
+(***  Try routines that call bar7 ***)
+  (***  Try all combinations of different number of parameters and locals ***)
+  procedure foo711 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo712 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo713 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo714 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo721 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo722 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo723 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo724 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo731 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo732 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo733 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo734 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo741 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo742 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo743 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+
+  procedure foo744 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar7 (1,2,3,4,5,6,7);
+      return;
+    end;
+  (********)
+
+(***  Try routines that call bar8 ***)
+  (***  Try all combinations of different number of parameters and locals ***)
+  procedure foo811 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo812 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo813 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo814 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo821 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo822 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo823 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo824 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo831 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo832 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo833 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo834 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo841 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo842 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo843 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure foo844 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar8 (1,2,3,4,5,6,7,8);
+      return;
+    end;
+  (********)
+
+(***  Try routines that call bar9 ***)
+  (***  Try all combinations of different number of parameters and locals ***)
+  procedure foo911 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo912 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo913 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo914 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo921 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo922 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo923 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo924 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo931 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo932 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo933 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo934 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo941 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo942 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo943 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure foo944 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar9 (1,2,3,4,5,6,7,8,9);
+      return;
+    end;
+  (********)
+
+
+
+(********************* Now add a temp variable **********************)
+
+
+
+(***  Try routines that call bar5 ***)
+  (***  Try all combinations of different number of parameters and locals ***)
+  procedure goo511 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+
+
+      return;
+    end;
+
+  procedure goo512 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo513 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo514 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo521 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo522 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo523 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo524 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo531 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo532 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo533 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo534 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo541 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo542 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo543 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+
+  procedure goo144 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar5 (1,g2+g3,3,4,5);
+      return;
+    end;
+  (********)
+
+(***  Try routines that call bar6 ***)
+  (***  Try all combinations of different number of parameters and locals ***)
+  procedure goo611 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo612 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo613 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo614 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo621 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo622 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo623 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo624 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo631 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo632 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo633 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo634 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo641 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo642 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo643 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+
+  procedure goo644 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar6 (1,g2+g3,3,4,5,6);
+      return;
+    end;
+  (********)
+
+(***  Try routines that call bar7 ***)
+  (***  Try all combinations of different number of parameters and locals ***)
+  procedure goo711 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo712 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo713 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo714 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo721 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo722 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo723 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo724 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo731 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo732 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo733 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo734 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo741 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo742 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo743 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+
+  procedure goo744 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar7 (1,g2+g3,3,4,5,6,7);
+      return;
+    end;
+  (********)
+
+(***  Try routines that call bar8 ***)
+  (***  Try all combinations of different number of parameters and locals ***)
+  procedure goo811 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo812 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo813 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo814 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo821 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo822 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo823 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo824 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo831 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo832 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo833 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo834 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo841 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo842 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo843 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+
+  procedure goo844 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar8 (1,g2+g3,3,4,5,6,7,8);
+      return;
+    end;
+  (********)
+
+(***  Try routines that call bar9 ***)
+  (***  Try all combinations of different number of parameters and locals ***)
+  procedure goo911 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo912 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo913 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo914 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo921 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo922 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo923 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo924 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo931 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo932 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo933 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo934 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo941 () is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo942 (a1: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo943 (a1, a2: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+
+  procedure goo944 (a1, a2, a3: integer) is
+      procedure distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12: integer) is
+        var b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12: integer := 0;
+        begin
+          distraction (x1,x2,x3,x4,x5,x6,x7,x8,x9,x10,x11,x12);
+          return;
+        end;
+    var b1, b2, b3: integer := 0;
+    begin
+      bar9 (1,g2+g3,3,4,5,6,7,8,9);
+      return;
+    end;
+  (********)
+
+begin
+    distraction (1,2,3,4,5,6,7,8,9,10,11,12);
+end;

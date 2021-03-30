@@ -1,0 +1,47 @@
+program is begin
+
+(***  Test if statements  ***)
+
+  if aaa then
+    foo1();
+    foo2();
+    foo3();
+  end;
+
+  if aaa then
+  end;
+ 
+  if aaa then
+  else
+  end;
+ 
+  if aaa then
+    foo1();
+  else
+    foo2();
+    foo3();
+    foo4();
+  end;
+
+  if aaa then
+    foo1();
+    foo2();
+  elseif bbb then
+    foo3();
+    foo4();
+  elseif ccc then
+    foo5();
+    foo6();
+  end;
+
+  if aaa then
+  elseif bbb then
+    foo1();
+    foo2();
+  elseif ccc then
+  else
+    foo3();
+    foo4();
+  end;
+
+end;

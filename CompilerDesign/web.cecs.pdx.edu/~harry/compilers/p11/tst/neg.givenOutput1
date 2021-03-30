@@ -1,0 +1,7 @@
+rm -f tst/neg.s
+rm -f tst/neg
+java Main < tst/neg.pcat 1> tst/neg.s
+Assembling...
+Beginning execution...
+- 3 = -3
+- 3.3 = -3.3

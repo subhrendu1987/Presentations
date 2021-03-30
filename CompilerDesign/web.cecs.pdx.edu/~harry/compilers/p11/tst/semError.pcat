@@ -1,0 +1,9 @@
+(* This program has a semantic error.  When compiling it, the compiler
+   will not even get to IR or target code generation.  It is included
+   to verify that the compiler exits correctly and aborts the "pc" and
+   "go" scripts. *)
+
+program is
+  begin
+    i := j;   (* Error: i and j are undefined. *)
+  end;

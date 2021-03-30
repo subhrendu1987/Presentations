@@ -1,0 +1,7 @@
+rm -f tst/param2.s
+rm -f tst/param2
+java Main < tst/param2.pcat 1> tst/param2.s
+Assembling...
+Beginning execution...
+Should print 123...123
+Should print 43.21...43.21

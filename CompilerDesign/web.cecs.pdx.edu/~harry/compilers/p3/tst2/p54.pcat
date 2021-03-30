@@ -1,0 +1,5 @@
+(***   should print: Expecting LValue   ***)
+program is
+begin
+  read (1);
+end;

@@ -1,0 +1,16 @@
+(* Test handling of shared sub-expressions, in the presence of mutations.
+**
+** This program contains no errors.
+*)
+
+program is
+
+type MyArr is array of boolean;
+     MyRec is record f: integer; end;
+
+var a1,a2 : MyArr := nil;
+    r1,r2 : MyRec := nil;
+    b1,b2,b3,b4 : boolean := false;
+    b5,b6,b7,b8 : boolean := true;
+
+begin end;

@@ -1,0 +1,22 @@
+(* This program tests procedure calling and returning. *)
+
+program is
+  procedure foo1 () is
+      procedure foo2 () is
+          begin
+            write ("Within foo2...");
+            write ("...Leaving foo2");
+            return;
+          end;
+      begin
+        write ("Within foo1...");
+        foo2 ();
+        write ("...Leaving foo1");
+        return;
+      end;
+
+  begin
+    write ("Within main...");
+    foo1 ();
+    write ("...Leaving main");
+  end;

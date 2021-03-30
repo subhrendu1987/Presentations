@@ -1,0 +1,103 @@
+(* This routine tests integer conditional gotos. *)
+
+program is
+
+var i: integer := 1;
+    j: integer := 2;
+
+begin
+  write ("SHOULD PRINT ALL OKS AFTER EACH TEST:");
+
+write ("TESTING =...");
+  if i=j then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+  if i=i then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+
+write ("TESTING <>...");
+  if i<>j then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+  if i<>i then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+
+write ("TESTING <...");
+  if i<i then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+  if j<i then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+  if i<j then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+
+write ("TESTING >...");
+  if i>i then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+  if j>i then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+  if i>j then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+
+write ("TESTING <=...");
+  if i<=i then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+  if j<=i then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+  if i<=j then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+
+write ("TESTING >=...");
+  if i>=i then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+  if j>=i then
+    write ("   OK");
+  else
+    write ("   ERROR");
+  end;
+  if i>=j then
+    write ("   ERROR");
+  else
+    write ("   OK");
+  end;
+
+end;

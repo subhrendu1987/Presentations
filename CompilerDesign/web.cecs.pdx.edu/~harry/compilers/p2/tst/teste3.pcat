@@ -1,0 +1,6 @@
+(* a very large real -- still acceptable though *) 
+123456789012345678901234567890.0
+
+(* an invalid string with tab in in it *) "abcde	g"
+
+

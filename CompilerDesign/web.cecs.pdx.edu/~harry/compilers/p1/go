@@ -1,0 +1,26 @@
+#!/bin/sh
+#
+# Use this shell script to run your program on a test file.
+#
+# Use this script from a directory containing the "*.class" files and a
+# subdirectory "tst" containing files such as
+#       test1.e
+#
+# Type:
+#       go test1
+#
+# It will do the following:
+#       Print the source .e file
+#       Run "main"
+#       Print the output file
+#       Print the error output
+#
+echo --------------- Source tst/$f.e: ---------------
+cat -n tst/$1.e | more
+java Proj1 tst/$1.e 1> tst/$1.out 2> tst/$1.err
+echo --------------- Output stdout: ---------------
+more tst/$1.out
+echo --------------- Error output stderr: ---------------
+more tst/$1.err
+rm tst/$1.out
+rm tst/$1.err

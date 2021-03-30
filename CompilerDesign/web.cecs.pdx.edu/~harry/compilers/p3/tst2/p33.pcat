@@ -1,0 +1,7 @@
+(***   should print: expecting a field name or end   ***)
+program is
+  type r is record 
+	 f: integer; {
+	end;
+begin
+end;

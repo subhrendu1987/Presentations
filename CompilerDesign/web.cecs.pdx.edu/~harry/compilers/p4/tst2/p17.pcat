@@ -1,0 +1,9 @@
+(***   should print: expecting ';' after end in if statement   ***)
+program is
+begin
+  if x then
+    return;
+  else
+    return;
+  end {
+end;

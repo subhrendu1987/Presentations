@@ -1,0 +1,54 @@
+(* This program tests IR generation for if statements. *)
+
+program is
+  var
+    b,c: boolean := false;
+    i,j: integer := 0;
+  begin
+
+    if i=j then
+      i := 123;
+    end;
+
+    if b=c then
+      i := 456;
+    end;
+
+    if b then
+      i := 101;
+      i := 102;
+    else
+      i := 103;
+      i := 104;
+    end;
+
+    if b then
+      i := 201;
+      i := 202;
+    elseif not b then
+      i := 203;
+      i := 204;
+    else
+      i := 205;
+      i := 206;
+    end;
+
+    if b or c then
+      i := 222;
+    end;
+
+    if b and c then
+      i := 333;
+    end;
+
+    if (b or c) and (not b or not c) then
+      i := 444;
+    end;
+
+    if (b or c) and (not b or not c) then
+      i := 555;
+    else
+      i := 666;
+    end;
+
+  end;

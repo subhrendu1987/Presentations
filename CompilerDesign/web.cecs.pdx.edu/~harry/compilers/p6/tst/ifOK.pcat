@@ -1,0 +1,21 @@
+(* Check conditional expr in IF, ELSIF, and WHILE.
+**
+** It contains no errors.
+*)
+
+program is
+  var b,c: boolean := false;
+
+begin
+  if true then
+    write ("hello");
+  end;
+  if true then
+    write ("hello");
+  elseif b or c then
+    write ("hello");
+  end;
+  while false do
+    write ("hello");
+  end;
+end;

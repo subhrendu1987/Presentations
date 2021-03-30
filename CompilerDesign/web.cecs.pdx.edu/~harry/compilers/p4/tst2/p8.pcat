@@ -1,0 +1,5 @@
+(***  should print: expecting ': type' after formal parameter name   ***)
+program is
+procedure foo (x) is begin end;
+begin
+end;

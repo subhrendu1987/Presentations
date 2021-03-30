@@ -1,0 +1,7 @@
+(*** Check type declarations - should be no errors ***)
+
+program is
+  type t1 is array of integer;
+       t2 is array of real;
+  type t3 is array of boolean;
+  begin end;

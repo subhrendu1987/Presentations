@@ -1,0 +1,13 @@
+rm -f tst/error3.s
+rm -f tst/error3
+java Main < tst/error3.pcat 1> tst/error3.s
+Assembling...
+Beginning execution...
+This program is for testing the read-failed error message.
+  First, it will ask for an integer, then print it.
+  Second, it will ask for a real, then print it.
+  Please make an error entering one or the other to
+  verify that an error message is produced and that the
+  program subsequently aborts.
+Please enter an integer...
+Execution Error: Read statement failed!

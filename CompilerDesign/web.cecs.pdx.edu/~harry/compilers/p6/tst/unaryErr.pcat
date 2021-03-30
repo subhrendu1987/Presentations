@@ -1,0 +1,42 @@
+(*  Test all error combinations involving unary operators.
+**
+**  Note, the type on the left-hand side of each assignment
+**  is type incorrect.  Hopefully, the error message
+**  associated with the assignment will be suppressed.
+**
+**  There should be 13 errors in this file.
+*)
+
+program is
+
+var i: integer := 0;
+    f: real := 0.0;
+    b: boolean := false;
+    a: MyArr := nil;
+    r: MyRec := nil;
+
+type MyArr is array of integer;
+     MyRec is record f1: integer; end;
+
+begin
+
+(* Test error combinations involving unary minus *)
+  b := - b;
+  b := - a;
+  b := - r;
+  b := - nil;
+
+(* Test error combinations involving unary plus *)
+  b := + b;
+  b := + a;
+  b := + r;
+  b := + nil;
+
+(* Test error combinations involving NOT *)
+  i := not i;
+  i := not f;
+  i := not a;
+  i := not r;
+  i := not nil;
+end;
+

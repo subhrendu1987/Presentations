@@ -1,0 +1,28 @@
+rm -f tst/for.s
+rm -f tst/for
+java Main < tst/for.pcat 1> tst/for.s
+Assembling...
+Beginning execution...
+Should print 1,2,3,...,10:
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+Should print 1,3,5,...,9:
+1
+3
+5
+7
+9
+Should print 1,3,5,...,9:
+1
+3
+5
+7
+9

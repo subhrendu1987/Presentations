@@ -1,0 +1,5 @@
+(***  should print: expecting '(' after read   ***)
+program is
+begin
+   read;
+end;

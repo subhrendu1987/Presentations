@@ -1,0 +1,8 @@
+(***   should print: expecting then in if statement following expr   ***)
+program is
+begin
+  if x }
+    return;
+  end;
+
+end;

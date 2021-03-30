@@ -1,0 +1,5 @@
+(***   should print: expecting formal parameter name - 1   ***)
+program is
+  procedure foo ( is begin end;
+begin
+end;

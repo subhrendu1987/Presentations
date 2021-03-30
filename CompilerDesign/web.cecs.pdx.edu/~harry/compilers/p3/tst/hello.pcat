@@ -1,0 +1,4 @@
+program is
+begin
+  write ("Hello, world!");
+end;

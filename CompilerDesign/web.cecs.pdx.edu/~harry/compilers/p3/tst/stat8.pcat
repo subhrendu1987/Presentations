@@ -1,0 +1,8 @@
+program is 
+  var x,y,z: integer := 0;
+  begin
+    read(x,y,z);
+    write(x,y,z);
+    read(x);
+    write (x);
+  end;

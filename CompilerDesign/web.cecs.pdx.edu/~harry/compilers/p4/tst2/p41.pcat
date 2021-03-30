@@ -1,0 +1,6 @@
+(***   should print: expecting do or by in for statement   ***)
+program is
+begin
+  for i := 1 to 10 BY 2 do
+  end;
+end;

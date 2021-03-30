@@ -1,0 +1,4 @@
+(***   should print: expecting var, type, procedure, or begin   ***)
+program is
+  var x := 123;
+end;

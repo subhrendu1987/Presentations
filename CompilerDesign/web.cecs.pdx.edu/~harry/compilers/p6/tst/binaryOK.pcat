@@ -1,0 +1,98 @@
+(*  Test all legal combinations involving binary operators.
+**
+**  There should be no errors.
+*)
+
+program is
+
+type MyArr is array of integer;
+     MyRec is record f1: integer; end;
+var i: integer := 0;
+var f: real := 0.0;
+var b: boolean := false;
+var a: MyArr := nil;
+var r: MyRec := nil;
+
+begin
+
+(* Test combinations involving INT, REAL, and BOOL *)
+  i := i + i;
+  f := i + f;
+  f := f + i;
+  f := f + f;
+
+  i := i - i;
+  f := i - f;
+  f := f - i;
+  f := f - f;
+
+  i := i * i;
+  f := i * f;
+  f := f * i;
+  f := f * f;
+
+  f := i / i;
+  f := i / f;
+  f := f / i;
+  f := f / f;
+
+  b := b and b;
+
+  b := b or b;
+
+  b := i = i;
+  b := i = f;
+  b := f = i;
+  b := f = f;
+  b := b = b;
+
+  b := i <> i;
+  b := i <> f;
+  b := f <> i;
+  b := f <> f;
+  b := b <> b;
+
+  b := i < i;
+  b := i < f;
+  b := f < i;
+  b := f < f;
+
+  b := i > i;
+  b := i > f;
+  b := f > i;
+  b := f > f;
+
+  b := i <= i;
+  b := i <= f;
+  b := f <= i;
+  b := f <= f;
+
+  b := i >= i;
+  b := i >= f;
+  b := f >= i;
+  b := f >= f;
+
+  i := i div i;
+
+  i := i mod i;
+
+(* Test combinations involving arrays and records *)
+  b := a = a;
+  b := r = r;
+
+  b := a <> a;
+  b := r <> r;
+
+(* Test combinations involving NIL *)
+  b := nil = r;
+  b := nil = a;
+  b := r = nil;
+  b := a = nil;
+  b := nil = nil;
+
+  b := nil <> r;
+  b := nil <> a;
+  b := r <> nil;
+  b := a <> nil;
+  b := nil <> nil;
+end;

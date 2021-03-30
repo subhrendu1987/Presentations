@@ -1,0 +1,5 @@
+(***   should print: expecting ';' after ')' in read statement   ***)
+program is
+begin
+  read (x) {
+end;

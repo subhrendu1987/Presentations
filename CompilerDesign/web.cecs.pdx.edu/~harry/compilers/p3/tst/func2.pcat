@@ -1,0 +1,40 @@
+program is
+  procedure b() : integer is
+    begin
+      return 101;
+    end;
+  procedure c(x: boolean) : boolean is
+    begin
+      return not x;
+    end;
+  procedure f(x : integer) : integer is
+    begin
+      return x + 10;
+    end;
+  procedure f1(x : integer) : integer is
+    begin
+      x := x + 10;
+      return x;
+    end;
+  var y := 20;
+  procedure h(x : integer; z: integer) : integer is
+    begin
+      return x + z;
+    end;      
+  procedure g(x: integer) : integer is
+    begin
+    end;
+  procedure echo(x: integer) : integer is  
+    begin
+      write (x);
+      return x;
+    end;
+  begin
+    write (b());
+    write (c(true));
+    write (f (10));
+    write (f1(y), " ", y);
+    write (h(echo(10), echo(20)));
+    write (h(f(10), h(f (20), f(30))));
+    write (g (20));       (* syntactically ok, but semantic error *)
+  end;

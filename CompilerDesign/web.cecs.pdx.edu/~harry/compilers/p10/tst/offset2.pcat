@@ -1,0 +1,4 @@
+(* This program tests that variables and formals get correct offsets. *)
+
+program is
+begin end;

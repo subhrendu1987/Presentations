@@ -1,0 +1,17 @@
+(* This is a test of simple loop. *)
+
+program is
+    var i,j : integer := 0;
+begin 
+	write("a nested loop:");
+        loop 
+	  write("i = ", i);
+          i := i + 1;
+          loop 
+	    write("j = ", j);
+            j := j + 1;
+            if j > 2 then exit; end;
+          end;
+          if i > 3 then exit; end;
+        end;
+end;

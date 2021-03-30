@@ -1,0 +1,26 @@
+(*** Check function call and call statements - should be no errors ***)
+
+program is
+  var x: integer := 0;
+  procedure foo1 () is
+    begin
+    end; (* foo1 *)
+  procedure foo2 () is
+    procedure foo3 () is
+      procedure foo4 () is
+        begin
+        end; (* foo4 *)
+      begin
+        foo1 ();
+        foo2 ();
+        foo3 ();
+        foo4 ();
+        x := foo1() + foo2() + foo3() + foo4();
+      end; (* foo3 *)
+    begin
+    end; (* foo2 *)
+begin
+foo1 ();
+foo2 ();
+x := foo1() + foo2();
+end;

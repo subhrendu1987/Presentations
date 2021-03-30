@@ -1,0 +1,5 @@
+(***   should print: Expecting ARRAY or RECORD   ***)
+program is
+  type T is T2;
+begin
+end;

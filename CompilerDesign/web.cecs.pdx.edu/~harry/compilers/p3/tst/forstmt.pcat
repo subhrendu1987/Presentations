@@ -1,0 +1,38 @@
+(* Test the parsing of LValues in the index position of a for stmt. *)
+
+program is
+  type T1 is array of integer;
+       T2 is array of T;
+       T3 is array of T2;
+       MyRec is record
+                  f1: int;
+                  f2: MyRec;
+                end;
+  var a1: T1 := nil;
+      a2: T2 := nil;
+      a3: T3 := nil;
+      r: MyRec := nil;
+      
+  var x := 0;
+  begin
+      for a1[11] := 1 to 10 do
+          x := 4444;
+      end;
+      for a2[11][12] := 11 to 20 do
+          x := 5555;
+      end;
+      for a3[11][12][13] := 21 to 30 do
+          x := 6666;
+      end;
+      for r.f1 := 31 to 40 do
+          x := 7777;
+      end;
+      for r.f2.f1 := 41 to 50 do
+          x := 8888;
+      end;
+      for r.f2.f2.f1 := 51 to 60 do
+          x := 9999;
+      end;
+  end;
+
+  

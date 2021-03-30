@@ -1,0 +1,23 @@
+rm -f tst/array3.s
+rm -f tst/array3
+java Main < tst/array3.pcat 1> tst/array3.s
+Assembling...
+Beginning execution...
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK
+OK

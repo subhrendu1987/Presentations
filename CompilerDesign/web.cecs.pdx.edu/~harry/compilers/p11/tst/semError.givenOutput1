@@ -1,0 +1,4 @@
+rm -f tst/semError.s
+rm -f tst/semError
+java Main < tst/semError.pcat 1> tst/semError.s
+PCAT compiler script aborting...

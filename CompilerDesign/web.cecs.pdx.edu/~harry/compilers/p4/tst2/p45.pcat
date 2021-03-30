@@ -1,0 +1,7 @@
+(***   should print: expecting end in for statement   ***)
+program is
+begin
+  for i := 1 to 10 do
+    x := 0;
+  }
+end;
